@@ -136,3 +136,13 @@ Visitor apni key **Settings → Providers** mein daalta hai — wo browser ke `l
 ## Naam / brand badalna ho to
 
 Ek hi file edit karein: **`lib/brand.js`** — naam, tagline, founder, email, badges. Landing page, chat header, footer, settings, metadata sab wahin se aate hain.
+
+---
+
+## ⚡ Sabse chhota rasta
+
+Poore deploy ka step-by-step (Vercel + Kaggle + Cloudflare, aur "kya upload karna
+hai" ka jawab) → **[docs/DEPLOY.md](DEPLOY.md)**
+
+Bottom line: **kuch upload nahi karna**. Vercel GitHub se khud code uthata hai
+(`vercel.json` repo me hai), aur Kaggle sirf GPU/tunnel ke liye hai.

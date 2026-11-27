@@ -11,6 +11,7 @@
 [![Chat](https://img.shields.io/badge/💬_Launch_Chat-22d3ee?style=for-the-badge)](/chat)
 [![Providers](https://img.shields.io/badge/🔑_Providers-a855f7?style=for-the-badge)](/settings)
 [![Hosting guide](https://img.shields.io/badge/🚀_Free_Hosting-22c55e?style=for-the-badge)](docs/HOSTING.md)
+[![Deploy](https://img.shields.io/badge/🚀_Deploy_Guide-0ea5e9?style=for-the-badge)](docs/DEPLOY.md)
 [![Free APIs](https://img.shields.io/badge/🆓_Free_API_List-f59e0b?style=for-the-badge)](docs/FREE-APIS.md)
 [![Google/Gemini](https://img.shields.io/badge/✨_Google_%26_Gemini-4285F4?style=for-the-badge)](docs/GOOGLE-GEMINI.md)
 [![Local generation](https://img.shields.io/badge/🎬_Local_Image_%26_Video-84cc16?style=for-the-badge)](docs/LOCAL-GENERATION.md)
