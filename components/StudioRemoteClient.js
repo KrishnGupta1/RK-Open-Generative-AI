@@ -242,9 +242,26 @@ cloudflared tunnel --url http://127.0.0.1:8188
           ComfyUI mein <b>Wan 2.2 / LTX-Video</b> ka template kholo → “Save (API format)” → us JSON ko yahan bhejo.
           Humara renderer koi bhi graph chalata hai; output mp4 bhi aayega. Detail: docs/LOCAL-GENERATION.md
         </p>
-        <pre className="rk-snippet">{`# GPU na ho to cloud GPU rent karo (per-hour, free credits)
-# RunPod / Vast.ai / Modal par ComfyUI template 1-click milta hai
-# phir wahi tunnel URL yahan daal do`}</pre>
+        <pre className="rk-snippet">{`# GPU nahi hai? FREE GPU use karo:
+#  Kaggle  → 30 ghante/hafta, P100 16 GB   (recommended)
+#  Colab   → T4 16 GB, 12h session
+#  Modal   → $30/month credits
+#
+# Ready notebook (ComfyUI + Wan 2.1 + tunnel ke saath):
+#  docs/kaggle-rk-gem-video.ipynb`}</pre>
+        <div className="rk-card-actions">
+          <a className="rk-primary" href="https://www.kaggle.com/code" target="_blank" rel="noreferrer">
+            Kaggle notebook kholo ↗
+          </a>
+          <a
+            className="rk-btn-ghost"
+            href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/FREE-GPU.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Free GPU guide
+          </a>
+        </div>
       </section>
 
       <footer className="rk-foot">
