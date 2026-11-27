@@ -16,6 +16,28 @@ hi live ho sakti hai — chat, settings, gallery, sab chalega.
 
 ---
 
+---
+
+## ⚠️ Ek zaroori step: Vercel ↔ GitHub "Login Connection"
+
+Vercel API se project banate waqt error aata hai:
+
+```
+Failed to link KrishnGupta1/RK-Open-Generative-AI.
+You need to add a Login Connection to your GitHub account first.
+```
+
+Iska matlab: Vercel account GitHub se juda hua nahi hai. **Ek baar** karna hai:
+
+1. https://vercel.com/account/settings/authentication (ya avatar → **Settings → Authentication**)
+2. **Login Connections** → **GitHub** → **Connect Account**
+3. GitHub par **Authorize Vercel** dabao
+4. Wapas aakar project import karo — ab link ho jayega
+
+Iske baad har `main` push par auto-deploy bhi chalu ho jata hai.
+
+---
+
 ## 1️⃣ Pehle: Website live karo (Vercel) — 5 min
 
 Kaggle ki **zarurat nahi**. Repo mein `vercel.json` already hai (submodules + build
