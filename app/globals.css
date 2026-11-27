@@ -1107,3 +1107,73 @@ body {
 .rk-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
 .rk-results img { width: 100%; border-radius: 12px; border: 1px solid var(--rk-line); }
 .rk-log { max-height: 180px; overflow-y: auto; font-size: 11px; }
+
+/* ================= Apna GPU studio (image + video, in-app) ================= */
+.rk-gpu { min-height: 100vh; max-width: 1180px; margin: 0 auto; padding: 18px 16px 48px; background: var(--rk-bg); color: var(--rk-text); }
+.rk-gpu-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rk-gpu-title b { display: block; font-size: 15px; }
+.rk-gpu-title small { display: block; font-size: 11px; color: var(--rk-dim); }
+.rk-gpu-dot { margin-left: auto; font-size: 11.5px; padding: 6px 12px; border-radius: 999px; cursor: pointer; border: 1px solid var(--rk-line); background: var(--rk-panel); color: var(--rk-dim); }
+.rk-gpu-dot.ok { color: #86efac; border-color: rgba(74,222,128,.45); background: rgba(74,222,128,.08); }
+.rk-gpu-dot.err { color: #fca5a5; border-color: rgba(248,113,113,.45); background: rgba(248,113,113,.08); }
+
+.rk-gpu-setup { margin-top: 14px; padding: 14px 16px; border-radius: 13px; border: 1px solid rgba(34,211,238,.28); background: rgba(34,211,238,.05); }
+.rk-gpu-setup ol { margin: 0 0 12px 18px; display: grid; gap: 6px; font-size: 12.5px; line-height: 1.6; color: var(--rk-muted); }
+.rk-gpu-setup code { background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 4px; }
+.rk-gpu-setup .rk-input { margin-bottom: 8px; }
+
+.rk-gpu-tabs { display: flex; align-items: center; gap: 6px; margin-top: 18px; border-bottom: 1px solid var(--rk-line); padding-bottom: 8px; }
+.rk-gpu-tabs button { padding: 8px 16px; border-radius: 9px; border: 1px solid transparent; background: none; color: var(--rk-muted); font-size: 13px; cursor: pointer; }
+.rk-gpu-tabs button:hover { color: var(--rk-text); }
+.rk-gpu-tabs button.is-active { background: var(--rk-panel); border-color: var(--rk-line-strong); color: var(--rk-text); font-weight: 600; }
+.rk-gpu-engine { margin-left: auto; font-size: 10.5px; color: var(--rk-dim); letter-spacing: .06em; text-transform: uppercase; }
+
+.rk-gpu-body { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 18px; margin-top: 18px; align-items: start; }
+.rk-gpu-panel { padding: 16px; border-radius: 14px; border: 1px solid var(--rk-line); background: var(--rk-panel); position: sticky; top: 16px; }
+.rk-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.rk-chips button { font-size: 11px; padding: 5px 10px; border-radius: 999px; cursor: pointer; background: var(--rk-panel); border: 1px solid var(--rk-line); color: var(--rk-muted); }
+.rk-chips button:hover { border-color: var(--rk-cyan); color: var(--rk-cyan); }
+.rk-gpu-adv { margin-top: 12px; font-size: 12px; }
+.rk-gpu-adv summary { cursor: pointer; color: var(--rk-cyan); }
+.rk-ratios { display: flex; gap: 6px; margin-top: 12px; }
+.rk-ratios button { flex: 1; padding: 7px 0; font-size: 11.5px; border-radius: 8px; cursor: pointer; background: var(--rk-panel); border: 1px solid var(--rk-line); color: var(--rk-muted); }
+.rk-ratios button.is-active { border-color: var(--rk-cyan); color: var(--rk-cyan); background: rgba(34,211,238,.08); }
+.rk-gpu-actions { display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.rk-gpu-actions .rk-primary { flex: 1; justify-content: center; }
+.rk-stop-btn { background: #ef4444; color: #fff; box-shadow: none; }
+.rk-gpu-status { font-size: 11.5px; color: var(--rk-dim); }
+.rk-gpu-status.ok, .rk-gpu-status.done { color: #86efac; }
+.rk-gpu-status.err { color: #fca5a5; }
+.rk-gpu-status.running { color: var(--rk-cyan); }
+
+.rk-gpu-stage { min-height: 420px; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 1px dashed var(--rk-line-strong); background: rgba(255,255,255,.02); padding: 18px; }
+.rk-gpu-empty, .rk-gpu-loading { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+.rk-gpu-empty span { font-size: 34px; opacity: .5; }
+.rk-gpu-empty b, .rk-gpu-loading b { font-size: 13.5px; }
+.rk-gpu-empty small, .rk-gpu-loading small { font-size: 11.5px; color: var(--rk-dim); }
+.rk-spinner { width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgba(34,211,238,.2); border-top-color: var(--rk-cyan); animation: rk-spin .9s linear infinite; }
+@keyframes rk-spin { to { transform: rotate(360deg); } }
+.rk-gpu-result { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.rk-gpu-media { width: 100%; max-height: 62vh; object-fit: contain; border-radius: 12px; background: #000; }
+.rk-gpu-result-bar { display: flex; gap: 8px; flex-wrap: wrap; }
+.rk-gpu-result-prompt { font-size: 11.5px; color: var(--rk-dim); line-height: 1.6; }
+
+.rk-gpu-lib { margin-top: 26px; }
+.rk-gpu-lib-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.rk-gpu-lib-head b { font-size: 13.5px; }
+.rk-gpu-lib-head small { font-size: 11px; color: var(--rk-dim); }
+.rk-gpu-lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.rk-gpu-lib-item { position: relative; aspect-ratio: 1; border-radius: 10px; overflow: hidden; border: 1px solid var(--rk-line); cursor: pointer; background: #000; }
+.rk-gpu-lib-item img { width: 100%; height: 100%; object-fit: cover; }
+.rk-gpu-lib-item > span { position: absolute; left: 6px; bottom: 4px; font-size: 12px; }
+.rk-gpu-lib-dl { position: absolute; right: 5px; top: 5px; width: 24px; height: 24px; border-radius: 7px; border: 0; background: rgba(0,0,0,.65); color: #fff; cursor: pointer; font-size: 12px; }
+.rk-gpu-log { margin-top: 18px; font-size: 11px; }
+.rk-gpu-log summary { cursor: pointer; color: var(--rk-dim); }
+.rk-gpu-log pre { margin-top: 8px; max-height: 160px; overflow: auto; background: #08080c; border: 1px solid var(--rk-line); border-radius: 10px; padding: 10px; color: #a5f3fc; }
+
+@media (max-width: 860px) {
+  .rk-gpu-body { grid-template-columns: 1fr; }
+  .rk-gpu-panel { position: static; }
+  .rk-gpu-stage { min-height: 300px; }
+  .rk-gpu-media { max-height: 50vh; }
+}
