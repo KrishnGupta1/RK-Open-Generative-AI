@@ -104,6 +104,13 @@ pip install -r requirements.txt && python wgp.py --port 7860
 Phir RK GEM AI → Settings → Local Models → Wan2GP path/URL. Poora guide (VRAM table, ComfyUI,
 ffmpeg, tunnel): **[docs/LOCAL-GENERATION.md](docs/LOCAL-GENERATION.md)**
 
+## 🌐 Website par video kaise? (honest answer)
+
+Free hosting (Vercel/Cloudflare) aapko GPU nahi deti — isliye "unlimited free" video ke liye
+aapka apna GPU website se jodna padta hai. Wo bhi bana diya hai:
+- **`/studio-remote`** — browser se apne ComfyUI/Wan2GP par render bhejo (tunnel/VPS/RunPod)
+- `POST /api/rk/comfy/render` → job queue · `GET /api/rk/comfy/job` → status · `view` → file proxy
+- Comparison + cost table: **[docs/ONLINE-VS-LOCAL.md](docs/ONLINE-VS-LOCAL.md)**
 ## 🗂️ Project map
 
 ```

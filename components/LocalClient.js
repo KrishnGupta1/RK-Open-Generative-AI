@@ -116,6 +116,8 @@ export default function LocalClient() {
         </div>
         <div className="rk-card-actions">
           <Link href="/studio" className="rk-primary">Video Studio kholo</Link>
+          <Link href="/studio-remote" className="rk-primary">Apna GPU website se use karo →</Link>
+          <Link href="/studio" className="rk-btn-ghost">Video Studio</Link>
           <Link href="/settings" className="rk-btn-ghost">Provider settings</Link>
         </div>
       </section>
