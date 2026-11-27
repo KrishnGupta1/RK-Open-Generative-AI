@@ -54,6 +54,7 @@ export default function Home() {
           <a href="#providers">Providers</a>
           <a href="#hosting">Hosting</a>
           <Link href="/studio">Studio</Link>
+          <Link href="/local">Local AI</Link>
           <Link href="/settings">Settings</Link>
           <Link href="/chat" className="rk-primary">Launch chat →</Link>
         </div>
@@ -111,6 +112,27 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section id="connect" className="rk-section">
+        <h2>Google account jodo — jaise Antigravity mein</h2>
+        <p className="rk-section-sub">
+          Sign in → aapke Google Cloud projects detect → usi project ki Gemini key → usage aapke apne plan se.
+        </p>
+        <ol className="rk-steps">
+          <li><b>1.</b> Google se sign in (Supabase OAuth, Mumbai region)</li>
+          <li><b>2.</b> App check karta hai kaunsa project <code>generativelanguage</code> API ke saath ready hai</li>
+          <li><b>3.</b> 1 click — AI Studio se key ban jaati hai</li>
+          <li><b>4.</b> Key account mein save → phone + laptop dono par same subscription</li>
+        </ol>
+        <div className="rk-cta rk-cta-left">
+          <Link href="/settings" className="rk-primary">Google connect karo</Link>
+          <a href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/GOOGLE-GEMINI.md" className="rk-secondary">Poora guide</a>
+        </div>
+        <p className="rk-hint">
+          Sach: consumer Gemini app ki subscription API nahi deti. Jo chalta hai wo aapke Cloud project ki
+          API key hai — billing/credits usi Google account se. Isliye key usi project ki banwai jaati hai.
+        </p>
       </section>
 
       <section id="hosting" className="rk-section">
@@ -175,6 +197,7 @@ docker compose up -d --build`}</pre>
         <div className="rk-footer-links">
           <Link href="/chat">Chat</Link>
           <Link href="/studio">Studio</Link>
+          <Link href="/local">Local AI</Link>
           <Link href="/settings">Settings</Link>
           <a href="https://github.com/KrishnGupta1/RK-Open-Generative-AI" target="_blank" rel="noreferrer">GitHub</a>
         </div>

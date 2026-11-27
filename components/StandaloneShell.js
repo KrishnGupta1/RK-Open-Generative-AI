@@ -804,6 +804,13 @@ export default function StandaloneShell({ locale = 'en' }) {
             >
               💬 Chat
             </a>
+            <a
+              href="/local"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#84cc16] hover:border-[#84cc16]/40 transition-colors"
+              title="Local models (Ollama / Wan2GP / ComfyUI)"
+            >
+              💻 Local
+            </a>
             <ThemeToggle />
             <div className="flex items-center gap-2.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5 transition-colors">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />

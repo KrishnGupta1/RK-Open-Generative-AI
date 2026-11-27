@@ -1065,3 +1065,38 @@ body {
 .rk-gdetails ul { margin: 10px 0 0 18px; display: grid; gap: 7px; line-height: 1.65; }
 .rk-inline-link { color: var(--rk-cyan); text-decoration: none; border-bottom: 1px dashed rgba(34,211,238,.4); }
 .rk-inline-link:hover { color: #fff; }
+
+/* ================= Local models dashboard ================= */
+.rk-local-banner {
+  margin-top: 16px; padding: 12px 16px; border-radius: 12px; font-size: 12.5px; line-height: 1.65;
+  border: 1px solid rgba(250,204,21,.3); background: rgba(250,204,21,.07); color: #fde68a;
+}
+.rk-local-banner code { background: rgba(0,0,0,.35); padding: 1px 5px; border-radius: 4px; }
+.rk-local-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-top: 18px; }
+.rk-local-card {
+  padding: 18px; border-radius: 14px; border: 1px solid var(--rk-line); background: var(--rk-panel);
+  transition: border-color .2s;
+}
+.rk-local-card.is-online { border-color: rgba(74,222,128,.45); box-shadow: inset 0 0 0 1px rgba(74,222,128,.12); }
+.rk-local-head { display: flex; align-items: center; gap: 11px; }
+.rk-local-emoji { font-size: 20px; }
+.rk-local-head h2 { font-size: 14px; font-weight: 700; }
+.rk-local-head small { font-size: 10.5px; color: var(--rk-dim); }
+.rk-pill { margin-left: auto; font-size: 10px; padding: 3px 9px; border-radius: 999px; border: 1px solid var(--rk-line); color: var(--rk-dim); }
+.rk-pill.ok { color: #86efac; border-color: rgba(74,222,128,.4); background: rgba(74,222,128,.08); }
+.rk-pill.off { color: var(--rk-dim); }
+.rk-local-card p { margin-top: 10px; font-size: 12px; color: var(--rk-muted); line-height: 1.6; }
+.rk-local-foot { display: flex; gap: 8px; margin-top: 10px; }
+.rk-table-wrap { overflow-x: auto; }
+.rk-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.rk-table th { text-align: left; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--rk-dim); padding: 8px 10px; border-bottom: 1px solid var(--rk-line); }
+.rk-table td { padding: 10px; border-bottom: 1px solid var(--rk-line); color: var(--rk-muted); }
+.rk-table td b { color: var(--rk-text); }
+.rk-steps { list-style: none; counter-reset: s; margin-top: 20px; display: grid; gap: 10px; max-width: 720px; }
+.rk-steps li {
+  display: flex; gap: 10px; padding: 12px 14px; border-radius: 11px; font-size: 12.5px; line-height: 1.6;
+  border: 1px solid var(--rk-line); background: var(--rk-panel); color: var(--rk-muted);
+}
+.rk-steps li b { color: var(--rk-cyan); }
+.rk-steps code { background: rgba(255,255,255,.07); padding: 1px 5px; border-radius: 4px; font-size: .92em; }
+.rk-cta-left { justify-content: flex-start; }

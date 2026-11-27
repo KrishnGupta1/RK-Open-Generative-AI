@@ -322,7 +322,10 @@ export default function ChatClient() {
             🎨 Media Studio
           </Link>
           <Link href="/settings" className="rk-side-link">
-            ⚙️ Providers & keys
+            ⚙️ Providers &amp; keys
+          </Link>
+          <Link href="/local" className="rk-side-link">
+            💻 Local models
           </Link>
           <a href="https://github.com/KrishnGupta1/RK-Open-Generative-AI" target="_blank" rel="noreferrer" className="rk-side-link">
             ⭐ Star on GitHub
@@ -352,6 +355,7 @@ export default function ChatClient() {
           </button>
           <div className="rk-top-right">
             <Link href="/studio" className="rk-ghost">Studio</Link>
+            <Link href="/local" className="rk-ghost">Local</Link>
             <Link href="/settings" className="rk-ghost">Settings</Link>
             {configured && !user && <GoogleButton label="Sign in" onError={setError} />}
             {configured && user && <AccountMenu user={user} onSignOut={signOut} />}

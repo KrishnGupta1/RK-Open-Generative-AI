@@ -22,6 +22,10 @@ matlab RK GEM AI ko local engines se baat karne ka code pehle se maujood hai.
 
 ## 1. Text chat local (sabse aasan)
 
+> **Ek command wala shortcut:** `bash scripts/setup-local-video.sh --wan2gp` (ya `--comfyui` / `--ollama`).
+> Hardware check: `bash scripts/setup-local-video.sh --check` — VRAM dekh kar batata hai kaunsa model chalega.
+> App ke andar live status: **`/local`** page.
+
 ```bash
 # 1) Ollama install
 curl -fsSL https://ollama.com/install.sh | sh          # Linux

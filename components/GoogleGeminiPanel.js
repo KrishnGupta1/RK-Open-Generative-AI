@@ -32,7 +32,7 @@ export default function GoogleGeminiPanel({ onError, onSaved }) {
   const [state, setState] = useState('idle');
   const [data, setData] = useState(null);
   const [key, setKey] = useState('');
-  const [saveMode, setSaveMode] = useState<'account' | 'browser'>('account');
+  const [saveMode, setSaveMode] = useState('account');
   const [msg, setMsg] = useState('');
 
   // Load a previously saved Gemini key from the account vault.
