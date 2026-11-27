@@ -131,6 +131,7 @@ export default function LocalClient() {
           </div>
         </div>
         <pre className="rk-snippet rk-snippet-wide">{`# GPU nahi hai? FREE GPU (Kaggle P100, 30h/week):
+#   docs/KAGGLE-STEP-BY-STEP.md (15 min, shuru se)
 #   docs/kaggle-rk-gem-video.ipynb  → Run All → tunnel URL
 #   → /studio-remote → Endpoint
 
