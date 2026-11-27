@@ -988,3 +988,80 @@ body {
   .rk-section { padding: 44px 20px; }
   .rk-providers { grid-template-columns: 1fr; }
 }
+
+/* ================= RK GEM AI — accounts (Google sign-in) ================= */
+.rk-google {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 9px 16px; border-radius: 10px; cursor: pointer;
+  background: #fff; color: #1f1f1f; border: 1px solid rgba(255,255,255,.16);
+  font-size: 13px; font-weight: 600; transition: transform .15s, box-shadow .15s;
+}
+.rk-google:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.35); }
+.rk-google:disabled { opacity: .7; cursor: default; }
+[data-theme="light"] .rk-google { background: #fff; border-color: rgba(0,0,0,.12); }
+
+.rk-avatar-img { border-radius: 50%; object-fit: cover; display: block; }
+.rk-avatar-fallback {
+  border-radius: 50%; display: grid; place-items: center; font-weight: 700;
+  background: var(--rk-grad); color: #05050a;
+}
+.rk-account { position: relative; }
+.rk-account-btn {
+  display: flex; align-items: center; gap: 7px; padding: 4px 9px 4px 4px; border-radius: 999px;
+  background: var(--rk-panel); border: 1px solid var(--rk-line); color: var(--rk-text); cursor: pointer; font-size: 12px;
+}
+.rk-account-name { max-width: 90px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rk-account-pop {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 60; width: 232px;
+  background: var(--rk-panel-solid); border: 1px solid var(--rk-line-strong); border-radius: 12px;
+  padding: 8px; box-shadow: 0 20px 50px rgba(0,0,0,.5);
+}
+.rk-account-head { display: flex; gap: 10px; align-items: center; padding: 8px; border-bottom: 1px solid var(--rk-line); margin-bottom: 6px; }
+.rk-account-head b { display: block; font-size: 12.5px; }
+.rk-account-head small { display: block; font-size: 10.5px; color: var(--rk-dim); overflow: hidden; text-overflow: ellipsis; }
+.rk-account-item {
+  display: block; width: 100%; text-align: left; padding: 8px 10px; border: 0; border-radius: 8px;
+  background: none; color: var(--rk-muted); font-size: 12.5px; cursor: pointer; text-decoration: none;
+}
+.rk-account-item:hover { background: var(--rk-panel); color: var(--rk-text); }
+
+.rk-acctstrip {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  margin-top: 16px; padding: 10px 14px; border-radius: 12px;
+  border: 1px solid var(--rk-line); background: var(--rk-panel); font-size: 12px; color: var(--rk-muted);
+}
+.rk-acctstrip b { color: var(--rk-text); }
+.rk-acctstrip .rk-btn-ghost { margin-left: auto; }
+
+/* Google / Gemini panel */
+.rk-gcard {
+  margin-top: 18px; padding: 20px; border-radius: 16px; border: 1px solid rgba(66,133,244,.28);
+  background: linear-gradient(180deg, rgba(66,133,244,.07), rgba(0,0,0,0) 70%), var(--rk-panel);
+}
+.rk-gcard-head { display: flex; align-items: center; gap: 12px; }
+.rk-gicon { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: #fff; border: 1px solid var(--rk-line); }
+.rk-gcard-title h2 { font-size: 15px; font-weight: 700; }
+.rk-gcard-title small { font-size: 11.5px; color: var(--rk-dim); }
+.rk-badge-free { margin-left: auto; font-size: 10px; padding: 4px 9px; border-radius: 999px; color: #86efac; border: 1px solid rgba(74,222,128,.35); background: rgba(74,222,128,.08); }
+.rk-gcard-body { margin-top: 12px; font-size: 12.5px; line-height: 1.7; color: var(--rk-muted); max-width: 680px; }
+.rk-gcard .rk-google { margin-top: 14px; }
+.rk-guser { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 14px; padding: 10px 12px; border-radius: 11px; background: var(--rk-panel); border: 1px solid var(--rk-line); }
+.rk-guser b { display: block; font-size: 12.5px; }
+.rk-guser small { display: block; font-size: 10.5px; color: var(--rk-dim); }
+.rk-guser-actions { margin-left: auto; display: flex; gap: 8px; }
+.rk-gresult { margin-top: 14px; }
+.rk-gresult p { font-size: 12.5px; color: var(--rk-muted); line-height: 1.65; }
+.rk-gprojects { list-style: none; margin-top: 10px; display: grid; gap: 6px; }
+.rk-gprojects li { padding: 9px 12px; border-radius: 9px; border: 1px dashed var(--rk-line); font-size: 12px; }
+.rk-gprojects li.is-ready { border-style: solid; border-color: rgba(74,222,128,.4); background: rgba(74,222,128,.06); }
+.rk-gprojects small { display: block; color: var(--rk-dim); font-size: 10.5px; margin-top: 2px; }
+.rk-gsteps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.rk-gkeyrow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.rk-gkeyrow .rk-input { flex: 1 1 240px; }
+.rk-select-sm { flex: 0 0 auto; width: auto; }
+.rk-warn { color: #fde047 !important; }
+.rk-gdetails { margin-top: 14px; font-size: 12px; color: var(--rk-muted); }
+.rk-gdetails summary { cursor: pointer; color: var(--rk-cyan); font-size: 12px; }
+.rk-gdetails ul { margin: 10px 0 0 18px; display: grid; gap: 7px; line-height: 1.65; }
+.rk-inline-link { color: var(--rk-cyan); text-decoration: none; border-bottom: 1px dashed rgba(34,211,238,.4); }
+.rk-inline-link:hover { color: #fff; }

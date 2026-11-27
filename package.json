@@ -1,6 +1,6 @@
 {
   "name": "rk-gem-ai",
-  "description": "RK GEM AI \u2014 free, open-source AI chat + media studio. Bring your own model: Ollama, OpenRouter, Groq, Gemini.",
+  "description": "RK GEM AI — free, open-source AI chat + media studio. Bring your own model: Ollama, OpenRouter, Groq, Gemini.",
   "homepage": "https://github.com/KrishnGupta1/RK-Open-Generative-AI",
   "private": true,
   "version": "2.0.0",
@@ -40,7 +40,7 @@
   "build": {
     "appId": "ai.rkgem.app",
     "productName": "RK GEM AI",
-    "copyright": "Copyright \u00a9 2025 RK GEM AI \u2014 Krishn Gupta & Riya Gupta",
+    "copyright": "Copyright © 2025 RK GEM AI — Krishn Gupta & Riya Gupta",
     "directories": {
       "output": "release"
     },
@@ -116,6 +116,7 @@
     }
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
     "ai-agent": "file:./packages/Open-Poe-AI/packages/agents",
     "axios": "^1.7.0",
     "next": "^15.0.0",

@@ -14,6 +14,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BRAND } from '@/lib/brand';
 import { PROVIDER_UI as PROVIDERS } from '@/lib/providerUi';
+import { useAuth, GoogleButton, AccountMenu } from './auth';
 
 const STORE_KEY = 'rkgem.settings.v1';
 const CHATS_KEY = 'rkgem.chats.v1';
@@ -66,6 +67,7 @@ export default function ChatClient() {
   const [panel, setPanel] = useState(false);
   const [copied, setCopied] = useState('');
   const [sideOpen, setSideOpen] = useState(false);
+  const { user, session, configured, signOut } = useAuth();
   const abortRef = useRef(null);
   const scrollRef = useRef(null);
   const taRef = useRef(null);
@@ -86,6 +88,25 @@ export default function ChatClient() {
   useEffect(() => {
     if (typeof window !== 'undefined') localStorage.setItem(CHATS_KEY, JSON.stringify(chats.slice(0, 60)));
   }, [chats]);
+
+  // Signed in → mirror the provider keys into the account vault (debounced)
+  // so the same Gemini/OpenRouter key works on every device.
+  useEffect(() => {
+    if (!session?.access_token) return;
+    const t = setTimeout(async () => {
+      for (const [provider, apiKey] of Object.entries(settings.keys || {})) {
+        if (!apiKey) continue;
+        try {
+          await fetch('/api/rk/vault', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
+            body: JSON.stringify({ provider, apiKey, model: settings.provider === provider ? settings.model : '' }),
+          });
+        } catch {}
+      }
+    }, 900);
+    return () => clearTimeout(t);
+  }, [settings.keys, session?.access_token]);
 
   const active = useMemo(() => chats.find((c) => c.id === activeId) || null, [chats, activeId]);
   const provider = PROVIDERS.find((p) => p.id === settings.provider) || PROVIDERS[0];
@@ -332,6 +353,8 @@ export default function ChatClient() {
           <div className="rk-top-right">
             <Link href="/studio" className="rk-ghost">Studio</Link>
             <Link href="/settings" className="rk-ghost">Settings</Link>
+            {configured && !user && <GoogleButton label="Sign in" onError={setError} />}
+            {configured && user && <AccountMenu user={user} onSignOut={signOut} />}
           </div>
         </header>
 
@@ -401,7 +424,9 @@ export default function ChatClient() {
                 )}
               </div>
               <p className="rk-hint">
-                Key sirf aapke browser mein rehti hai (localStorage) aur seedha provider ko jaati hai.
+                {user
+                  ? '☁️ Signed in — ye key aapke account ke saath sync hoti hai (RLS-protected), har device par mil jayegi.'
+                  : 'Key sirf aapke browser mein rehti hai (localStorage) aur seedha provider ko jaati hai. Sign in karein to account mein sync ho jayegi.'}
               </p>
             </div>
 

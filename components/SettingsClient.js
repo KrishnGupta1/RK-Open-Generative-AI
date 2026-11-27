@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BRAND } from '@/lib/brand';
 import { PROVIDER_UI as PROVIDERS } from '@/lib/providerUi';
+import GoogleGeminiPanel from './GoogleGeminiPanel';
+import { useAuth, Avatar } from './auth';
 
 const STORE_KEY = 'rkgem.settings.v1';
 
@@ -11,6 +13,8 @@ export default function SettingsClient() {
   const [settings, setSettings] = useState({ provider: 'openrouter', model: '', baseUrl: '', keys: {}, systemPrompt: '', temperature: 0.7 });
   const [saved, setSaved] = useState(false);
   const [test, setTest] = useState({ state: 'idle', msg: '' });
+  const { user, signOut, configured } = useAuth();
+  const [reload, setReload] = useState(0);
 
   useEffect(() => {
     try {
@@ -18,6 +22,28 @@ export default function SettingsClient() {
       setSettings((s) => ({ ...s, ...raw, keys: { ...(raw.keys || {}) } }));
     } catch {}
   }, []);
+
+  // Signed in? Merge the account vault over browser settings.
+  useEffect(() => {
+    if (!configured) return;
+    (async () => {
+      const { supabaseBrowserSession } = await import('@/components/auth');
+      const token = await supabaseBrowserSession();
+      if (!token) return;
+      try {
+        const res = await fetch('/api/rk/vault', { headers: { Authorization: `Bearer ${token}` } });
+        if (!res.ok) return;
+        const json = await res.json();
+        const vaultKeys = {};
+        Object.entries(json.keys || {}).forEach(([p, v]) => {
+          if (v && v.apiKey) vaultKeys[p] = v.apiKey;
+        });
+        if (Object.keys(vaultKeys).length) {
+          setSettings((s) => ({ ...s, keys: { ...s.keys, ...vaultKeys } }));
+        }
+      } catch {}
+    })();
+  }, [configured, user?.id, reload]);
 
   const save = () => {
     localStorage.setItem(STORE_KEY, JSON.stringify(settings));
@@ -54,6 +80,31 @@ export default function SettingsClient() {
         <h1>Providers &amp; keys</h1>
         <button className="rk-primary" onClick={save}>{saved ? 'Saved ✓' : 'Save'}</button>
       </header>
+
+      {configured && (
+        <div className="rk-acctstrip">
+          {user ? (
+            <>
+              <Avatar user={user} size={26} />
+              <span>
+                <b>{user.user_metadata?.full_name || user.email}</b> · signed in — keys aapke account ke saath sync
+                hongi
+              </span>
+              <button className="rk-btn-ghost" onClick={signOut}>Sign out</button>
+            </>
+          ) : (
+            <span>
+              <b>Tip:</b> Google se sign in karein to aapki Gemini key account mein safe rahegi (phone + laptop
+              dono par).
+            </span>
+          )}
+        </div>
+      )}
+
+      <GoogleGeminiPanel
+        onError={(m) => setTest({ state: 'err', msg: m })}
+        onSaved={() => setReload((n) => n + 1)}
+      />
 
       <p className="rk-lead">
         RK GEM AI kisi bhi ek provider se bandha nahi hai. Neeche apni keys daalein — sab kuch sirf aapke

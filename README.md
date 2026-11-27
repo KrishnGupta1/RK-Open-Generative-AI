@@ -11,6 +11,9 @@
 [![Chat](https://img.shields.io/badge/💬_Launch_Chat-22d3ee?style=for-the-badge)](/chat)
 [![Providers](https://img.shields.io/badge/🔑_Providers-a855f7?style=for-the-badge)](/settings)
 [![Hosting guide](https://img.shields.io/badge/🚀_Free_Hosting-22c55e?style=for-the-badge)](docs/HOSTING.md)
+[![Free APIs](https://img.shields.io/badge/🆓_Free_API_List-f59e0b?style=for-the-badge)](docs/FREE-APIS.md)
+[![Google/Gemini](https://img.shields.io/badge/✨_Google_%26_Gemini-4285F4?style=for-the-badge)](docs/GOOGLE-GEMINI.md)
+[![Local generation](https://img.shields.io/badge/🎬_Local_Image_%26_Video-84cc16?style=for-the-badge)](docs/LOCAL-GENERATION.md)
 [![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENSE)
 
 </div>
@@ -63,6 +66,44 @@ Open `http://localhost:3000` → landing page → **Chat shuru karein**.
 
 ---
 
+## 🔓 Optional Google sign-in (apna Gemini, apne saare devices par)
+
+`/settings` → **"Apna Google / Gemini account jodein"**:
+
+1. Google se sign in (Supabase OAuth — aapka hi project, Mumbai region).
+2. App aapke Google Cloud projects check karta hai: Generative Language API enabled? billing on?
+3. Ready project ki **API key** 1 click mein AI Studio se banwaiye.
+4. Key account vault (`rkgem_user_keys`, RLS-protected) mein save → phone + laptop dono par chal jaati hai.
+
+> **Honest note:** Google ki consumer *Gemini app* subscription ka API access kisi third-party app ko nahi milta.
+> Jo chalta hai wo hai **aapke Google Cloud project ki Gemini API key** — us project par billing/credits ho to usage
+> aapke plan se jaata hai. Yahi Antigravity / Cloud Code ka model hai. Detail: [docs/GOOGLE-GEMINI.md](docs/GOOGLE-GEMINI.md)
+
+Account optional hai — bina login bhi BYO-key chat chalta hai.
+
+## 🆓 Free APIs — full list
+
+8 providers app ke andar ready hain (Gemini, OpenRouter, Groq, Cerebras, Mistral, Together, Ollama, Custom) aur
+image / video / audio / upscaling / hosting ke free options ki poori list:
+**[docs/FREE-APIS.md](docs/FREE-APIS.md)**
+
+## 🎬 Local image / video generation (fully offline, ₹0)
+
+Chat local Ollama se chalta hai; **video bhi local ban sakta hai** — desktop app ke andar Wan2GP +
+sd.cpp ka support already hai.
+
+```bash
+# chat (2 GB model, kisi bhi laptop par)
+ollama pull llama3.2
+
+# video (GPU: 8 GB+ VRAM recommended)
+git clone https://github.com/deepbeepmeep/Wan2GP && cd Wan2GP
+pip install -r requirements.txt && python wgp.py --port 7860
+```
+
+Phir RK GEM AI → Settings → Local Models → Wan2GP path/URL. Poora guide (VRAM table, ComfyUI,
+ffmpeg, tunnel): **[docs/LOCAL-GENERATION.md](docs/LOCAL-GENERATION.md)**
+
 ## 🗂️ Project map
 
 ```
@@ -72,6 +113,11 @@ app/
   settings/page.js        → SettingsClient (providers, keys, system prompt)
   api/rk/chat/route.js    → streaming proxy: OpenAI-compatible + Gemini native
   api/rk/models/route.js  → live model catalogue per provider
+  api/rk/vault/route.js   → per-user key vault (Supabase RLS)
+  api/rk/google/gemini-projects/route.js → Google Cloud project detect
+components/
+  auth.js                 → Google sign-in (optional, Supabase)
+  GoogleGeminiPanel.js    → subscription-aware Gemini setup
   studio/[[...slug]]      → media studio (Open Generative AI)
 lib/
   brand.js                → ⭐ single source of truth: name, founder, tagline

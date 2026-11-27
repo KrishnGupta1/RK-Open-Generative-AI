@@ -7,15 +7,20 @@ export const metadata = {
 };
 
 const PROVIDERS = [
+  { emoji: '✨', name: 'Google Gemini', desc: 'Apna Google account jodein — subscription-aware key', tint: '#22d3ee' },
   { emoji: '🛰️', name: 'OpenRouter', desc: 'Free ":free" models — DeepSeek, Qwen, Llama, Gemma', tint: '#8b5cf6' },
   { emoji: '⚡', name: 'Groq', desc: 'Sabse fast inference — Llama 3.3 70B, GPT-OSS', tint: '#f97316' },
-  { emoji: '✨', name: 'Google Gemini', desc: 'Gemini 2.5 Flash / Pro — AI Studio key se', tint: '#22d3ee' },
   { emoji: '🦙', name: 'Ollama', desc: 'Bilkul local — offline, private, unlimited', tint: '#84cc16' },
+  { emoji: '🧠', name: 'Cerebras', desc: '2000 tok/s free tier — Llama 70B', tint: '#f43f5e' },
+  { emoji: '🌬️', name: 'Mistral', desc: 'Free experiment tier — Mistral Large', tint: '#facc15' },
+  { emoji: '🤝', name: 'Together AI', desc: 'Llama 3.3 70B ke free endpoints', tint: '#38bdf8' },
+  { emoji: '🔧', name: 'Custom', desc: 'Koi bhi OpenAI-compatible endpoint', tint: '#a3a3a3' },
 ];
 
 const FEATURES = [
   { icon: '🔀', title: 'Model switcher', body: 'Ek click mein provider badlein — koi lock-in nahi. Model list live fetch hoti hai.' },
   { icon: '🔑', title: 'Bring your own key', body: 'Keys sirf aapke browser mein. Server kuch store nahi karta.' },
+  { icon: '🔓', title: 'Google login (optional)', body: 'Sign in karein to Gemini key aapke account mein sync — phone aur laptop dono par.' },
   { icon: '🎬', title: 'Media studio included', body: '200+ image/video models ka studio RK GEM AI ke andar hi hai.' },
   { icon: '🌐', title: 'Hinglish-first', body: 'Hindi, Hinglish ya English — jis bhasha mein poochhen, usi mein jawab.' },
   { icon: '🪶', title: 'Light + dark', body: 'Designed for phones pehle, desktop pe shaandar.' },
@@ -77,8 +82,11 @@ export default function Home() {
       </header>
 
       <section id="providers" className="rk-section">
-        <h2>4 providers, ek interface</h2>
-        <p className="rk-section-sub">Jis din jo free ho, wahi use karein. Switch karna ek click ka kaam hai.</p>
+        <h2>8 providers, ek interface</h2>
+        <p className="rk-section-sub">
+          Jis din jo free ho, wahi use karein. Switch karna ek click ka kaam hai — aur{' '}
+          <a className="rk-inline-link" href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/FREE-APIS.md">poori free-API list yahan</a> hai.
+        </p>
         <div className="rk-provider-grid">
           {PROVIDERS.map((p) => (
             <div key={p.name} className="rk-provider-card" style={{ '--tint': p.tint }}>
@@ -133,6 +141,10 @@ npx vercel            # 2 min mein live URL
 
 # ya Docker (HF Spaces / VPS)
 docker compose up -d --build`}</pre>
+        <p className="rk-hint">
+          <b>India ke users hain?</b> Cloudflare edge + Supabase <code>ap-south-1</code> (Mumbai) rakhein — 20–40 ms
+          latency. Aapka Supabase project abhi Mumbai mein hi hai, isliye login/keys super fast honge.
+        </p>
         <p className="rk-hint">
           Ollama ke saath host karna hai? Host machine par <code>OLLAMA_HOST=0.0.0.0 ollama serve</code> chalayein
           aur Settings mein base URL public URL rakhein. Free serverless hosts par Ollama nahi chalega — uske liye VPS chahiye.
