@@ -343,6 +343,7 @@ export default function StandaloneShell({ locale = 'en' }) {
   };
   
   const [apiKey, setApiKey] = useState(null);
+  const [showKeyModal, setShowKeyModal] = useState(false);
   const [activeTab, setActiveTab] = useState(getInitialTab());
 
   const [balance, setBalance] = useState(null);
@@ -673,13 +674,14 @@ export default function StandaloneShell({ locale = 'en' }) {
 
   if (!hasMounted) return (
     <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-      <div className="animate-spin text-[#22d3ee] text-3xl">◌</div>
+      <div className="animate-spin text-[#ef2b3d] text-3xl">◌</div>
     </div>
   );
 
-  if (!apiKey) {
-    return <ApiKeyModal onSave={handleKeySave} locale={locale} />;
-  }
+  // Studio kabhi bhi API key ki deewar par nahi rukta.
+  // Key ho to Muapi ke 200+ models, na ho to sirf "key chahiye" wale models
+  // par halka notice — tabs, templates sab khulte rahenge.
+  const keyless = !apiKey;
 
   return (
     <div 
@@ -689,11 +691,56 @@ export default function StandaloneShell({ locale = 'en' }) {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
+      {showKeyModal && (
+        <ApiKeyModal
+          overlay
+          locale={locale}
+          title="Studio ki API key"
+          subtitle="Key sirf aapke browser me rehti hai. Chahiye nahi? Band kar do — free mode chalta rahega."
+          onClose={() => setShowKeyModal(false)}
+          onSave={(k) => { handleKeySave(k); setShowKeyModal(false); }}
+        />
+      )}
+
+      {/* Key optional banner — studio bina key ke bhi khulta hai */}
+      {keyless && (
+        <div className="shrink-0 flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 bg-gradient-to-r from-[#ef2b3d]/12 via-[#d4a537]/10 to-transparent border-b border-[#d4a537]/25 text-[11.5px]">
+          <span className="flex items-center gap-1.5 font-semibold text-[#f0cd7a]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ef2b3d]" />
+            Free mode
+          </span>
+          <span className="text-white/55">
+            Studio khula hai. Muapi models ke liye apni key daalo — ya{' '}
+            <a href="/studio-remote" className="text-[#f0cd7a] underline underline-offset-2 hover:text-white">
+              Apna GPU (₹0)
+            </a>{' '}
+            se chalao.
+          </span>
+          <span className="ml-auto flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowKeyModal(true)}
+              className="rounded-md bg-white text-black font-semibold px-2.5 py-1 hover:bg-white/90 transition-colors"
+            >
+              API key jodo
+            </button>
+            <button
+              type="button"
+              onClick={handleKeyChange}
+              className="text-white/40 hover:text-white/70"
+              title="Muapi key daalne ke liye"
+            >
+              later
+            </button>
+          </span>
+        </div>
+      )}
+
       {/* Drag Overlay */}
       {isDragging && (
-        <div className="fixed inset-0 z-[100] bg-[#22d3ee]/10 backdrop-blur-md border-4 border-dashed border-[#22d3ee]/50 flex items-center justify-center pointer-events-none transition-all duration-300">
+        <div className="fixed inset-0 z-[100] bg-[#ef2b3d]/10 backdrop-blur-md border-4 border-dashed border-[#ef2b3d]/50 flex items-center justify-center pointer-events-none transition-all duration-300">
           <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col items-center gap-4 scale-110 animate-pulse">
-            <div className="w-20 h-20 bg-[#22d3ee] rounded-2xl flex items-center justify-center">
+            <div className="w-20 h-20 bg-[#ef2b3d] rounded-2xl flex items-center justify-center">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5">
                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
               </svg>
@@ -777,10 +824,9 @@ export default function StandaloneShell({ locale = 'en' }) {
 
             {/* Logo & Title */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-[#22d3ee] rounded-lg flex items-center justify-center shadow-lg shadow-[#22d3ee]/20">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-[#ef2b3d]/20 text-[10px] font-black tracking-tight text-black"
+                   style={{ background: 'linear-gradient(135deg,#ef2b3d,#818cf8 55%,#c084fc)' }}>
+                RK
               </div>
               <span className="text-sm font-bold tracking-tight hidden sm:block text-white">
                 {copy.shell.brand}
@@ -790,7 +836,7 @@ export default function StandaloneShell({ locale = 'en' }) {
 
           {/* Active Tab Breadcrumb Badge */}
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.05] text-xs text-white/60">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#22d3ee]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ef2b3d]" />
             <span className="font-medium text-white/80">
               {tabLabel(activeTab) || copy.shell.studioFallback}
             </span>
@@ -798,6 +844,20 @@ export default function StandaloneShell({ locale = 'en' }) {
 
           {/* Right: Actions */}
           <div className="flex-shrink-0 flex items-center gap-3">
+            <a
+              href="/chat"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#ef2b3d] hover:border-[#ef2b3d]/40 transition-colors"
+              title="RK GEM AI Chat"
+            >
+              💬 Chat
+            </a>
+            <a
+              href="/local"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#84cc16] hover:border-[#84cc16]/40 transition-colors"
+              title="Local models (Ollama / Wan2GP / ComfyUI)"
+            >
+              💻 Local
+            </a>
             <ThemeToggle />
             <div className="flex items-center gap-2.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5 transition-colors">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -862,7 +922,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                           group relative flex items-center rounded-xl transition-all duration-150 font-semibold
                           ${isCollapsed ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3 text-left'}
                           ${isCategoryActive
-                            ? 'bg-gradient-to-r from-[#22d3ee]/15 to-purple-500/10 text-[#22d3ee] border border-[#22d3ee]/20 shadow-[0_0_15px_rgba(34,211,238,0.08)]'
+                            ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-purple-500/10 text-[#ef2b3d] border border-[#ef2b3d]/20 shadow-[0_0_15px_rgba(34,211,238,0.08)]'
                             : isCategoryOpen
                               ? 'bg-white/[0.06] text-white border border-white/[0.08]'
                               : 'text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent'
@@ -870,10 +930,10 @@ export default function StandaloneShell({ locale = 'en' }) {
                         `}
                       >
                         {isCategoryActive && (
-                          <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#22d3ee] to-[#a855f7] rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
+                          <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#a855f7] rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
                         )}
 
-                        <span className={`flex-shrink-0 transition-colors ${isCategoryActive ? 'text-[#22d3ee]' : 'text-white/55 group-hover:text-white'}`}>
+                        <span className={`flex-shrink-0 transition-colors ${isCategoryActive ? 'text-[#ef2b3d]' : 'text-white/55 group-hover:text-white'}`}>
                           {category.icon}
                         </span>
 
@@ -921,15 +981,15 @@ export default function StandaloneShell({ locale = 'en' }) {
                                 className={`
                                   group relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[12px] font-medium transition-all duration-150
                                   ${isActive
-                                    ? 'bg-[#22d3ee]/12 text-[#22d3ee] border border-[#22d3ee]/20'
+                                    ? 'bg-[#ef2b3d]/12 text-[#ef2b3d] border border-[#ef2b3d]/20'
                                     : 'text-white/55 hover:text-white hover:bg-white/[0.04] border border-transparent'
                                   }
                                 `}
                               >
                                 {isActive && (
-                                  <span className="absolute -left-[11px] top-2 bottom-2 w-0.5 rounded-full bg-[#22d3ee] shadow-[0_0_7px_rgba(34,211,238,0.7)]" />
+                                  <span className="absolute -left-[11px] top-2 bottom-2 w-0.5 rounded-full bg-[#ef2b3d] shadow-[0_0_7px_rgba(34,211,238,0.7)]" />
                                 )}
-                                <span className={`flex-shrink-0 ${isActive ? 'text-[#22d3ee]' : 'text-white/45 group-hover:text-white/80'}`}>
+                                <span className={`flex-shrink-0 ${isActive ? 'text-[#ef2b3d]' : 'text-white/45 group-hover:text-white/80'}`}>
                                   {tab.icon}
                                 </span>
                                 <span className="truncate">{tabLabel(tab.id)}</span>
@@ -955,15 +1015,15 @@ export default function StandaloneShell({ locale = 'en' }) {
                       group relative flex items-center rounded-xl transition-all duration-150 text-[13px] font-semibold
                       ${isSidebarCollapsed && !isMobileOpen ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3'}
                       ${activeTab === EXPLORE_APPS_TAB.id
-                        ? 'bg-gradient-to-r from-[#22d3ee]/15 to-purple-500/10 text-[#22d3ee] border border-[#22d3ee]/20'
+                        ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-purple-500/10 text-[#ef2b3d] border border-[#ef2b3d]/20'
                         : 'text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent'
                       }
                     `}
                   >
                     {activeTab === EXPLORE_APPS_TAB.id && (
-                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#22d3ee] to-[#a855f7] rounded-r-full" />
+                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#a855f7] rounded-r-full" />
                     )}
-                    <span className={`flex-shrink-0 ${activeTab === EXPLORE_APPS_TAB.id ? 'text-[#22d3ee]' : 'text-white/50 group-hover:text-white'}`}>
+                    <span className={`flex-shrink-0 ${activeTab === EXPLORE_APPS_TAB.id ? 'text-[#ef2b3d]' : 'text-white/50 group-hover:text-white'}`}>
                       {EXPLORE_APPS_TAB.icon}
                     </span>
                     {(!isSidebarCollapsed || isMobileOpen) && (

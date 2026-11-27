@@ -1,16 +1,24 @@
 import './globals.css';
-import { Inter } from "next/font/google";
 import { headers } from 'next/headers';
 import { getLocaleConfig } from '@/lib/locales';
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
 export const metadata = {
-  title: 'Open Generative AI — Free AI Image & Video Studio',
-  description: 'Generate AI images and videos using 200+ models — Flux, Midjourney, Kling, Veo, Seedance and more.',
+  title: 'RK GEM AI — Free AI Chat & Studio',
+  description:
+    'RK GEM AI is a free, open-source AI chat and media studio. Switch between Ollama, OpenRouter, Groq and Google Gemini with your own key. Built by Krishn Gupta & Riya Gupta.',
+  applicationName: 'RK GEM AI',
+  authors: [{ name: 'Krishn Gupta' }, { name: 'Riya Gupta' }],
+  keywords: ['RK GEM AI', 'free ai chat', 'openrouter free models', 'ollama', 'groq', 'gemini', 'ai studio'],
+  openGraph: {
+    title: 'RK GEM AI — Free AI Chat & Studio',
+    description: 'Free models, your own provider, zero subscription. Built by Krishn Gupta & Riya Gupta.',
+    siteName: 'RK GEM AI',
+    type: 'website',
+  },
+};
+
+export const viewport = {
+  themeColor: '#060608',
 };
 
 export default async function RootLayout({ children }) {
@@ -26,7 +34,7 @@ export default async function RootLayout({ children }) {
         {/* Apply the saved theme before first paint to avoid a dark flash. */}
         <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}" }} />
       </head>
-      <body className={inter.variable}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
