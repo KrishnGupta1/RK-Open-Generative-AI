@@ -55,6 +55,7 @@ export default function Home() {
           <a href="#hosting">Hosting</a>
           <Link href="/studio">Studio</Link>
           <Link href="/local">Local AI</Link>
+          <Link href="/studio-remote">Own GPU</Link>
           <Link href="/settings">Settings</Link>
           <Link href="/chat" className="rk-primary">Launch chat →</Link>
         </div>
@@ -164,6 +165,10 @@ npx vercel            # 2 min mein live URL
 # ya Docker (HF Spaces / VPS)
 docker compose up -d --build`}</pre>
         <p className="rk-hint">
+          <b>Video website par kaise?</b> Free hosting par GPU nahi milta — isliye humne <Link className="rk-inline-link" href="/studio-remote">apna GPU website se</Link> jodne
+          ka page bana diya hai (ComfyUI tunnel). Poora comparison: <a className="rk-inline-link" href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/ONLINE-VS-LOCAL.md">Online vs Local</a>.
+        </p>
+        <p className="rk-hint">
           <b>India ke users hain?</b> Cloudflare edge + Supabase <code>ap-south-1</code> (Mumbai) rakhein — 20–40 ms
           latency. Aapka Supabase project abhi Mumbai mein hi hai, isliye login/keys super fast honge.
         </p>
@@ -198,6 +203,7 @@ docker compose up -d --build`}</pre>
           <Link href="/chat">Chat</Link>
           <Link href="/studio">Studio</Link>
           <Link href="/local">Local AI</Link>
+          <Link href="/studio-remote">Own GPU</Link>
           <Link href="/settings">Settings</Link>
           <a href="https://github.com/KrishnGupta1/RK-Open-Generative-AI" target="_blank" rel="noreferrer">GitHub</a>
         </div>
