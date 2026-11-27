@@ -6,11 +6,11 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // POST /api/rk/comfy/render
-//   { endpoint, workflowId, params }      → builds a built-in graph
-//   { endpoint, workflow }                → raw ComfyUI API-format graph
+//   { endpoint, workflowId, params }  → builds one of our built-in graphs
+//   { endpoint, workflow }            → raw ComfyUI API-format graph
 //
-// The browser never needs to know ComfyUI's node IDs — it just picks
-// "Image / Video" in our UI and we send the right graph.
+// The browser never needs ComfyUI node IDs: it picks Image/Video in our UI
+// and we send the right graph.
 export async function POST(req) {
   let body;
   try {
@@ -22,7 +22,7 @@ export async function POST(req) {
   const endpoint = normaliseEndpoint(body && body.endpoint);
   if (!endpoint) {
     return NextResponse.json(
-      { error: 'GPU not connected. /studio-remote par apna ComfyUI URL daalein.' },
+      { error: 'GPU connected nahi hai — /studio-remote par apna ComfyUI URL daalein.' },
       { status: 400 },
     );
   }
@@ -37,8 +37,8 @@ export async function POST(req) {
     const params = body.params || {};
     const prompt = String(params.prompt || '').trim();
     if (!prompt) return NextResponse.json({ error: 'Prompt likhna zaroori hai' }, { status: 400 });
-    if (wf.kind === 'video' && body.workflowId === 'wan-i2v' && !params.image) {
-      return NextResponse.json({ error: 'Image-to-video ke liye pehle image chunein/upload karein' }, { status: 400 });
+    if (body.workflowId === 'wan-i2v' && !params.image) {
+      return NextResponse.json({ error: 'Image-to-video ke liye pehle image chunein' }, { status: 400 });
     }
 
     try {
@@ -73,10 +73,13 @@ export async function POST(req) {
     });
     const json = await res.json().catch(() => ({}));
     if (!res.ok) {
-      const msg =
-        json?.error?.message ||
-        (json?.node_errors ? Object.values(json.node_errors).map((n) => n?.errors?.[0]?.message).filter(Boolean).join('; ') : '') ||
-        `ComfyUI ${res.status}`;
+      const nodeErrors = json && json.node_errors
+        ? Object.values(json.node_errors)
+            .map((n) => n && n.errors && n.errors[0] && n.errors[0].message)
+            .filter(Boolean)
+            .join('; ')
+        : '';
+      const msg = (json && json.error && (json.error.message || json.error)) || nodeErrors || `ComfyUI ${res.status}`;
       return NextResponse.json({ error: String(msg).slice(0, 400) }, { status: 502 });
     }
     return NextResponse.json({ promptId: json.prompt_id, kind: meta.kind, workflowId: meta.workflowId });
