@@ -15,10 +15,26 @@ PORT = 8188
 
 
 # ---------------------------------------------------------------- tunnel ----
-def start_tunnel(port=PORT, timeout_s=150):
-    """trycloudflare URL laao. Pehle cloudflared binary, phir python package."""
-    log = '/kaggle/working/tunnel.log'
+def _read(path):
+    try:
+        return open(path, errors='ignore').read()
+    except OSError:
+        return ''
 
+
+def _grab(path, pattern, timeout_s=90):
+    for _ in range(max(1, timeout_s // 2)):
+        time.sleep(2)
+        m = re.search(pattern, _read(path))
+        if m:
+            return m.group(0)
+    return None
+
+
+def via_cloudflared(port=PORT):
+    """Kaggle UDP block karta hai, isliye --protocol http2 (QUIC nahi)."""
+    os.environ['TUNNEL_TRANSPORT_PROTOCOL'] = 'http2'
+    log = os.path.join(WORK, 'tunnel.log')
     try:
         exe = shutil.which('cloudflared')
         if not exe:
@@ -30,43 +46,78 @@ def start_tunnel(port=PORT, timeout_s=150):
                     exe,
                 )
             os.chmod(exe, 0o755)
+        os.system("pkill -f 'cloudflared tunnel' || true")
+        time.sleep(1)
         with open(log, 'w') as fh:
             subprocess.Popen(
-                [exe, 'tunnel', '--url', f'http://127.0.0.1:{port}', '--no-autoupdate', '--loglevel', 'info'],
+                [exe, 'tunnel', '--url', f'http://127.0.0.1:{port}', '--no-autoupdate',
+                 '--protocol', 'http2', '--edge-ip-version', '4', '--loglevel', 'info'],
                 stdout=fh, stderr=subprocess.STDOUT,
             )
-        for _ in range(max(1, timeout_s // 2)):
-            time.sleep(2)
-            try:
-                text = open(log, errors='ignore').read()
-            except OSError:
-                continue
-            m = re.search(r'https://[a-z0-9][a-z0-9-]*\.trycloudflare\.com', text)
-            if m:
-                return m.group(0)
-        print('  ⚠️ cloudflared log tail:', open(log, errors='ignore').read()[-400:])
+        url = _grab(log, r'https://[a-z0-9][a-z0-9-]*\.trycloudflare\.com', 100)
+        if url:
+            return url
+        print('  ⚠️ cloudflared log:', _read(log)[-400:])
     except Exception as exc:  # noqa: BLE001
         print('  ⚠️ cloudflared fail:', exc)
-
-    # fallback: pycloudflared (API version ke hisaab se alag naam)
-    try:
-        os.system('pip install -q pycloudflared')
-        import pycloudflared
-        for name in ('default_url', 'quick_tunnel', 'start_tunnel', 'get_url', 'tunnel_url'):
-            fn = getattr(pycloudflared, name, None)
-            if not callable(fn):
-                continue
-            try:
-                out = fn(port=port) if 'url' in name else fn()
-            except TypeError:
-                continue
-            except Exception:  # noqa: BLE001
-                continue
-            if isinstance(out, str) and out.startswith('http'):
-                return out
-    except Exception as exc:  # noqa: BLE001
-        print('  ⚠️ pycloudflared fail:', exc)
     return None
+
+
+def via_localhost_run(port=PORT):
+    log = os.path.join(WORK, 'tunnel-lhr.log')
+    try:
+        with open(log, 'w') as fh:
+            subprocess.Popen(
+                ['ssh', '-o', 'StrictHostKeyChecking=no', '-o', 'UserKnownHostsFile=/dev/null',
+                 '-o', 'ServerAliveInterval=30', '-R', f'80:127.0.0.1:{port}', 'nokey@localhost.run'],
+                stdout=fh, stderr=subprocess.STDOUT)
+        return _grab(log, r'https://[a-z0-9][a-z0-9-]*\.(?:lhr\.life|localhost\.run)', 70)
+    except Exception as exc:  # noqa: BLE001
+        print('  ⚠️ localhost.run fail:', exc)
+        return None
+
+
+def via_pinggy(port=PORT):
+    log = os.path.join(WORK, 'tunnel-pinggy.log')
+    try:
+        with open(log, 'w') as fh:
+            subprocess.Popen(
+                ['ssh', '-o', 'StrictHostKeyChecking=no', '-o', 'UserKnownHostsFile=/dev/null',
+                 '-o', 'ServerAliveInterval=30', '-p', '443', '-R', f'0:127.0.0.1:{port}', 'a.pinggy.io'],
+                stdout=fh, stderr=subprocess.STDOUT)
+        url = _grab(log, r'https://[a-z0-9][a-z0-9-]*\.(?:a\.pinggy\.link|pinggy\.link|pinggy\.io)', 70)
+        if not url:
+            url = _grab(log, r'http://[a-z0-9][a-z0-9-]*\.(?:a\.pinggy\.link|pinggy\.link|pinggy\.io)', 5)
+        return url
+    except Exception as exc:  # noqa: BLE001
+        print('  ⚠️ pinggy fail:', exc)
+        return None
+
+
+def start_tunnel(port=PORT):
+    """3 providers, ek ke baad ek. Jo pehle chale wahi return."""
+    print('  → 1/3 cloudflared (http2)…')
+    url = via_cloudflared(port)
+    if not url:
+        print('  → 2/3 localhost.run…')
+        url = via_localhost_run(port)
+    if not url:
+        print('  → 3/3 pinggy…')
+        url = via_pinggy(port)
+    if not url:
+        # last resort: package jo pehle use hota tha
+        try:
+            os.system('pip install -q pycloudflared')
+            import pycloudflared
+            for name in ('default_url', 'quick_tunnel', 'get_url', 'tunnel_url'):
+                fn = getattr(pycloudflared, name, None)
+                if callable(fn):
+                    out = fn()
+                    if isinstance(out, str) and out.startswith('http'):
+                        return out
+        except Exception:  # noqa: BLE001
+            pass
+    return url
 
 
 # ----------------------------------------------------------------- comfy ----
