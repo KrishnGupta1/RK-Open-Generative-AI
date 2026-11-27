@@ -171,3 +171,18 @@ Koi bhi step atke to screenshot bhej do — main usi step ka exact fix bata dung
 
 **Note:** P100 sirf kuch accounts ko milta hai. T4 x2 se bhi image + Wan 2.1 video
 (480p, 3-5 sec) ban jaati hai — speed thodi kam, quality same.
+
+---
+
+## 🧩 Models ka control (download / delete / switch)
+
+Script chalne ke baad **notebook me kuch nahi** karna. App me:
+
+`/studio-remote` → **🧩 Models** tab
+
+- **⬇ Download** — model seedha GPU par (live % + MB/s)
+- **✓ Use karo** — wahi model studio me lag jata hai
+- **🗑 Delete** — disk free (trash me jaata hai, recoverable)
+- Upar dikhta hai kitna **VRAM + disk free** hai
+
+Details: `docs/MODEL-CONTROL.md`

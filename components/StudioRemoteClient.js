@@ -10,6 +10,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BRAND } from '@/lib/brand';
+import ModelManager from '@/components/ModelManager';
 
 const STORE = 'rkgem.gpu.v1';
 const LIBRARY = 'rkgem.library.v1';
@@ -36,7 +37,7 @@ const VIDEO_SCENES = [
 
 export default function StudioRemoteClient() {
   const [endpoint, setEndpoint] = useState('http://127.0.0.1:8188');
-  const [tab, setTab] = useState('image'); // image | video
+  const [tab, setTab] = useState('image'); // image | video | models
   const [prompt, setPrompt] = useState('');
   const [negative, setNegative] = useState('');
   const [ratio, setRatio] = useState(0);
@@ -248,6 +249,9 @@ export default function StudioRemoteClient() {
         <button className="rk-btn-ghost" onClick={() => setShowSetup((v) => !v)}>
           {showSetup ? 'Band karo' : 'GPU kaise jodein?'}
         </button>
+        <button className="rk-btn-ghost" onClick={() => setTab('models')} title="Download / delete / switch models">
+          🧩 Models
+        </button>
       </header>
 
       {showSetup && (
@@ -279,10 +283,32 @@ export default function StudioRemoteClient() {
         <button className={tab === 'video' ? 'is-active' : ''} onClick={() => { setTab('video'); setResult(null); }}>
           🎬 Video
         </button>
-        <span className="rk-gpu-engine">{tab === 'image' ? 'SDXL' : 'Wan 2.1 1.3B'}</span>
+        <button className={tab === 'models' ? 'is-active' : ''} onClick={() => setTab('models')}>
+          🧩 Models
+        </button>
+        <span className="rk-gpu-engine">
+          {tab === 'image' ? 'SDXL' : tab === 'video' ? 'Wan 2.1 1.3B' : 'download · delete · switch'}
+        </span>
       </div>
 
-      <div className="rk-gpu-body">
+      {tab === 'models' && (
+        <ModelManager
+          endpoint={endpoint}
+          onUse={(m) => {
+            if (m.kind === 'image') {
+              setCkpt(m.filename);
+              setTab('image');
+              push(`model switch → ${m.label}`);
+            } else {
+              setTab('video');
+              push(`video model → ${m.label}`);
+            }
+            setResult(null);
+          }}
+        />
+      )}
+
+      <div className="rk-gpu-body" style={tab === 'models' ? { display: 'none' } : undefined}>
         {/* ---------- controls ---------- */}
         <section className="rk-gpu-panel">
           <label className="rk-label">Prompt</label>
