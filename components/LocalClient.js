@@ -130,7 +130,11 @@ export default function LocalClient() {
             <small>Repo ke saath aata hai</small>
           </div>
         </div>
-        <pre className="rk-snippet rk-snippet-wide">{`# video ke liye (Wan2GP — 6 GB VRAM se chalega)
+        <pre className="rk-snippet rk-snippet-wide">{`# GPU nahi hai? FREE GPU (Kaggle P100, 30h/week):
+#   docs/kaggle-rk-gem-video.ipynb  → Run All → tunnel URL
+#   → /studio-remote → Endpoint
+
+# video ke liye (Wan2GP — 6 GB VRAM se chalega)
 bash scripts/setup-local-video.sh --wan2gp
 
 # image + video dono (ComfyUI)

@@ -111,6 +111,8 @@ aapka apna GPU website se jodna padta hai. Wo bhi bana diya hai:
 - **`/studio-remote`** — browser se apne ComfyUI/Wan2GP par render bhejo (tunnel/VPS/RunPod)
 - `POST /api/rk/comfy/render` → job queue · `GET /api/rk/comfy/job` → status · `view` → file proxy
 - Comparison + cost table: **[docs/ONLINE-VS-LOCAL.md](docs/ONLINE-VS-LOCAL.md)**
+- **Free GPU par video kaise** (Kaggle P100, 30h/week free) + ready notebook:
+  **[docs/FREE-GPU.md](docs/FREE-GPU.md)** · [docs/kaggle-rk-gem-video.ipynb](docs/kaggle-rk-gem-video.ipynb)
 ## 🗂️ Project map
 
 ```
