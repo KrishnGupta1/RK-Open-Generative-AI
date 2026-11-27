@@ -5,7 +5,7 @@ const { execFileSync } = require('child_process');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const PACKAGE_JSON = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'package.json'), 'utf8'));
-const PRODUCT_NAME = PACKAGE_JSON.build?.productName || 'Open Generative AI';
+const PRODUCT_NAME = PACKAGE_JSON.build?.productName || 'RK GEM AI';
 const PACKAGE_NAME = 'open-generative-ai';
 const COMMAND_NAME = 'open-generative-ai';
 const INSTALL_DIR_NAME = PACKAGE_NAME;
@@ -174,7 +174,7 @@ Version: ${version}
 Section: graphics
 Priority: optional
 Architecture: ${debArch}
-Maintainer: Open Generative AI Team
+Maintainer: RK GEM AI Team
 Depends: ${LINUX_DEPENDS}
 Description: Local-first generative AI studio for image, video, and design workflows
 `,
