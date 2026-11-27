@@ -105,6 +105,39 @@ Ya Hugging Face Spaces → **Docker** SDK → repo import → free CPU par chat 
 
 ---
 
+---
+
+## ❓ "Vercel chhod ke sab Cloudflare par kar dein?"
+
+Common sawaal — kyunki naam "Cloudflare" do jagah aata hai. Sach ye hai:
+
+| | Vercel (Hobby) | Cloudflare Workers (free) |
+|---|---|---|
+| Is app ka Next.js 15 chalega? | ✅ bilkul (iske liye bana hai) | ⚠️ **mushkil** — OpenNext adapter chahiye |
+| CPU limit | 4 active CPU hours/mo | **10 ms per request** (Next.js SSR isse zyada leta hai) |
+| Memory | 360 GB-hrs | **128 MB** fixed |
+| Bundle size | koi tight limit nahi | **3 MiB gzip** (submodule packages ke saath tight) |
+| Setup | repo import → Deploy | `wrangler.jsonc` + adapter + `nodejs_compat` flags |
+| Commercial use | Pro $20 (per seat) | allowed |
+
+**Isliye abhi:** website = **Vercel**, aur Cloudflare sirf **tunnel** (free, koi
+account nahi) + baad me **DNS/domain** (free) ke liye. Yehi sabse kam moving parts hai.
+
+> Cloudflare Workers par shift karna ho to ye ek alag project hai (adapter,
+> middleware hataana, bundle split). Kaam karega, par ek hafte ka kaam hai —
+> jab traffic badhe tab karna. Abhi ke liye zarurat nahi.
+
+### "Kaggle ki zarurat hi kya hai?"
+Website **bina Kaggle** chalti hai — `/chat`, `/settings`, gallery, sab. Kaggle sirf
+tab chahiye jab **image/video banana** ho (GPU wahan free hai). Isliye sahi order:
+
+1. **Aaj:** Vercel par website live karo (5 min)
+2. **Baad me jab banane ho:** Kaggle cell → tunnel URL → `/studio-remote`
+
+Agar kabhi GPU hi nahi chahiye (sirf chat), to Kaggle ki zarurat kabhi nahi padegi.
+
+---
+
 ## 6️⃣ Checklist
 
 - [ ] Vercel par project import → Deploy → URL khula
