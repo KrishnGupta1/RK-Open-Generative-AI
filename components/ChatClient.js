@@ -281,7 +281,7 @@ export default function ChatClient() {
     <div className="rk-shell">
       {/* ---------------- sidebar ---------------- */}
       <aside className={`rk-side ${sideOpen ? 'is-open' : ''}`}>
-        <Link href="/" className="rk-brand">
+        <Link href="/home" className="rk-brand">
           <span className="rk-logo">RK</span>
           <span>
             <b>{BRAND.name}</b>

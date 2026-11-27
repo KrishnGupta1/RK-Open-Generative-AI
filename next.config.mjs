@@ -7,9 +7,10 @@ const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   async redirects() {
     return [
-      // Old root used to bounce straight to the media studio; the brand
-      // landing page now lives at "/".
-      { source: '/home', destination: '/', permanent: false },
+      // "/" is the media studio again (original behaviour). The brand landing
+      // page moved to "/home" — these aliases keep old links working.
+      { source: '/landing', destination: '/home', permanent: false },
+      { source: '/about', destination: '/home', permanent: false },
     ];
   },
 };
