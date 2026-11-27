@@ -1237,3 +1237,70 @@ body {
 }
 .rk-primary:hover { filter: brightness(1.07); }
 .rk-btn-ghost:hover { border-color: rgba(212, 165, 55, 0.45); color: var(--rk-gold-soft); }
+
+/* ============================================================================
+   Mobile sizing pass — phone par har cheez screen ke andar rahe.
+   Problem: desktop-width grids + fixed px panels phone par bahar nikal jaate
+   the ("bleed"/cut boxes). Ye block unhe contain karta hai.
+   ============================================================================ */
+
+/* 1. Koi bhi cheez page ko horizontally scroll na kare */
+html, body { max-width: 100%; overflow-x: hidden; }
+* { min-width: 0; }              /* flex/grid children shrink ho sakein */
+img, video, canvas, svg, table { max-width: 100%; height: auto; }
+
+/* 2. Lambe words / URLs / code tootein, box se bahar na jaayein */
+.rk-gpu, .rk-page, .rk-shell, main, article { overflow-wrap: anywhere; word-break: break-word; }
+pre, code { white-space: pre-wrap; overflow-wrap: break-word; }
+
+/* 3. Embedded GPU studio (studio ke andar tab) */
+.rk-gpu.is-embedded {
+  min-height: 0;
+  max-width: none;
+  margin: 0;
+  padding: 14px 12px 28px;
+  background: transparent;
+}
+.rk-gpu.is-embedded .rk-gpu-title small { max-width: 46vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 4. Tab strip: phone par horizontally scroll ho, squeeze na ho */
+.rk-gpu-tabs { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.rk-gpu-tabs::-webkit-scrollbar { display: none; }
+.rk-gpu-tabs button { white-space: nowrap; flex-shrink: 0; }
+.rk-gpu-engine { display: none; }
+
+/* 5. Har jagah 2-column grids phone par ek column */
+@media (max-width: 900px) {
+  .rk-gpu-body { grid-template-columns: 1fr; gap: 14px; }
+  .rk-gpu-panel { position: static; }
+  .rk-mm-grid { grid-template-columns: 1fr; }
+  .rk-gpu-lib-grid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  /* Studio shell (original) ki fixed widths */
+  [class*="w-[520px]"], [class*="w-[480px]"], [class*="w-[420px]"],
+  [class*="w-[400px]"], [class*="w-[380px]"], [class*="w-[360px]"],
+  [class*="w-[340px]"], [class*="w-[320px]"] { max-width: 100% !important; }
+  [class*="min-w-[3"], [class*="min-w-[4"], [class*="min-w-[5"] { min-width: 0 !important; }
+
+  .rk-gpu { padding: 12px 10px 24px; }
+  .rk-gpu-top { gap: 8px; }
+  .rk-gpu-title b { font-size: 14px; }
+  .rk-gpu-title small { font-size: 10.5px; }
+  .rk-gpu-dot, .rk-btn-ghost { font-size: 11px; padding: 5px 9px; }
+  .rk-gpu-stage { min-height: 220px; padding: 12px; }
+  .rk-gpu-media { max-height: 44vh; }
+  .rk-gpu-actions { flex-direction: column; align-items: stretch; }
+  .rk-gpu-actions .rk-primary { width: 100%; }
+  .rk-gpu-result-bar { flex-direction: column; }
+  .rk-gpu-result-bar > * { width: 100%; text-align: center; }
+  .rk-ratios { flex-wrap: wrap; }
+  .rk-ratios button { flex: 1 0 40%; }
+  .rk-gpu-setup ol { font-size: 12px; }
+  .rk-gpu-setup, .rk-gpu-panel { border-radius: 12px; padding: 12px; }
+  .rk-mm-card { padding: 11px 12px; }
+  .rk-mm-actions .rk-mm-btn { flex: 1 1 100%; }
+  .rk-gpu-log pre { font-size: 10px; }
+  .rk-input, .rk-textarea { font-size: 16px; } /* iOS zoom-on-focus se bachne ke liye */
+}

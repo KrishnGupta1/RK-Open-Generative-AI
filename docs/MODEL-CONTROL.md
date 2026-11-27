@@ -5,7 +5,7 @@ kuch type nahi karna, sirf ek baar tunnel URL paste karna.
 
 ## Kaise kholo
 
-`/studio-remote` → upar **🧩 Models** (ya header par "🧩 Models" button).
+`/studio/apna-gpu` → upar **🧩 Models** (ya header par "🧩 Models" button).
 
 ## Kya-kya kar sakte ho
 
@@ -45,7 +45,7 @@ Kaggle: 30 ghante/hafta + 19.5 GB disk. Isliye:
 ## Andar kaise kaam karta hai
 
 ```
-Browser (/studio-remote → Models)
+Browser (/studio/apna-gpu → Models)
         │
         ├─ GET  /api/rk/comfy/models?endpoint=…          → catalog + kya installed hai
         ├─ POST /api/rk/comfy/models/download            → { jobId }

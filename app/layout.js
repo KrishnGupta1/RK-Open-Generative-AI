@@ -19,6 +19,13 @@ export const metadata = {
 
 export const viewport = {
   themeColor: '#060608',
+  // Phone par layout ko device width par lock karo. Iske bina mobile browser
+  // 980px ki desktop width assume karta hai aur boxes screen se bahar nikal
+  // jaate hain ("sizing/bleed" problem).
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
 };
 
 export default async function RootLayout({ children }) {

@@ -70,8 +70,8 @@ Lekin **haan — free GPU par video ban sakta hai**, agar aap in 4 me se koi ras
 !cloudflared tunnel --url http://127.0.0.1:8188
 ```
 5. Terminal mein jo `https://xxx.trycloudflare.com` aaye → copy karo.
-6. **RK GEM AI → `/studio-remote` → Endpoint mein paste → Render.**
-   Image ke liye ready hai; video ke liye ComfyUI ka *Wan 2.1 T2V* template kholo → **Save (API format)** → us JSON ko `/studio-remote` ke renderer mein bhejo.
+6. **RK GEM AI → `/studio/apna-gpu` → Endpoint mein paste → Render.**
+   Image ke liye ready hai; video ke liye ComfyUI ka *Wan 2.1 T2V* template kholo → **Save (API format)** → us JSON ko `/studio/apna-gpu` ke renderer mein bhejo.
 
 ### Rasta B — Colab (12h session)
 Wahi steps, bas `!pip install` ke baad `Runtime → Change runtime type → T4 GPU`.
@@ -101,7 +101,7 @@ Model demo chahiye to HF par `ZeroGPU` decorator se Space banao — daily quota 
 | Roz 10+ clips, 720p | **RunPod/Vast** per-hour | ₹20–30/session |
 | Total control, privacy | apna GPU (RTX 3060 12 GB) | ₹25k one-time |
 
-**Mera suggestion:** Kaggle se shuru karo (free), aur `/studio-remote` se jod do — setup 15 minute ka hai.
+**Mera suggestion:** Kaggle se shuru karo (free), aur `/studio/apna-gpu` se jod do — setup 15 minute ka hai.
 Jab clients aayen, tab RunPod par shift karo. Aapka code same rahega, sirf endpoint badlega.
 
 > GPU bata do (ya "koi nahi") — main usi ke liye exact model + settings ka final checklist bana dunga.
