@@ -155,3 +155,19 @@ print('=' * 60)
 4. ₹0 kharcha, 30 ghante/hafta
 
 Koi bhi step atke to screenshot bhej do — main usi step ka exact fix bata dunga.
+
+---
+
+## 📊 Kaggle T4 x2 par kya-kya milta hai (free)
+
+| Cheez | Kitna |
+|---|---|
+| GPU | **2× Tesla T4 = 15 GB + 15 GB** (30 GB total VRAM) |
+| GPU quota | **30 ghante / hafta** (settings mein `00:00 / 30 hrs` dikhta hai) |
+| CPU RAM | **~29 GB** |
+| Disk (`/kaggle/working`) | **19.5 GB** (Wan 2.1 model ~6 GB ke baad ~13 GB bachta hai) |
+| Internet | ON karna zaroori (model download ke liye) |
+| Time limit | ek session **~9-12 ghante**, idle par band ho jata hai |
+
+**Note:** P100 sirf kuch accounts ko milta hai. T4 x2 se bhi image + Wan 2.1 video
+(480p, 3-5 sec) ban jaati hai — speed thodi kam, quality same.
