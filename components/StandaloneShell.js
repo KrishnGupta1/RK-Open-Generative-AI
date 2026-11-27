@@ -777,10 +777,9 @@ export default function StandaloneShell({ locale = 'en' }) {
 
             {/* Logo & Title */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-[#22d3ee] rounded-lg flex items-center justify-center shadow-lg shadow-[#22d3ee]/20">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-[#22d3ee]/20 text-[10px] font-black tracking-tight text-black"
+                   style={{ background: 'linear-gradient(135deg,#22d3ee,#818cf8 55%,#c084fc)' }}>
+                RK
               </div>
               <span className="text-sm font-bold tracking-tight hidden sm:block text-white">
                 {copy.shell.brand}
@@ -798,6 +797,20 @@ export default function StandaloneShell({ locale = 'en' }) {
 
           {/* Right: Actions */}
           <div className="flex-shrink-0 flex items-center gap-3">
+            <a
+              href="/chat"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#22d3ee] hover:border-[#22d3ee]/40 transition-colors"
+              title="RK GEM AI Chat"
+            >
+              💬 Chat
+            </a>
+            <a
+              href="/local"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#84cc16] hover:border-[#84cc16]/40 transition-colors"
+              title="Local models (Ollama / Wan2GP / ComfyUI)"
+            >
+              💻 Local
+            </a>
             <ThemeToggle />
             <div className="flex items-center gap-2.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5 transition-colors">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
