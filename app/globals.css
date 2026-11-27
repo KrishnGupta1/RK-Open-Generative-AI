@@ -1177,3 +1177,37 @@ body {
   .rk-gpu-stage { min-height: 300px; }
   .rk-gpu-media { max-height: 50vh; }
 }
+
+/* ================= Models tab (download / delete / switch) ================= */
+.rk-mm { margin-top: 18px; }
+.rk-mm-head { display: flex; align-items: flex-start; gap: 12px; }
+.rk-mm-head b { display: block; font-size: 14px; }
+.rk-mm-head small { display: block; font-size: 11.5px; color: var(--rk-dim); margin-top: 2px; }
+.rk-mm-head .rk-btn-ghost { margin-left: auto; }
+.rk-mm-disk { height: 6px; border-radius: 999px; background: rgba(255,255,255,.08); margin: 12px 0 4px; overflow: hidden; }
+.rk-mm-disk span { display: block; height: 100%; background: linear-gradient(90deg, var(--rk-cyan), #6366f1); }
+.rk-mm-warn { font-size: 12px; color: #fca5a5; background: rgba(248,113,113,.08); border: 1px solid rgba(248,113,113,.3); padding: 8px 12px; border-radius: 9px; margin-top: 10px; }
+.rk-mm-ok { font-size: 12px; color: #86efac; margin: 6px 0; }
+.rk-mm-group { margin-top: 20px; }
+.rk-mm-group h4 { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--rk-dim); margin: 0 0 10px; font-weight: 600; }
+.rk-mm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); gap: 12px; }
+.rk-mm-card { border: 1px solid var(--rk-line); border-radius: 13px; background: var(--rk-panel); padding: 13px 14px; display: flex; flex-direction: column; gap: 8px; }
+.rk-mm-card.is-on { border-color: rgba(74,222,128,.4); background: rgba(74,222,128,.045); }
+.rk-mm-card-top { display: flex; align-items: flex-start; gap: 9px; }
+.rk-mm-emoji { font-size: 20px; line-height: 1; }
+.rk-mm-card-top b { display: block; font-size: 13px; }
+.rk-mm-card-top small { display: block; font-size: 10.5px; color: var(--rk-dim); margin-top: 2px; }
+.rk-mm-badge { margin-left: auto; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; padding: 3px 7px; border-radius: 999px; border: 1px solid rgba(34,211,238,.4); color: var(--rk-cyan); white-space: nowrap; }
+.rk-mm-note { font-size: 11.5px; color: var(--rk-muted); line-height: 1.55; margin: 0; }
+.rk-mm-missing { font-size: 10.5px; color: #fbbf24; margin: 0; }
+.rk-mm-progress { display: flex; flex-direction: column; gap: 5px; }
+.rk-mm-bar { height: 5px; border-radius: 999px; background: rgba(255,255,255,.08); overflow: hidden; }
+.rk-mm-bar span { display: block; height: 100%; background: var(--rk-cyan); transition: width .3s; }
+.rk-mm-progress small { font-size: 10.5px; color: var(--rk-cyan); }
+.rk-mm-actions { display: flex; gap: 7px; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
+.rk-mm-btn { font-size: 11.5px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--rk-line-strong); background: var(--rk-panel); color: var(--rk-text); cursor: pointer; }
+.rk-mm-btn.rk-primary { border-color: transparent; }
+.rk-mm-danger { border-color: rgba(248,113,113,.6); color: #fca5a5; background: rgba(248,113,113,.1); }
+.rk-mm-status { font-size: 11px; color: var(--rk-cyan); align-self: center; }
+.rk-mm-foot { margin-top: 20px; font-size: 10.5px; color: var(--rk-dim); line-height: 1.7; }
+.rk-mm-foot code { background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 4px; }

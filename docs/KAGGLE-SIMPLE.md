@@ -12,9 +12,13 @@
 Aapke screenshot ke **right side panel** mein neeche **"Session options"** likha hai:
 
 1. **Session options** par tap karo (expand hoga)
-2. **Accelerator** → **GPU P100** select karo
-3. **Internet** → **ON** karo (bahut zaroori)
-4. **Save** dabao
+2. **Accelerator** → jo GPU dikhe wo chuno:
+   - **GPU T4 x2** — ye standard option hai aur **bilkul chalta hai** (2× 16 GB). Wan 2.1 1.3B ispar ban jaata hai
+   - **GPU P100** — kuch accounts ko milta hai, kai ko nahi. **Nahi dikhe to koi baat nahi, T4 x2 lo**
+   - Sirf **"None"** dikhe → phone verify karo (`kaggle.com/settings` → Phone verification → Verified hona chahiye)
+   - ⚠️ Accelerator badalne ke baad **Internet apne aap OFF ho jaata hai** → usko dobara ON karo
+3. **Internet** → **ON** (aapke screenshot mein already on hai ✅)
+4. Neeche **Save** dabao
 
 ✅ Ab panel mein "GPU P100 · Internet on" dikhega.
 
@@ -134,7 +138,7 @@ print('=' * 60)
 
 | Jo dikhe | Kya karein |
 |---|---|
-| `nvidia-smi: not found` | Step 1 dobara — Accelerator = GPU P100 |
+| `nvidia-smi: not found` | Step 1 dobara — Accelerator = GPU P100 **ya GPU T4 x2** |
 | `pip install` fail / internet error | Step 1 → **Internet ON** |
 | `CUDA out of memory` | model chhota hai laptop ke liye nahi… Kaggle par `--lowvram` lagao: cell mein `'main.py'` ke baad `'--lowvram'` add karo |
 | URL nahi aaya | cell dobara Run karo; ya log dekho `/kaggle/working/comfy.log` |
@@ -151,3 +155,34 @@ print('=' * 60)
 4. ₹0 kharcha, 30 ghante/hafta
 
 Koi bhi step atke to screenshot bhej do — main usi step ka exact fix bata dunga.
+
+---
+
+## 📊 Kaggle T4 x2 par kya-kya milta hai (free)
+
+| Cheez | Kitna |
+|---|---|
+| GPU | **2× Tesla T4 = 15 GB + 15 GB** (30 GB total VRAM) |
+| GPU quota | **30 ghante / hafta** (settings mein `00:00 / 30 hrs` dikhta hai) |
+| CPU RAM | **~29 GB** |
+| Disk (`/kaggle/working`) | **19.5 GB** (Wan 2.1 model ~6 GB ke baad ~13 GB bachta hai) |
+| Internet | ON karna zaroori (model download ke liye) |
+| Time limit | ek session **~9-12 ghante**, idle par band ho jata hai |
+
+**Note:** P100 sirf kuch accounts ko milta hai. T4 x2 se bhi image + Wan 2.1 video
+(480p, 3-5 sec) ban jaati hai — speed thodi kam, quality same.
+
+---
+
+## 🧩 Models ka control (download / delete / switch)
+
+Script chalne ke baad **notebook me kuch nahi** karna. App me:
+
+`/studio-remote` → **🧩 Models** tab
+
+- **⬇ Download** — model seedha GPU par (live % + MB/s)
+- **✓ Use karo** — wahi model studio me lag jata hai
+- **🗑 Delete** — disk free (trash me jaata hai, recoverable)
+- Upar dikhta hai kitna **VRAM + disk free** hai
+
+Details: `docs/MODEL-CONTROL.md`
