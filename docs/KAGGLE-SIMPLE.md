@@ -13,9 +13,10 @@ Aapke screenshot ke **right side panel** mein neeche **"Session options"** likha
 
 1. **Session options** par tap karo (expand hoga)
 2. **Accelerator** → jo GPU dikhe wo chuno:
-   - **GPU P100** (best) — sirf phone-verified account par dikhta hai
-   - **GPU T4 x2** — ye bhi bilkul chalega (2× 16 GB). Wan 2.1 1.3B ispar aaram se chalta hai
-   - Sirf **"None"** dikhe → phone verify karo: https://www.kaggle.com/settings (bina verify GPU nahi milta)
+   - **GPU T4 x2** — ye standard option hai aur **bilkul chalta hai** (2× 16 GB). Wan 2.1 1.3B ispar ban jaata hai
+   - **GPU P100** — kuch accounts ko milta hai, kai ko nahi. **Nahi dikhe to koi baat nahi, T4 x2 lo**
+   - Sirf **"None"** dikhe → phone verify karo (`kaggle.com/settings` → Phone verification → Verified hona chahiye)
+   - ⚠️ Accelerator badalne ke baad **Internet apne aap OFF ho jaata hai** → usko dobara ON karo
 3. **Internet** → **ON** (aapke screenshot mein already on hai ✅)
 4. Neeche **Save** dabao
 
