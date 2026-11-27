@@ -1,52 +1,168 @@
-# Open Generative AI — Unrestricted Open-Source Alternative to AI Video Platforms
+<div align="center">
 
-[![Powered by MuAPI](https://img.shields.io/badge/Powered%20by-MuAPI-6366f1?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0tMSAxNHYtNGgtMnYtMmg0djZoLTJ6bTAtOFY2aDJ2MmgtMnoiLz48L3N2Zz4=)](https://muapi.ai?utm_source=github&utm_medium=badge&utm_campaign=open-generative-ai)
+<img src="public/banner.png" alt="RK GEM AI" width="720" />
 
+# 💎 RK GEM AI
 
-> **The free, open-source alternative to AI Video Platforms.** Generate AI images and videos using 600+ state-of-the-art models across 14 studios — no content filters, no closed ecosystem, no subscription fees.
+**Ek naam, saare models.** Free, open-source AI chat + media studio — apna provider chuno, apni key lagao, zero subscription.
 
-**Community:** Join [Discord](https://discord.com/invite/zpnuBRXhKg) for discussions and support
+**Founder & CEO:** Krishn Gupta · **Co-Founder:** Riya Gupta
 
+[![Chat](https://img.shields.io/badge/💬_Launch_Chat-22d3ee?style=for-the-badge)](/chat)
+[![Providers](https://img.shields.io/badge/🔑_Providers-a855f7?style=for-the-badge)](/settings)
+[![Hosting guide](https://img.shields.io/badge/🚀_Free_Hosting-22c55e?style=for-the-badge)](docs/HOSTING.md)
+[![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENSE)
 
-<p align="center"><a href="https://youtu.be/tVXeGuGCMnE"><img src="https://i.ytimg.com/vi/tVXeGuGCMnE/maxresdefault.jpg" width="720"></a></p>
-<p align="center"><a href="https://youtu.be/tVXeGuGCMnE"><b>▶ Watch: Best Uncensored AI Video Model </b></a></p>
-
-<p align="center">
-  <a href="https://github.com/Anil-matcha/awesome-generative-ai-apps">
-    <img src="https://img.shields.io/badge/Part%20of-Awesome%20Generative%20AI%20Apps-FFD700?style=for-the-badge&logo=github&logoColor=black" alt="Awesome Generative AI Apps">
-  </a>
-</p>
-
-> 🎨 **[Explore 50+ more open-source AI apps →](https://github.com/Anil-matcha/awesome-generative-ai-apps)**
-
-> 🤝 **New: [Open Duet](https://github.com/Anil-matcha/open-duet)** — open-source, self-hosted AI coworkers (named agents) with instructions, memory, routines, their own isolated computer, and your approval before they act. An alternative to Claude Duet, OpenAI Dots, and Manus Cue. [Star it on GitHub →](https://github.com/Anil-matcha/open-duet)
-
-## 💰 Turn This Into Your Own Product — White Label & Resell
-
-Want to launch this as **your own branded AI studio** and charge your own customers for it? [MuAPI White Label](https://muapi.ai/white-label?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai) lets you spin up a fully white-labeled version of this app — your logo, your colors, your custom domain, your own pricing — with zero infra to manage. You keep the markup on every generation; MuAPI handles the models, the queue, and the billing plumbing underneath.
-
-- **Your branding** — logo, color theme, and a custom domain (e.g. `studio.yourbrand.com`)
-- **Your pricing** — set your own credit/subscription prices for end users, keep the margin
-- **No infra** — no servers, workers, or model hosting to run yourself
-- **All studios included** — Image, Video, Audio, Lip Sync, Cinema, Workflows, and more, depending on plan
-
-Plans start at $49/mo. [Get started with White Label →](https://muapi.ai/white-label?utm_source=github&utm_medium=readme&utm_campaign=open-generative-ai)
-
-### What similar AI studios charge their users
-
-Consumer AI image/video platforms almost all run on paid monthly subscriptions — this is the same playbook you'd run under your own brand:
-
-| Platform | Typical subscription range |
-|---|---|
-| Midjourney | ~$10–$120/mo (Basic → Mega) |
-| Runway | ~$12–$76/mo (Standard → Unlimited), custom Enterprise |
-| Kling AI | ~$10–$92/mo across Standard → Premier tiers |
-| Luma Dream Machine | ~$10–$100+/mo |
-| Pika | ~$8–$58/mo |
-
-*(Figures are approximate, general-market ranges and change over time — check each platform's current pricing page before quoting them.)* With MuAPI White Label, you set these numbers yourself for your own end users — the subscription revenue is yours.
+</div>
 
 ---
+
+## What is RK GEM AI?
+
+RK GEM AI is a free, self-hostable AI workspace with two halves:
+
+1. **Chat** — a clean ChatGPT-style chat that can run on **OpenRouter free models, Groq, Google Gemini, or your own local Ollama**. Switch provider/model from the UI; keys stay in *your* browser.
+2. **Studio** — the full media studio (image, video, audio, lip-sync, cinema, workflows, agents) from the open-source Open Generative AI project, rebranded into RK GEM AI.
+
+No subscription. No model lock-in. No vendor tracking of your prompts.
+
+### Why it feels different
+
+| | RK GEM AI | Typical AI SaaS |
+|---|---|---|
+| Cost | ₹0 — free tiers + local models | $10–120/mo |
+| Model choice | Ollama · OpenRouter · Groq · Gemini · any OpenAI-compatible | whatever they sell you |
+| Your API keys | stored in your browser only | on their server |
+| Self-host | one `vercel` command / one `docker compose up` | not possible |
+
+---
+
+## ⚡ Quick start
+
+```bash
+git clone https://github.com/KrishnGupta1/RK-Open-Generative-AI
+cd RK-Open-Generative-AI
+git submodule update --init --recursive     # only needed for the Studio
+npm install --legacy-peer-deps
+cp .env.example .env                        # optional keys
+npm run dev                                 # → http://localhost:3000
+```
+
+Open `http://localhost:3000` → landing page → **Chat shuru karein**.
+
+### 1-minute setup for free models
+
+| Provider | Steps |
+|---|---|
+| 🛰️ **OpenRouter** | openrouter.ai → Sign in → Keys → Create key → paste in `/settings` |
+| ⚡ **Groq** | console.groq.com/keys → Create API key → paste |
+| ✨ **Gemini** | aistudio.google.com/app/apikey → Create key → paste |
+| 🦙 **Ollama** | `curl -fsSL https://ollama.com/install.sh \| sh` then `ollama pull llama3.2` → Base URL `http://127.0.0.1:11434/v1` |
+
+> **Heads-up:** the app boots with no keys at all. Either each visitor brings a key, or you set `OPENROUTER_API_KEY` / `GROQ_API_KEY` / `GEMINI_API_KEY` in `.env` and everyone shares your (free-tier) key.
+
+---
+
+## 🗂️ Project map
+
+```
+app/
+  page.js                 → branded landing page (hero, providers, hosting, team)
+  chat/page.js            → ChatClient  (streaming chat, model switcher)
+  settings/page.js        → SettingsClient (providers, keys, system prompt)
+  api/rk/chat/route.js    → streaming proxy: OpenAI-compatible + Gemini native
+  api/rk/models/route.js  → live model catalogue per provider
+  studio/[[...slug]]      → media studio (Open Generative AI)
+lib/
+  brand.js                → ⭐ single source of truth: name, founder, tagline
+  providers.js            → server provider registry (base URLs, env keys)
+  providerUi.js           → client-safe provider metadata
+components/
+  ChatClient.js           → chat UI + tiny markdown renderer
+  SettingsClient.js       → provider cards, key tester
+docs/HOSTING.md           → free hosting playbook (Vercel/CF/HF/VPS…)
+```
+
+**Rebrand in one file:** edit `lib/brand.js`.
+
+---
+
+## 🚀 Free hosting — kaun sa best hai?
+
+| Host | Free? | Best for | Verdict |
+|---|---|---|---|
+| **Vercel** | Hobby free | Next.js, 1-click deploy, custom domain | ⭐ **best overall** |
+| **Cloudflare Workers** | 100k req/day | India latency, edge | ⭐ best for scale |
+| **Netlify** | free tier | drag & drop / git | easy alternative |
+| **HF Spaces (Docker)** | free CPU | `Dockerfile` already in repo | best free 24×7-ish |
+| **Render** | free (sleeps) | simple Node host | upgrade $7/mo for always-on |
+| **Oracle Cloud VM** | Always Free ARM | run app **+ Ollama** together | best "truly free" |
+
+Full step-by-step (with commands, env vars, Ollama+tunnel setup): **[docs/HOSTING.md](docs/HOSTING.md)**
+
+Deploy right now:
+
+```bash
+npx vercel            # vercel.com par GitHub se login karke
+# or
+docker compose up -d --build     # port 3001 → app
+```
+
+---
+
+## 🔐 Privacy model
+
+- API keys entered in `/settings` live in `localStorage` on the visitor's device.
+- Keys travel to `POST /api/rk/chat` only to be forwarded to the chosen provider; **nothing is logged or stored** by this app.
+- Prompts are never persisted server-side. Chat history also lives in `localStorage`.
+- Operators can instead inject one shared key via env — then keys never touch the browser at all.
+- `/api/rk/chat` is rate-limited per IP (`RK_RATE_LIMIT`, default 30/min).
+
+---
+
+## 🧩 Supported providers
+
+| Provider id | Protocol | Notes |
+|---|---|---|
+| `openrouter` | OpenAI-compatible | filters to `:free` models in the picker |
+| `groq` | OpenAI-compatible | fastest free inference |
+| `gemini` | Google `generateContent` | translated to the same SSE stream |
+| `ollama` | OpenAI-compatible | local, offline, no key |
+| `custom` | OpenAI-compatible | vLLM, LM Studio, Together, DeepInfra… |
+
+Adding a provider = one entry in `lib/providers.js` + `lib/providerUi.js`.
+
+---
+
+## 🛠️ Scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Next.js dev server |
+| `npm run build` / `npm start` | production build / serve |
+| `npm run build:packages` | builds studio + workflow + agent sub-packages |
+| `npm run electron:build` | desktop app (see below) |
+
+## 🖥️ Desktop app
+
+The Electron shell is still included, now branded **RK GEM AI**:
+
+```bash
+npm run electron:dev                 # run
+npm run electron:build:win|linux|mac # package
+```
+
+---
+
+## Credits
+
+- Product, brand & chat layer: **Krishn Gupta** (Founder & CEO), **Riya Gupta** (Co-Founder)
+- Media studio engine: the open-source [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI) project (MIT), powered by [Muapi](https://muapi.ai)
+- Licensed MIT — fork it, rename it, ship it.
+
+---
+
+## Upstream docs & model references
 
 ## API examples and model references
 
