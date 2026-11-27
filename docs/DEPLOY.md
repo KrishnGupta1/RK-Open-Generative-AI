@@ -186,3 +186,22 @@ Agar kabhi GPU hi nahi chahiye (sirf chat), to Kaggle ki zarurat kabhi nahi pade
 - [ ] **🧩 Models** → SDXL download → Image banao → ⬇ Download
 - [ ] 🎬 Video tab → Wan 2.1 → Video banao
 - [ ] (optional) `rkgem.ai` domain Cloudflare se joda
+
+### `/` par wapas original studio chahiye?
+
+Original repo (jitna aapne copy kiya) **`/` → redirect → `/studio`** karta tha.
+Aaj `/` ek **landing page** hai aur studio `/studio` par hai (safe, kuch delete nahi hua).
+
+Bina code badle `/studio` khol lo, ya ek line se `/` ko wapas studio bana do:
+
+```python
+# app/page.js — poora file
+import { redirect } from 'next/navigation';
+
+export default function Home() {
+  redirect('/studio');
+}
+```
+
+Landing page rakhna hai to `/studio` bookmark kar lo — woo 200% wahi original
+experience hai (23 studio components, templates, models sab intact).
