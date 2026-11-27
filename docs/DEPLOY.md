@@ -86,7 +86,7 @@ Video/image ka bhaari kaam aapke Kaggle GPU par hota hai, Vercel par nahi — is
 1. Kaggle → notebook → **Accelerator: GPU T4 x2** + **Internet: ON** → Save
 2. Naya cell → `docs/kaggle-all-in-one.py` ka code → **Run**
 3. Aakhir mein: `✅ COMFYUI URL: https://xxxx.trycloudflare.com`
-4. App → `/studio-remote` → wahi URL paste → **Test** → 🟢
+4. App → `/studio/apna-gpu` → wahi URL paste → **Test** → 🟢
 5. **🧩 Models** tab → jo model chahiye **⬇ Download** → **✓ Use karo**
 
 > GPU band hone par tunnel URL mar jata hai (aur naya banta hai). Model files bhi
@@ -170,7 +170,7 @@ Website **bina Kaggle** chalti hai — `/chat`, `/settings`, gallery, sab. Kaggl
 tab chahiye jab **image/video banana** ho (GPU wahan free hai). Isliye sahi order:
 
 1. **Aaj:** Vercel par website live karo (5 min)
-2. **Baad me jab banane ho:** Kaggle cell → tunnel URL → `/studio-remote`
+2. **Baad me jab banane ho:** Kaggle cell → tunnel URL → `/studio/apna-gpu`
 
 Agar kabhi GPU hi nahi chahiye (sirf chat), to Kaggle ki zarurat kabhi nahi padegi.
 
@@ -180,9 +180,9 @@ Agar kabhi GPU hi nahi chahiye (sirf chat), to Kaggle ki zarurat kabhi nahi pade
 
 - [ ] Vercel par project import → Deploy → URL khula
 - [ ] `/chat` par message bhej kar dekha (free key ke saath)
-- [ ] `/studio-remote` khulta hai
+- [ ] `/studio/apna-gpu` khulta hai
 - [ ] Kaggle notebook chala → URL mila
-- [ ] `/studio-remote` par URL paste → 🟢 online
+- [ ] `/studio/apna-gpu` par URL paste → 🟢 online
 - [ ] **🧩 Models** → SDXL download → Image banao → ⬇ Download
 - [ ] 🎬 Video tab → Wan 2.1 → Video banao
 - [ ] (optional) `rkgem.ai` domain Cloudflare se joda

@@ -18,7 +18,7 @@
 | Naya notebook | https://www.kaggle.com/code |
 | **Hamara ready notebook (GitHub)** | https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/kaggle-rk-gem-video.ipynb |
 | Raw download link (Kaggle "Import" ke liye) | https://raw.githubusercontent.com/KrishnGupta1/RK-Open-Generative-AI/main/docs/kaggle-rk-gem-video.ipynb |
-| Hamara app (GPU jodne ke liye) | `https://<aapka-app>/studio-remote` |
+| Hamara app (GPU jodne ke liye) | `https://<aapka-app>/studio/apna-gpu` |
 | ComfyUI docs | https://docs.comfy.org |
 | Wan 2.1 model page | https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged |
 
@@ -96,7 +96,7 @@ https://wooden-cathedral-alpha.trycloudflare.com     ← YAHI COPY KARO
 
 ## STEP 7 — RK GEM AI se jodo (1 min)
 
-1. Apni app kholo → **`/studio-remote`** (ya sidebar → 💻 Local → "Apna GPU website se use karo")
+1. Apni app kholo → **`/studio/apna-gpu`** (ya sidebar → 💻 Local → "Apna GPU website se use karo")
 2. **Endpoint** box mein woh `https://xxx.trycloudflare.com` paste karo
 3. **Test connection** dabao →
    - 🟢 `ComfyUI online (0.3.x)` = perfect
@@ -109,7 +109,7 @@ Notebook mein ek extra cell chalao (checkpoint ke liye):
 !wget -q -O /kaggle/working/ComfyUI/models/checkpoints/sd_xl_base_1.0.safetensors \
   https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors
 ```
-(6.9 GB — ek baar. Uske baad `/studio-remote` → Checkpoint mein `sd_xl_base_1.0.safetensors`.)
+(6.9 GB — ek baar. Uske baad `/studio/apna-gpu` → Checkpoint mein `sd_xl_base_1.0.safetensors`.)
 
 ---
 
@@ -121,7 +121,7 @@ Image ho gayi? Ab video:
 2. Left menu **Templates → Video → "Wan 2.1 Text to Video"** (ya `Wan 2.1 I2V` agar image se video)
 3. Prompt likho, **Queue** dabao → video ban jaayega (P100 par 3–5 min per 3 sec clip)
 4. **API format** chahiye to: ⚙️ **Settings → "Enable Dev mode Options"** ON → phir **"Save (API Format)"** button
-5. Us JSON ko `/studio-remote` ke workflow box mein paste karo → ab website se hi video render hoga
+5. Us JSON ko `/studio/apna-gpu` ke workflow box mein paste karo → ab website se hi video render hoga
 
 ---
 
@@ -145,7 +145,7 @@ Image ho gayi? Ab video:
 | `CUDA out of memory` | model bada | chhota model (Wan 1.3B), ya `--lowvram` flag: `python main.py --lowvram` |
 | `cloudflared: command not found` | install nahi hua | cell dobara chalao: `!pip install -q pycloudflared` |
 | Tunnel URL nahi aaya | 15-20 sec wait | cell dobara chalao, ya cell output scroll karo |
-| `/studio-remote` par `502` | tunnel band / URL purana | naya URL paste karo |
+| `/studio/apna-gpu` par `502` | tunnel band / URL purana | naya URL paste karo |
 | `ping ok` par render fail | checkpoint missing | Step 7 ka checkpoint cell chalao |
 | Kaggle "GPU quota exceeded" | 30h/week khatam | next Monday, ya Colab/RunPod |
 
@@ -184,7 +184,7 @@ Colab free = **12 ghante session**, Kaggle se kam stable, par kaam karta hai.
 - [ ] Accelerator = **GPU P100**
 - [ ] Internet = **ON**
 - [ ] Run All → tunnel URL copy
-- [ ] `/studio-remote` mein paste → Test connection 🟢
+- [ ] `/studio/apna-gpu` mein paste → Test connection 🟢
 - [ ] Checkpoint download (SDXL)
 - [ ] Render test ✅
 - [ ] Wan 2.1 template → Save (API format) → video

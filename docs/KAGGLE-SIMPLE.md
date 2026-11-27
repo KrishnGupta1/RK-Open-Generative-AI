@@ -92,7 +92,7 @@ url = pycloudflared.default_url()
 print('\n' + '=' * 60)
 print('  ✅ COMFYUI URL:', url)
 print('  → mobile browser mein ye URL kholo, wahin video banao')
-print('  → ya RK GEM AI ke /studio-remote mein Endpoint me paste karo')
+print('  → ya RK GEM AI ke /studio/apna-gpu mein Endpoint me paste karo')
 print('=' * 60)
 ```
 
@@ -124,7 +124,7 @@ print('=' * 60)
 6. Video `ComfyUI/output/` mein save hoti hai → right panel **Output** folder se download
 
 ### Tarika B — RK GEM AI app se
-1. App kholo → `/studio-remote`
+1. App kholo → `/studio/apna-gpu`
 2. **Endpoint** mein woh `https://…trycloudflare.com` paste karo → **Test connection** → 🟢
 3. Image render ke liye seedha "Render karo"
 4. Video ke liye: ComfyUI mein ⚙️ Settings → **Enable Dev mode** → phir "Save (API format)" → JSON app mein paste
@@ -178,7 +178,7 @@ Koi bhi step atke to screenshot bhej do — main usi step ka exact fix bata dung
 
 Script chalne ke baad **notebook me kuch nahi** karna. App me:
 
-`/studio-remote` → **🧩 Models** tab
+`/studio/apna-gpu` → **🧩 Models** tab
 
 - **⬇ Download** — model seedha GPU par (live % + MB/s)
 - **✓ Use karo** — wahi model studio me lag jata hai

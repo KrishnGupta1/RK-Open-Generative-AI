@@ -35,7 +35,7 @@ const VIDEO_SCENES = [
   'a dog running on a beach, slow motion',
 ];
 
-export default function StudioRemoteClient() {
+export default function StudioRemoteClient({ embedded = false } = {}) {
   const [endpoint, setEndpoint] = useState('http://127.0.0.1:8188');
   const [tab, setTab] = useState('image'); // image | video | models
   const [prompt, setPrompt] = useState('');
@@ -235,10 +235,10 @@ export default function StudioRemoteClient() {
   const connected = status.state === 'ok';
 
   return (
-    <div className="rk-gpu">
+    <div className={`rk-gpu${embedded ? ' is-embedded' : ''}`}>
       {/* ---------- header ---------- */}
       <header className="rk-gpu-top">
-        <Link href="/local" className="rk-back">←</Link>
+        {!embedded && <Link href="/local" className="rk-back">←</Link>}
         <div className="rk-gpu-title">
           <b>Apna GPU</b>
           <small>{connected ? `connected · ${gpuInfo?.devices?.[0] || 'GPU'}` : 'Kaggle / PC / VPS ka GPU'}</small>
@@ -446,10 +446,12 @@ export default function StudioRemoteClient() {
         </details>
       )}
 
-      <footer className="rk-foot">
-        <span>{BRAND.name} · {BRAND.founder} &amp; {BRAND.coFounder}</span>
-        <span>GPU aapka, interface hamara — Kaggle/PC/VPS dono chalega</span>
-      </footer>
+      {!embedded && (
+        <footer className="rk-foot">
+          <span>{BRAND.name} · {BRAND.founder} &amp; {BRAND.coFounder}</span>
+          <span>GPU aapka, interface hamara — Kaggle/PC/VPS dono chalega</span>
+        </footer>
+      )}
     </div>
   );
 }
