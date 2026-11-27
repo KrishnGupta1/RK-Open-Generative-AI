@@ -114,6 +114,7 @@ aapka apna GPU website se jodna padta hai. Wo bhi bana diya hai:
 - **Free GPU par video kaise** (Kaggle P100, 30h/week free) + ready notebook:
   **[docs/FREE-GPU.md](docs/FREE-GPU.md)** · [docs/kaggle-rk-gem-video.ipynb](docs/kaggle-rk-gem-video.ipynb)
 - **Kaggle step-by-step (Hinglish, screenshots-level detail)**: **[docs/KAGGLE-STEP-BY-STEP.md](docs/KAGGLE-STEP-BY-STEP.md)**
+- **Sabse aasan**: **[docs/KAGGLE-SIMPLE.md](docs/KAGGLE-SIMPLE.md)** — ek cell copy-paste ([raw code](docs/kaggle-all-in-one.py))
 ## 🗂️ Project map
 
 ```

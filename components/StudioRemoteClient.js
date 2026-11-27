@@ -261,6 +261,14 @@ cloudflared tunnel --url http://127.0.0.1:8188
           >
             Kaggle step-by-step
           </a>
+          <a
+            className="rk-btn-ghost"
+            href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/KAGGLE-SIMPLE.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Aasan 1-cell version
+          </a>
         </div>
       </section>
 

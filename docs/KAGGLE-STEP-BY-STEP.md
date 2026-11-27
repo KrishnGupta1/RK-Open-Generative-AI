@@ -6,6 +6,9 @@
 
 ---
 
+> **Confuse ho rahe ho?** 1-cell wala short version padho: **[KAGGLE-SIMPLE.md](KAGGLE-SIMPLE.md)**
+> Usme sirf 3 step hain — GPU on, ek cell paste, Run. App ki bhi zarurat nahi.
+
 ## 🔗 Zaroori links (bookmark kar lein)
 
 | Kya | Link |
