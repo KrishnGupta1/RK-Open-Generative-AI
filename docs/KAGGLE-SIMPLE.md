@@ -204,3 +204,21 @@ Naya cell → `docs/kaggle-just-tunnel.py` ka code paste → Run → URL mil jay
 Naya `docs/kaggle-all-in-one.py` — ab **cloudflared binary** use karta hai
 (GitHub se ~30 MB), pycloudflared sirf fallback hai. ComfyUI ka wait bhi ab
 `/system_stats` se hota hai (fixed `sleep` nahi).
+
+---
+
+## 🚑 Error: `ERR no more connections active and exiting` (tunnel band ho gaya)
+
+Ye matlab cloudflared **QUIC (UDP)** se connect kar raha tha aur Kaggle UDP
+block karta hai — 3 retry ke baad wo exit kar jata hai. GPU/ComfyUI bilkul theek
+hai, sirf tunnel fail hua.
+
+**Fix: `--protocol http2`** (UDP ke bajaye TCP/443).
+
+Naya cell → `docs/kaggle-just-tunnel.py` paste → Run. Wo teen providers try karta hai:
+
+1. `cloudflared --protocol http2 --edge-ip-version 4`
+2. `localhost.run` (ssh)
+3. `pinggy.io` (ssh)
+
+Jo pehla chale, wahi `✅ COMFYUI URL:` print kar dega.
