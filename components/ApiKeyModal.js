@@ -54,7 +54,7 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
         )}
 
         <div className="flex items-center gap-2 mb-1">
-          <span className="h-7 w-7 rounded-lg bg-[#22d3ee] text-black text-xs font-black flex items-center justify-center">
+          <span className="h-7 w-7 rounded-lg bg-[#ef2b3d] text-black text-xs font-black flex items-center justify-center">
             RK
           </span>
           <span className="text-xs tracking-[0.18em] text-white/60 font-semibold">GEM AI STUDIO</span>
@@ -69,7 +69,7 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
         {/* ── Option 1: free GPU ─────────────────────────────────────────── */}
         <Link
           href="/studio-remote"
-          className="mt-5 flex items-start gap-3 rounded-xl border border-[#22d3ee]/40 bg-[#22d3ee]/8 p-3.5 hover:bg-[#22d3ee]/14 transition-colors group"
+          className="mt-5 flex items-start gap-3 rounded-xl border border-[#ef2b3d]/40 bg-[#ef2b3d]/8 p-3.5 hover:bg-[#ef2b3d]/14 transition-colors group"
         >
           <span className="text-lg leading-none mt-0.5">🆓</span>
           <span className="flex-1">
@@ -78,7 +78,7 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
               SDXL image + Wan 2.1 video. Kaggle ka free GPU, download + gallery sab app me.
             </span>
           </span>
-          <span className="text-[#22d3ee] text-sm mt-0.5 group-hover:translate-x-0.5 transition-transform">→</span>
+          <span className="text-[#ef2b3d] text-sm mt-0.5 group-hover:translate-x-0.5 transition-transform">→</span>
         </Link>
 
         {/* ── Option 2: Muapi key ────────────────────────────────────────── */}
@@ -94,7 +94,7 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
             value={key}
             onChange={(e) => { setKey(e.target.value); setError(''); }}
             placeholder="muapi_xxxxxxxxxxxxxxxx"
-            className="w-full rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#22d3ee]/60 outline-none px-3.5 py-2.5 text-sm text-white placeholder:text-white/25"
+            className="w-full rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#ef2b3d]/60 outline-none px-3.5 py-2.5 text-sm text-white placeholder:text-white/25"
           />
           {error && <p className="text-[11.5px] text-red-400 mt-1.5">{error}</p>}
           <button
@@ -109,7 +109,7 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
               href="https://muapi.ai"
               target="_blank"
               rel="noreferrer"
-              className="text-[#22d3ee]/70 hover:text-[#22d3ee] underline underline-offset-2"
+              className="text-[#ef2b3d]/70 hover:text-[#ef2b3d] underline underline-offset-2"
             >
               muapi.ai
             </a>{' '}

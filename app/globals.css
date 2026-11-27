@@ -14,10 +14,11 @@ body {
 }
 
 :root {
-  --color-primary: #22d3ee;
-  --bg-app: #030303;
-  --bg-panel: #0a0a0a;
-  --bg-card: #111111;
+  --color-primary: #ef2b3d;
+  --color-gold: #d4a537;
+  --bg-app: #050506;
+  --bg-panel: #0b0b0d;
+  --bg-card: #121214;
   --border-color: rgba(255,255,255,0.05);
   --border-radius-xl: 0.75rem;
   --glass-bg: rgba(255, 255, 255, 0.03);
@@ -259,12 +260,12 @@ body {
 }
 
 [data-theme="light"] .text-primary {
-  color: #0891b2 !important;
+  color: #8f0d18 !important;
 }
 
 /* Active navigation badge & pills */
 [data-theme="light"] a[aria-current="page"],
-[data-theme="light"] a.bg-\[\#22d3ee\]\/12 {
+[data-theme="light"] a.bg-\[\#ef2b3d\]\/12 {
   background-color: rgba(6, 182, 212, 0.12) !important;
   border-color: rgba(6, 182, 212, 0.25) !important;
 }
@@ -421,10 +422,10 @@ body {
 }
 
 /* 5. Motion Control Studio (/studio/motion-control) Hero Title & Inputs */
-[data-theme="light"] .from-white.via-\[\#22d3ee\].to-white {
+[data-theme="light"] .from-white.via-\[\#ef2b3d\].to-white {
   --tw-gradient-from: #09090b var(--tw-gradient-from-position) !important;
   --tw-gradient-to: #09090b var(--tw-gradient-to-position) !important;
-  --tw-gradient-stops: var(--tw-gradient-from), #0891b2 var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), #8f0d18 var(--tw-gradient-via-position), var(--tw-gradient-to) !important;
 }
 
 /* Dark input controls in popovers & options */
@@ -485,7 +486,7 @@ body {
 [data-theme="light"] .audio-dropdown-panel button.text-primary span,
 [data-theme="light"] .bg-\[\#161618\] button.text-primary,
 [data-theme="light"] .bg-\[\#161618\] button.text-primary span {
-  color: #0891b2 !important;
+  color: #8f0d18 !important;
 }
 
 [data-theme="light"] .bg-zinc-950\/80 {
@@ -640,9 +641,13 @@ body {
   --rk-text: #f4f4f5;
   --rk-muted: rgba(244, 244, 245, 0.55);
   --rk-dim: rgba(244, 244, 245, 0.35);
-  --rk-cyan: #22d3ee;
-  --rk-violet: #a855f7;
-  --rk-grad: linear-gradient(100deg, #22d3ee 0%, #818cf8 45%, #c084fc 100%);
+  --rk-cyan: #ef2b3d;          /* primary accent (name kept for compatibility) */
+  --rk-red: #ef2b3d;
+  --rk-red-deep: #b3121f;
+  --rk-gold: #d4a537;
+  --rk-gold-soft: #f0cd7a;
+  --rk-violet: #b3121f;
+  --rk-grad: linear-gradient(100deg, #ef2b3d 0%, #d4a537 55%, #f0cd7a 100%);
 }
 
 [data-theme="light"] {
@@ -695,10 +700,10 @@ body {
 .rk-snippet {
   margin-top: 12px; padding: 14px 16px; border-radius: 12px;
   background: rgba(0, 0, 0, 0.45); border: 1px solid var(--rk-line);
-  color: #a5f3fc; font-size: 12px; line-height: 1.65; overflow-x: auto;
+  color: #fecaca; font-size: 12px; line-height: 1.65; overflow-x: auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
-[data-theme="light"] .rk-snippet { background: #0f1115; color: #a5f3fc; }
+[data-theme="light"] .rk-snippet { background: #0f1115; color: #fecaca; }
 .rk-hint { font-size: 12px; color: var(--rk-dim); line-height: 1.6; margin-top: 8px; }
 
 /* ---------------- landing ---------------- */
@@ -879,7 +884,7 @@ body {
   background: var(--rk-panel); border: 1px solid var(--rk-line); color: var(--rk-muted); text-decoration: none;
 }
 .rk-btn-ghost:hover { border-color: var(--rk-cyan); color: var(--rk-cyan); }
-.rk-range { width: 100%; accent-color: #22d3ee; }
+.rk-range { width: 100%; accent-color: #ef2b3d; }
 
 .rk-scroll { flex: 1; overflow-y: auto; padding: 26px 16px 8px; }
 .rk-welcome { max-width: 720px; margin: 0 auto; padding: 0; }
@@ -1169,7 +1174,7 @@ body {
 .rk-gpu-lib-dl { position: absolute; right: 5px; top: 5px; width: 24px; height: 24px; border-radius: 7px; border: 0; background: rgba(0,0,0,.65); color: #fff; cursor: pointer; font-size: 12px; }
 .rk-gpu-log { margin-top: 18px; font-size: 11px; }
 .rk-gpu-log summary { cursor: pointer; color: var(--rk-dim); }
-.rk-gpu-log pre { margin-top: 8px; max-height: 160px; overflow: auto; background: #08080c; border: 1px solid var(--rk-line); border-radius: 10px; padding: 10px; color: #a5f3fc; }
+.rk-gpu-log pre { margin-top: 8px; max-height: 160px; overflow: auto; background: #08080c; border: 1px solid var(--rk-line); border-radius: 10px; padding: 10px; color: #fecaca; }
 
 @media (max-width: 860px) {
   .rk-gpu-body { grid-template-columns: 1fr; }
@@ -1211,3 +1216,24 @@ body {
 .rk-mm-status { font-size: 11px; color: var(--rk-cyan); align-self: center; }
 .rk-mm-foot { margin-top: 20px; font-size: 10.5px; color: var(--rk-dim); line-height: 1.7; }
 .rk-mm-foot code { background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 4px; }
+
+/* ================= RK GEM AI — red / gold / black / white identity ============ */
+.rk-gold-text {
+  background: linear-gradient(100deg, #ef2b3d, #d4a537 60%, #f0cd7a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rk-hairline-gold { border-color: rgba(212, 165, 55, 0.35); }
+.rk-gold-ring { box-shadow: 0 0 0 1px rgba(212, 165, 55, 0.28), 0 8px 32px rgba(239, 43, 61, 0.16); }
+::selection { background: rgba(239, 43, 61, 0.35); color: #fff; }
+
+/* nicer focus + primary button feel across the app */
+.rk-primary {
+  background: linear-gradient(100deg, #ef2b3d, #c9152a);
+  color: #fff;
+  border: 1px solid rgba(240, 205, 122, 0.25);
+  box-shadow: 0 6px 22px rgba(239, 43, 61, 0.25);
+}
+.rk-primary:hover { filter: brightness(1.07); }
+.rk-btn-ghost:hover { border-color: rgba(212, 165, 55, 0.45); color: var(--rk-gold-soft); }

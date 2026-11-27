@@ -7,7 +7,7 @@ export const metadata = {
 };
 
 const PROVIDERS = [
-  { emoji: '✨', name: 'Google Gemini', desc: 'Apna Google account jodein — subscription-aware key', tint: '#22d3ee' },
+  { emoji: '✨', name: 'Google Gemini', desc: 'Apna Google account jodein — subscription-aware key', tint: '#ef2b3d' },
   { emoji: '🛰️', name: 'OpenRouter', desc: 'Free ":free" models — DeepSeek, Qwen, Llama, Gemma', tint: '#8b5cf6' },
   { emoji: '⚡', name: 'Groq', desc: 'Sabse fast inference — Llama 3.3 70B, GPT-OSS', tint: '#f97316' },
   { emoji: '🦙', name: 'Ollama', desc: 'Bilkul local — offline, private, unlimited', tint: '#84cc16' },
