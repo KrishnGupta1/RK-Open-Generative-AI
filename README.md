@@ -113,6 +113,7 @@ aapka apna GPU website se jodna padta hai. Wo bhi bana diya hai:
 - Comparison + cost table: **[docs/ONLINE-VS-LOCAL.md](docs/ONLINE-VS-LOCAL.md)**
 - **Free GPU par video kaise** (Kaggle P100, 30h/week free) + ready notebook:
   **[docs/FREE-GPU.md](docs/FREE-GPU.md)** · [docs/kaggle-rk-gem-video.ipynb](docs/kaggle-rk-gem-video.ipynb)
+- **Kaggle step-by-step (Hinglish, screenshots-level detail)**: **[docs/KAGGLE-STEP-BY-STEP.md](docs/KAGGLE-STEP-BY-STEP.md)**
 ## 🗂️ Project map
 
 ```

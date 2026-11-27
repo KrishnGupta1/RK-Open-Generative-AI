@@ -255,11 +255,11 @@ cloudflared tunnel --url http://127.0.0.1:8188
           </a>
           <a
             className="rk-btn-ghost"
-            href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/FREE-GPU.md"
+            href="https://github.com/KrishnGupta1/RK-Open-Generative-AI/blob/main/docs/KAGGLE-STEP-BY-STEP.md"
             target="_blank"
             rel="noreferrer"
           >
-            Free GPU guide
+            Kaggle step-by-step
           </a>
         </div>
       </section>
