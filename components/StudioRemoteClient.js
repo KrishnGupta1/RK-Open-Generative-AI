@@ -242,6 +242,9 @@ cloudflared tunnel --url http://127.0.0.1:8188
           ComfyUI mein <b>Wan 2.2 / LTX-Video</b> ka template kholo → “Save (API format)” → us JSON ko yahan bhejo.
           Humara renderer koi bhi graph chalata hai; output mp4 bhi aayega. Detail: docs/LOCAL-GENERATION.md
         </p>
+        <pre className="rk-snippet">{`# GPU na ho to cloud GPU rent karo (per-hour, free credits)
+# RunPod / Vast.ai / Modal par ComfyUI template 1-click milta hai
+# phir wahi tunnel URL yahan daal do`}</pre>
         <pre className="rk-snippet">{`# GPU nahi hai? FREE GPU use karo:
 #  Kaggle  → 30 ghante/hafta, P100 16 GB   (recommended)
 #  Colab   → T4 16 GB, 12h session
@@ -260,7 +263,6 @@ cloudflared tunnel --url http://127.0.0.1:8188
             rel="noreferrer"
           >
             Free GPU guide
-          </a>
         </div>
       </section>
 
