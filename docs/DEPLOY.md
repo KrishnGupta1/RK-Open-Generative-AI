@@ -36,6 +36,22 @@ Iska matlab: Vercel account GitHub se juda hua nahi hai. **Ek baar** karna hai:
 
 Iske baad har `main` push par auto-deploy bhi chalu ho jata hai.
 
+
+### Gate 2: GitHub App install (ye error aaye to)
+
+```
+To link a GitHub repository, you need to install the GitHub integration first.
+```
+
+Iska matlab login ho gaya, par Vercel ki **GitHub App** aapke repo par install nahi hai:
+
+1. Kholo: https://github.com/apps/vercel/installations/new
+2. Account: **KrishnGupta1** chuno
+3. **Only select repositories** → `RK-Open-Generative-AI` (ya All repositories)
+4. **Install** dabao (koi payment nahi, sirf permission)
+
+Iske baad Vercel project import + auto-deploy dono chal jaate hain.
+
 ---
 
 ## 1️⃣ Pehle: Website live karo (Vercel) — 5 min
