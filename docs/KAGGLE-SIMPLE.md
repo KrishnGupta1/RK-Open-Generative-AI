@@ -186,3 +186,21 @@ Script chalne ke baad **notebook me kuch nahi** karna. App me:
 - Upar dikhta hai kitna **VRAM + disk free** hai
 
 Details: `docs/MODEL-CONTROL.md`
+
+---
+
+## 🚑 Error: `module 'pycloudflared' has no attribute 'default_url'`
+
+pycloudflared pakage ki nayi version me `default_url()` hata diya gaya hai —
+**aapki galti nahi, script ka purana code tha**.
+
+Screenshot me `✓ wan2.1_t2v_1.3B... ✓ umt5_xxl... ✓ wan_2.1_vae...` dikh raha hai
+matlab **model download + ComfyUI start dono ho gaye**, sirf tunnel step fail hua.
+
+### Turant fix (2 min, kuch download nahi)
+Naya cell → `docs/kaggle-just-tunnel.py` ka code paste → Run → URL mil jayega.
+
+### Pakka fix (aage ke liye)
+Naya `docs/kaggle-all-in-one.py` — ab **cloudflared binary** use karta hai
+(GitHub se ~30 MB), pycloudflared sirf fallback hai. ComfyUI ka wait bhi ab
+`/system_stats` se hota hai (fixed `sleep` nahi).
