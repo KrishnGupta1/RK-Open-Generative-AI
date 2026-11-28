@@ -36,7 +36,11 @@ const VIDEO_SCENES = [
 ];
 
 export default function StudioRemoteClient({ embedded = false } = {}) {
-  const [endpoint, setEndpoint] = useState('http://127.0.0.1:8188');
+  // Default par kuch nahi — jhootha "127.0.0.1" rakhne se error message
+  // confusing ho jata tha ("Endpoint invalid" jab kuch daala hi nahi).
+  const [endpoint, setEndpoint] = useState('');
+  const [endpointDraft, setEndpointDraft] = useState('');
+  const [pasteHint, setPasteHint] = useState('');
   const [tab, setTab] = useState('image'); // image | video | models
   const [prompt, setPrompt] = useState('');
   const [negative, setNegative] = useState('');
@@ -56,7 +60,7 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
   useEffect(() => {
     try {
       const raw = JSON.parse(localStorage.getItem(STORE) || '{}');
-      if (raw.endpoint) setEndpoint(raw.endpoint);
+      if (raw.endpoint) { setEndpoint(raw.endpoint); setEndpointDraft(raw.endpoint); }
       if (raw.ckpt) setCkpt(raw.ckpt);
       if (raw.negative) setNegative(raw.negative);
       if (raw.steps) setSteps(raw.steps);
@@ -79,10 +83,16 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
   const push = (line) => setLog((l) => [...l.slice(-60), line]);
 
   // ---------- connection ----------
-  const testConnection = useCallback(async () => {
+  const testConnection = useCallback(async (override) => {
+    const target = (typeof override === 'string' ? override : endpoint || endpointDraft || '').trim();
+    if (!target) {
+      setStatus({ state: 'none', msg: 'GPU abhi juda nahi — neeche Kaggle ka URL paste karo' });
+      return false;
+    }
     setStatus({ state: 'checking', msg: 'GPU check ho raha…' });
     try {
-      const res = await fetch('/api/rk/comfy/ping?endpoint=' + encodeURIComponent(endpoint));
+      if (target !== endpoint) setEndpoint(target);
+      const res = await fetch('/api/rk/comfy/ping?endpoint=' + encodeURIComponent(target));
       const json = await res.json();
       if (!json.ok) throw new Error(json.error || 'offline');
       setGpuInfo(json);
@@ -103,11 +113,14 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
 
   // Page khulte hi pata chal jaana chahiye ki GPU juda hai ya nahi.
   useEffect(() => {
-    if (!endpoint) return;
+    if (!endpoint) {
+      setStatus({ state: 'none', msg: 'GPU abhi juda nahi — neeche Kaggle ka URL paste karo' });
+      return;
+    }
     const t = setTimeout(() => { testConnection(); }, 500);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [endpoint]);
 
   // Tab wapas focus me aaye to dobara check (Kaggle tunnel kabhi kabhi so jata hai)
   useEffect(() => {
@@ -253,9 +266,6 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
         <button className={`rk-gpu-dot ${connected ? 'ok' : status.state === 'err' ? 'err' : ''}`} onClick={testConnection}>
           {status.state === 'checking' ? '…' : connected ? '● online' : '○ check'}
         </button>
-        <button className="rk-btn-ghost" onClick={() => setShowSetup((v) => !v)}>
-          {showSetup ? 'Band karo' : 'GPU kaise jodein?'}
-        </button>
         <button className="rk-btn-ghost" onClick={() => setTab('models')} title="Download / delete / switch models">
           🧩 Models
         </button>
@@ -267,44 +277,91 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
         <div className="rk-gpu-status-text">
           <b>
             {connected
-              ? 'GPU juda hua hai'
+              ? '🟢 GPU juda hua hai — sab chalu'
               : status.state === 'checking'
                 ? 'GPU check ho raha…'
                 : status.state === 'err'
-                  ? 'GPU juda nahi hai'
-                  : 'GPU abhi tak nahi joda'}
+                  ? '🔴 GPU se baat nahi hui'
+                  : '⚪ GPU abhi nahi joda'}
           </b>
           <small>
             {connected
               ? `${gpuInfo?.devices?.[0] || 'GPU'} · ${gpuInfo?.vram?.totalGB ? gpuInfo.vram.totalGB + ' GB VRAM' : 'VRAM unknown'} — image + video yahin banega`
               : status.state === 'err'
-                ? 'Endpoint kaam nahi kar raha — Kaggle cell dobara chalao aur naya URL paste karo'
-                : 'Kaggle cell chalao → jo URL mile wo Endpoint me paste karo → Test'}
+                ? 'URL purana ho gaya hoga (Kaggle tunnel band). Naya URL paste karo.'
+                : 'Kaggle me code chalao → URL copy karo → neeche paste karo → Jodo'}
           </small>
         </div>
-        <button className="rk-gpu-status-act" onClick={testConnection} disabled={status.state === 'checking'}>
-          {status.state === 'checking' ? '…' : connected ? 'Recheck' : 'Connect'}
+        <button className="rk-gpu-status-act" onClick={() => testConnection()} disabled={status.state === 'checking'}>
+          {status.state === 'checking' ? '…' : connected ? 'Recheck' : 'Retry'}
         </button>
       </div>
 
-      {showSetup && (
-        <div className="rk-gpu-setup">
-          <ol>
-            <li>
-              Kaggle notebook kholo →{' '}
-              <a href="https://www.kaggle.com/code" target="_blank" rel="noreferrer">kaggle.com/code</a> → GPU P100 + Internet ON
-            </li>
-            <li>Hamara 1-cell script chalao (<Link href="/local">Local page</Link> par link ya docs/KAGGLE-SIMPLE.md)</li>
-            <li>Aakhir mein jo <code>https://xxx.trycloudflare.com</code> mile, neeche Endpoint mein paste karo</li>
-            <li>"Test" dabao — 🟢 hone par yahin se image/video banao</li>
-          </ol>
-          <input
-            className="rk-input"
-            value={endpoint}
-            onChange={(e) => setEndpoint(e.target.value)}
-            placeholder="https://xxxx.trycloudflare.com"
-          />
-          <button className="rk-primary" onClick={testConnection}>Test connection</button>
+      {/* ---------- connect box: hamesha dikhta hai (chhupa hua nahi) ---------- */}
+      {!connected && (
+        <div className="rk-gpu-connect">
+          <div className="rk-gpu-connect-head">
+            <b>1. Kaggle me code chalao</b>
+            <a
+              href="https://raw.githubusercontent.com/KrishnGupta1/RK-Open-Generative-AI/main/docs/kaggle-studio-connect.py"
+              target="_blank"
+              rel="noreferrer"
+              className="rk-gpu-connect-link"
+            >
+              📋 Code copy karo
+            </a>
+          </div>
+          <p className="rk-gpu-connect-note">
+            Kaggle → New Notebook → GPU T4 x2 + Internet ON → ek cell me paste → Run.
+            3-4 min me <code>✅ STUDIO URL</code> milega.
+          </p>
+
+          <div className="rk-gpu-connect-head" style={{ marginTop: 10 }}>
+            <b>2. Woh URL yahan paste karo</b>
+            <button
+              type="button"
+              className="rk-gpu-connect-link"
+              onClick={async () => {
+                try {
+                  const t = await navigator.clipboard.readText();
+                  if (t) {
+                    setEndpointDraft(t.trim());
+                    setPasteHint('clipboard se mil gaya — Jodo dabao');
+                  }
+                } catch {
+                  setPasteHint('browser ne clipboard nahi diya — haath se paste karo');
+                }
+              }}
+            >
+              📥 Clipboard se lo
+            </button>
+          </div>
+          <div className="rk-gpu-connect-row">
+            <input
+              className="rk-input"
+              value={endpointDraft}
+              onChange={(e) => { setEndpointDraft(e.target.value); setPasteHint(''); }}
+              onKeyDown={(e) => { if (e.key === 'Enter') testConnection(endpointDraft); }}
+              placeholder="https://xxxx.trycloudflare.com"
+              inputMode="url"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+            <button
+              className="rk-primary"
+              onClick={() => testConnection(endpointDraft)}
+              disabled={status.state === 'checking'}
+            >
+              {status.state === 'checking' ? '…' : 'Jodo'}
+            </button>
+          </div>
+          {pasteHint && <p className="rk-gpu-connect-hint">{pasteHint}</p>}
+          {endpointDraft && !/^https?:\/\//.test(endpointDraft.trim()) && (
+            <p className="rk-gpu-connect-hint is-warn">
+              Link <b>https://</b> se shuru hona chahiye
+            </p>
+          )}
         </div>
       )}
 
