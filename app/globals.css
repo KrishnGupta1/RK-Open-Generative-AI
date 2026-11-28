@@ -1485,3 +1485,40 @@ pre, code, textarea, input, select { max-width: 100%; }
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
+
+/* ---- Templates (Explore) — GPU par chalne wale one-tap cards ---- */
+.rk-tpl-tabs { display: flex; gap: 8px; margin: 6px 0 16px; flex-wrap: wrap; }
+.rk-tpl-tabs button { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--rk-line-strong); background: transparent; color: var(--rk-dim); font-size: 12px; font-weight: 600; cursor: pointer; }
+.rk-tpl-tabs button.is-active { border-color: var(--rk-red); color: var(--rk-text); background: rgba(239,43,61,.12); }
+
+.rk-tpl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.rk-tpl-card { display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; border: 1px solid var(--rk-line-strong); background: linear-gradient(165deg, rgba(255,255,255,.035), rgba(0,0,0,.2)); }
+.rk-tpl-card:hover { border-color: rgba(212,165,55,.45); }
+.rk-tpl-top { display: flex; align-items: center; justify-content: space-between; }
+.rk-tpl-emoji { font-size: 22px; line-height: 1; }
+.rk-tpl-badge { font-size: 9.5px; text-transform: uppercase; letter-spacing: .06em; padding: 3px 7px; border-radius: 5px; color: var(--rk-gold-soft); background: rgba(212,165,55,.14); border: 1px solid rgba(212,165,55,.3); }
+.rk-tpl-card h3 { font-size: 13.5px; font-weight: 700; margin: 2px 0 0; }
+.rk-tpl-card > p { font-size: 11.5px; color: var(--rk-dim); line-height: 1.5; margin: 0; }
+.rk-tpl-actions { display: flex; gap: 8px; margin-top: 8px; }
+.rk-tpl-actions .rk-mm-btn { flex: 0 0 auto; }
+.rk-tpl-actions .rk-primary { flex: 1; }
+
+.rk-tpl-result { margin: 8px 0; border-radius: 10px; overflow: hidden; border: 1px solid var(--rk-line-strong); background: #000; }
+.rk-tpl-result img, .rk-tpl-result video { display: block; width: 100%; height: auto; }
+.rk-tpl-result a { display: block; text-align: center; font-size: 11px; padding: 7px; color: var(--rk-gold-soft); text-decoration: none; background: rgba(212,165,55,.08); }
+
+.rk-tpl-progress { position: relative; height: 20px; border-radius: 6px; background: rgba(255,255,255,.06); overflow: hidden; margin: 6px 0; }
+.rk-tpl-progress div { height: 100%; background: var(--rk-grad); transition: width .4s ease; }
+.rk-tpl-progress small { position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #fff; }
+
+.rk-tpl-editor { margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--rk-line); display: grid; gap: 7px; }
+.rk-tpl-editor label { font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--rk-dim); }
+.rk-tpl-editor textarea { width: 100%; padding: 9px; border-radius: 8px; border: 1px solid var(--rk-line-strong); background: rgba(0,0,0,.35); color: var(--rk-text); font-size: 12px; font-family: inherit; resize: vertical; }
+.rk-tpl-meta { display: flex; gap: 10px; font-size: 10px; color: var(--rk-dim); }
+.rk-tpl-foot { margin-top: 22px; font-size: 11.5px; color: var(--rk-dim); text-align: center; }
+.rk-tpl-foot a { color: var(--rk-gold-soft); }
+@media (max-width: 520px) {
+  .rk-tpl-grid { grid-template-columns: 1fr; }
+  .rk-tpl-actions { flex-direction: column; }
+  .rk-tpl-actions .rk-primary, .rk-tpl-actions .rk-mm-btn { width: 100%; min-height: 40px; }
+}

@@ -966,7 +966,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                           group relative flex items-center rounded-xl transition-all duration-150 font-semibold
                           ${isCollapsed ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3 text-left'}
                           ${isCategoryActive
-                            ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-purple-500/10 text-[#ef2b3d] border border-[#ef2b3d]/20 shadow-[0_0_15px_rgba(34,211,238,0.08)]'
+                            ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-[#d4a537]/10 text-[#ef2b3d] border border-[#ef2b3d]/20 shadow-[0_0_15px_rgba(34,211,238,0.08)]'
                             : isCategoryOpen
                               ? 'bg-white/[0.06] text-white border border-white/[0.08]'
                               : 'text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent'
@@ -974,7 +974,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                         `}
                       >
                         {isCategoryActive && (
-                          <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#a855f7] rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
+                          <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#d4a537] rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
                         )}
 
                         <span className={`flex-shrink-0 transition-colors ${isCategoryActive ? 'text-[#ef2b3d]' : 'text-white/55 group-hover:text-white'}`}>
@@ -1047,8 +1047,24 @@ export default function StandaloneShell({ locale = 'en' }) {
                 })}
               </div>
 
+              {/* Templates — apne GPU par one-tap image/video. Hosted key ki zarurat nahi. */}
+              <div className="mt-3 pt-3 border-t border-white/[0.07]">
+                <a
+                  href="/templates"
+                  aria-label="Templates"
+                  title={isSidebarCollapsed && !isMobileOpen ? 'Templates' : undefined}
+                  className={`
+                    group relative flex items-center rounded-xl transition-all duration-150 text-[13px] font-semibold
+                    ${isSidebarCollapsed && !isMobileOpen ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3'}
+                    text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent
+                  `}
+                >
+                  <span className="flex-shrink-0 text-white/50 group-hover:text-[#d4a537]">🎞️</span>
+                  {(!isSidebarCollapsed || isMobileOpen) && <span className="truncate">Templates</span>}
+                </a>
+
               {EXPLORE_APPS_TAB && (
-                <div className="mt-3 pt-3 border-t border-white/[0.07]">
+                <div className="mt-2">
                   <a
                     href={studioPath(EXPLORE_APPS_TAB.id)}
                     onClick={(event) => handleNavigationItemClick(event, EXPLORE_APPS_TAB.id)}
@@ -1059,13 +1075,13 @@ export default function StandaloneShell({ locale = 'en' }) {
                       group relative flex items-center rounded-xl transition-all duration-150 text-[13px] font-semibold
                       ${isSidebarCollapsed && !isMobileOpen ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3'}
                       ${activeTab === EXPLORE_APPS_TAB.id
-                        ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-purple-500/10 text-[#ef2b3d] border border-[#ef2b3d]/20'
+                        ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-[#d4a537]/10 text-[#ef2b3d] border border-[#ef2b3d]/20'
                         : 'text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent'
                       }
                     `}
                   >
                     {activeTab === EXPLORE_APPS_TAB.id && (
-                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#a855f7] rounded-r-full" />
+                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#d4a537] rounded-r-full" />
                     )}
                     <span className={`flex-shrink-0 ${activeTab === EXPLORE_APPS_TAB.id ? 'text-[#ef2b3d]' : 'text-white/50 group-hover:text-white'}`}>
                       {EXPLORE_APPS_TAB.icon}
@@ -1076,6 +1092,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                   </a>
                 </div>
               )}
+              </div>
             </nav>
           </aside>
         )}
