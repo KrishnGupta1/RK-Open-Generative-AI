@@ -20,7 +20,7 @@ module.exports = {
         'app-bg': '#050505',
         'panel-bg': '#0a0a0a',
         'card-bg': '#111111',
-        primary: '#22d3ee',
+        primary: '#ef2b3d',
         secondary: '#a1a1aa',
         muted: '#52525b',
       },

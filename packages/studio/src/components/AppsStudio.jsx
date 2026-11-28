@@ -199,7 +199,7 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
         {/* Content Section */}
         <div className="p-5 flex flex-col flex-1 space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-lg text-[#22d3ee] border border-white/5 group-hover:border-white/10 transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-lg text-[#ef2b3d] border border-white/5 group-hover:border-white/10 transition-colors">
               <app.icon />
             </div>
             <div className="flex-1 min-w-0">
@@ -213,22 +213,13 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
           {/* Action Buttons */}
           <div className="flex items-center gap-2 pt-2">
             {isDummy ? (
-              <>
-                <button
-                  onClick={() => setSelectedApp(app)}
-                  className="flex-1 py-2 bg-white/5 text-white rounded-md text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-white/10 transition-all border border-white/5 active:scale-95"
-                >
-                  <FaGithub className="text-xs" />
-                  {copy.card.github}
-                </button>
-                <button
-                  onClick={() => setSelectedApp(app)}
-                  className="flex-1 py-2 bg-[#22d3ee]/10 text-[#22d3ee] rounded-md text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#22d3ee]/20 transition-all border border-[#22d3ee]/20 active:scale-95"
-                >
-                  <FaExternalLinkAlt className="text-[9px]" />
-                  {copy.card.demo}
-                </button>
-              </>
+              <a
+                href="/templates"
+                className="flex-1 py-2 bg-[#ef2b3d]/10 text-[#ef2b3d] rounded-md text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#ef2b3d]/20 transition-all border border-[#ef2b3d]/20 active:scale-95"
+              >
+                <FaMagic className="text-[10px]" />
+                Isse banao — GPU
+              </a>
             ) : (
               <>
                 <a
@@ -244,7 +235,7 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
                   href={app.hosted || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 py-2 bg-[#22d3ee]/10 text-[#22d3ee] rounded-md text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#22d3ee]/20 transition-all border border-[#22d3ee]/20 active:scale-95"
+                  className="flex-1 py-2 bg-[#ef2b3d]/10 text-[#ef2b3d] rounded-md text-[11px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 hover:bg-[#ef2b3d]/20 transition-all border border-[#ef2b3d]/20 active:scale-95"
                 >
                   <FaExternalLinkAlt className="text-[9px]" />
                   {copy.card.demo}
@@ -265,9 +256,9 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
         
         {/* Header Section */}
         <div className="text-center space-y-6 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#22d3ee]/10 border border-[#22d3ee]/20 rounded-full">
-            <FaDollarSign className="text-[#22d3ee] text-xs" />
-            <span className="text-[10px] font-black text-[#22d3ee] uppercase tracking-widest">{copy.hero.badge}</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#ef2b3d]/10 border border-[#ef2b3d]/20 rounded-full">
+            <FaDollarSign className="text-[#ef2b3d] text-xs" />
+            <span className="text-[10px] font-black text-[#ef2b3d] uppercase tracking-widest">{copy.hero.badge}</span>
           </div>
           <h1 className="text-5xl font-black text-white tracking-tighter leading-[0.9]">
             {copy.hero.titleLine1}<br />{copy.hero.titleLine2}
@@ -285,7 +276,7 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
             { icon: FaDollarSign, step: "03", title: copy.steps.keep.title, body: copy.steps.keep.body },
           ].map(({ icon: Icon, step, title, body }) => (
             <div key={step} className="flex items-start gap-4 bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-colors">
-              <div className="w-12 h-12 shrink-0 rounded-2xl bg-white/5 flex items-center justify-center text-[#22d3ee] border border-white/5">
+              <div className="w-12 h-12 shrink-0 rounded-2xl bg-white/5 flex items-center justify-center text-[#ef2b3d] border border-white/5">
                 <Icon className="text-lg" />
               </div>
               <div>
@@ -306,7 +297,7 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
         {/* Footer Accent */}
         <div className="pt-24 pb-12 flex flex-col items-center gap-4">
           <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full border border-white/5">
-            <span className="block w-1.5 h-1.5 rounded-full bg-[#22d3ee] animate-pulse" />
+            <span className="block w-1.5 h-1.5 rounded-full bg-[#ef2b3d] animate-pulse" />
             <span className="text-[9px] font-black text-white/40 uppercase tracking-widest">{copy.footer.moreComingSoon}</span>
           </div>
         </div>
@@ -318,7 +309,7 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
           <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedApp(null)} />
           <div className="relative bg-[#0a0a0a] border border-white/10 w-full max-w-md rounded-2xl p-8 space-y-8 animate-scale-up shadow-2xl">
             <div className="flex flex-col items-center text-center space-y-4">
-              <div className="w-20 h-20 rounded-[28px] bg-[#22d3ee]/10 border border-[#22d3ee]/20 flex items-center justify-center text-4xl text-[#22d3ee] mb-2">
+              <div className="w-20 h-20 rounded-[28px] bg-[#ef2b3d]/10 border border-[#ef2b3d]/20 flex items-center justify-center text-4xl text-[#ef2b3d] mb-2">
                 <selectedApp.icon />
               </div>
               <h2 className="text-2xl font-black text-white uppercase tracking-tight">
@@ -335,16 +326,43 @@ export default function AppsStudio({ apiKey, locale = 'en' }) {
             </div>
 
             <div className="space-y-3">
-              <button
-                onClick={handleRequestAccess}
-                disabled={isRequesting}
-                className="w-full py-4 bg-[#22d3ee] text-black rounded-md text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#22d3ee]/90 transition-all shadow-lg active:scale-95 disabled:opacity-50"
-              >
-                {isRequesting ? copy.modal.sending : copy.modal.getTemplate}
-              </button>
+              {/* Asli kaam karne wale buttons — API key ki zarurat nahi */}
+              {selectedApp.repo && (
+                <a
+                  href={selectedApp.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-4 bg-[#ef2b3d] text-black rounded-md text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#ef2b3d]/90 transition-all shadow-lg active:scale-95"
+                >
+                  <FaGithub /> {copy.card.github} — code kholo
+                </a>
+              )}
+              {selectedApp.hosted && (
+                <a
+                  href={selectedApp.hosted}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-4 bg-[#d4a537]/12 border border-[#d4a537]/35 text-[#f0cd7a] rounded-md text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#d4a537]/20 transition-all active:scale-95"
+                >
+                  <FaExternalLinkAlt className="text-[10px]" /> {copy.card.demo} — live chalao
+                </a>
+              )}
+              {apiKey ? (
+                <button
+                  onClick={handleRequestAccess}
+                  disabled={isRequesting}
+                  className="w-full py-3 bg-white/5 border border-white/10 text-white/70 rounded-md text-[11px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white/10 transition-all disabled:opacity-50"
+                >
+                  {isRequesting ? copy.modal.sending : 'Setup help maango'}
+                </button>
+              ) : (
+                <p className="text-[10.5px] text-white/30 text-center leading-relaxed px-2">
+                  Setup help ke liye API key jodo — ya sirf code/demo se kaam chalao, dono chalega.
+                </p>
+              )}
               <button
                 onClick={() => setSelectedApp(null)}
-                className="w-full py-4 bg-white/5 border border-white/10 text-white/60 rounded-md text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-white/10 transition-all"
+                className="w-full py-3 bg-transparent border border-white/10 text-white/45 rounded-md text-[11px] font-bold uppercase tracking-widest hover:bg-white/5 transition-all"
               >
                 {copy.modal.maybeLater}
               </button>
