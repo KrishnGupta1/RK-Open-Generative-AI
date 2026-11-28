@@ -1,9 +1,14 @@
 services:
-  open-generative-ai:
+  rk-gem-ai:
     build: .
-    container_name: open-generative-ai
+    container_name: rk-gem-ai
     ports:
       - "3001:3000"
     environment:
       - NODE_ENV=production
+      # Optional: ship a shared free-model key so visitors don't need their own.
+      # - OPENROUTER_API_KEY=
+      # - GROQ_API_KEY=
+      # - GEMINI_API_KEY=
+      # - OLLAMA_BASE_URL=http://host.docker.internal:11434/v1
     restart: unless-stopped
