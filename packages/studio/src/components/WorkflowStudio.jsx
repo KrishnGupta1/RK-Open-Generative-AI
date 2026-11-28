@@ -579,7 +579,7 @@ export default function WorkflowStudio({
           {activeSubTab === "playground" ? (
             <>
               {/* Controls Panel */}
-              <div className="w-full lg:w-[400px] border-r border-white/5 flex flex-col bg-black/20">
+              <div className="w-full lg:w-[400px] max-w-full min-w-0 border-r border-white/5 flex flex-col bg-black/20">
                 <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
                   <form onSubmit={handleRun} className="space-y-6">
                     <div>
@@ -867,7 +867,7 @@ export default function WorkflowStudio({
 
   // Render main workflow list
   return (
-    <div className="h-full w-full flex flex-col p-8 overflow-y-auto custom-scrollbar">
+    <div className="rk-studio-workflow h-full w-full flex flex-col p-4 sm:p-6 lg:p-8 overflow-y-auto overflow-x-hidden custom-scrollbar">
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex flex-col gap-6 mb-12">
           <div className="flex items-end justify-between">

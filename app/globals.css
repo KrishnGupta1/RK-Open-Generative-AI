@@ -1367,3 +1367,109 @@ img { content-visibility: auto; }
 .rk-mm-pick-btn:hover { border-color: var(--rk-gold); }
 .rk-mm-pick-btn span { font-size: 10.5px; color: var(--rk-gold-soft); text-transform: uppercase; letter-spacing: .04em; }
 @media (max-width: 640px) { .rk-mm-pick-btn { flex: 1 1 100%; } }
+
+/* ============================================================================
+   RK UNIVERSAL LAYOUT — har device, har zoom, har studio
+   User: "kitna bhi bada ya chhota size rahe — mobile, laptop, desktop,
+   tablet, windows — sabhi component acche se, ek dusre me na aayein."
+   Ye layer Tailwind ke baad chalti hai, isliye vendor studios ke hard-coded
+   `w-[400px]` / `absolute bottom-0` ko bhi theek karti hai.
+   ========================================================================= */
+
+/* 1. Kuch bhi page ko chauda nahi kar sakta */
+html, body, #root, #__next { max-width: 100%; overflow-x: clip; }
+body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+* { min-width: 0; }
+img, video, canvas, svg { max-width: 100%; }
+pre, code, textarea, input, select { max-width: 100%; }
+textarea, input, select { min-width: 0; }
+
+/* 2. Flex/grid children shrink kar sakein (overlap ki #1 wajah) */
+.flex > *, .grid > * { min-width: 0; min-height: 0; }
+
+/* 3. Long words URLs tod dein, box se bahar na jaayein */
+.rk-shell, .rk-studio-audio, .rk-studio-video, .rk-studio-workflow { overflow-wrap: anywhere; word-break: break-word; }
+
+/* 4. Tap targets — ungli ke liye (36px minimum) */
+@media (max-width: 900px) {
+  .rk-shell button,
+  .rk-shell [role="button"] { min-height: 34px; }
+  .rk-shell-nav-item, .rk-shell button { -webkit-tap-highlight-color: transparent; }
+}
+
+/* 5. Fixed header ke andar sab kuch fit ho */
+.rk-shell-header { --rk-h: 56px; }
+.rk-shell-header .rk-balance-pill span { font-size: 11px; }
+@media (max-width: 480px) {
+  .rk-shell-header { padding-left: 6px; padding-right: 6px; gap: 6px; }
+  .rk-shell-header .rk-logo-mark { width: 30px; height: 30px; font-size: 9px; }
+  .rk-balance-pill { display: none; }          /* paisa Settings me bhi hai */
+  .rk-settings-btn { padding: 6px; }
+  .rk-settings-btn span { display: none; }     /* icon-only */
+}
+@media (max-width: 360px) {
+  .rk-shell-header { height: 50px; }
+  .rk-notif-stack { top: 54px !important; }
+}
+
+/* 6. Audio / Workflow studio: mobile par upar-neeche, generate bar neeche chipke */
+@media (max-width: 1023px) {
+  .rk-studio-audio { flex-direction: column; }
+  .rk-studio-audio > div:first-child { width: 100% !important; max-height: 52%; border-right: 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .rk-studio-audio > div:last-child { flex: 1 1 auto; min-height: 0; }
+  .rk-audio-genbar { position: sticky !important; bottom: 0; left: auto; width: 100% !important; }
+}
+
+/* 7. Video / Cinema / Image: bottom padding itna ki generate bar dhak na sake */
+@media (max-width: 900px) {
+  .rk-studio-video { justify-content: flex-start; padding-bottom: 96px; }
+  .rk-studio-workflow { padding-left: 12px; padding-right: 12px; }
+}
+
+/* 8. Tablet (768–1024): 2-column grids, sidebar 208px se 240px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .rk-shell aside { width: 15rem; }
+  .rk-shell .grid.md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* 9. Landscape phone: header chhota, notification stack chhota */
+@media (max-height: 500px) and (orientation: landscape) {
+  .rk-shell-header { height: 46px; }
+  .rk-notif-stack { max-height: 60vh; }
+  .rk-shell aside { max-height: calc(100dvh - 46px); }
+}
+
+/* 10. Desktop / Windows / bada monitor: content bahar na phaile */
+@media (min-width: 1536px) {
+  .rk-shell > div > main, .rk-shell .rk-studio-audio, .rk-shell .rk-studio-video { max-width: 1920px; margin-inline: auto; }
+}
+
+/* 11. Desktop-site mode / browser zoom (koi bhi width) */
+@media (min-width: 1024px) {
+  .rk-shell pre, .rk-shell code { overflow-x: auto; }
+  .rk-shell table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+
+/* 12. Windows / Linux scrollbar (thin, red) */
+.rk-shell ::-webkit-scrollbar { width: 8px; height: 8px; }
+.rk-shell ::-webkit-scrollbar-thumb { background: rgba(239,43,61,.35); border-radius: 4px; }
+.rk-shell ::-webkit-scrollbar-thumb:hover { background: rgba(239,43,61,.55); }
+* { scrollbar-width: thin; scrollbar-color: rgba(239,43,61,.35) transparent; }
+
+/* ---- GPU status banner (connected hai ya nahi) ---- */
+.rk-gpu-status { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; margin: 10px 0 0; padding: 10px 12px; border-radius: 11px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.02); }
+.rk-gpu-status-dot { width: 9px; height: 9px; border-radius: 50%; background: #6b6b72; flex: none; }
+.rk-gpu-status.is-ok { border-color: rgba(52,199,89,.35); background: rgba(52,199,89,.07); }
+.rk-gpu-status.is-ok .rk-gpu-status-dot { background: #34c759; box-shadow: 0 0 0 4px rgba(52,199,89,.15); }
+.rk-gpu-status.is-err { border-color: rgba(239,43,61,.4); background: rgba(239,43,61,.07); }
+.rk-gpu-status.is-err .rk-gpu-status-dot { background: var(--rk-red); }
+.rk-gpu-status-text { min-width: 0; }
+.rk-gpu-status-text b { display: block; font-size: 12.5px; line-height: 1.3; }
+.rk-gpu-status-text small { display: block; font-size: 10.5px; color: var(--rk-dim); line-height: 1.45; margin-top: 1px; overflow-wrap: anywhere; }
+.rk-gpu-status-act { flex: none; padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; color: var(--rk-text); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+.rk-gpu-status.is-ok .rk-gpu-status-act { border-color: rgba(52,199,89,.35); color: #7ee2a0; }
+.rk-gpu-status.is-err .rk-gpu-status-act { border-color: rgba(239,43,61,.45); color: #ff8b96; }
+@media (max-width: 520px) {
+  .rk-gpu-status { grid-template-columns: auto 1fr; row-gap: 8px; }
+  .rk-gpu-status-act { grid-column: 1 / -1; width: 100%; min-height: 36px; }
+}

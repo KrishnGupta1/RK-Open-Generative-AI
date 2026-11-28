@@ -758,10 +758,10 @@ export default function AudioStudio({
   };
 
   return (
-    <div className="w-full h-full flex bg-app-bg text-white overflow-hidden relative">
+    <div className="rk-studio-audio w-full h-full flex flex-col lg:flex-row bg-app-bg text-white overflow-hidden relative">
       
       {/* ─── LEFT CONFIGURATION SIDEBAR ─── */}
-      <div ref={sidebarRef} className="w-full lg:w-[400px] border-r border-zinc-900 flex flex-col bg-zinc-950/40 backdrop-blur-lg flex-shrink-0 z-30">
+      <div ref={sidebarRef} className="w-full lg:w-[400px] max-w-full min-w-0 border-r border-zinc-900 flex flex-col bg-zinc-950/40 backdrop-blur-lg flex-shrink-0 z-30">
         <div className="p-6 overflow-y-auto flex-1 custom-scrollbar space-y-6 pb-24">
           
           {/* Model Selector */}
@@ -1024,7 +1024,7 @@ export default function AudioStudio({
         </div>
 
         {/* Dynamic Cost & Generate Section */}
-        <div className="p-4 border-t border-zinc-900 bg-zinc-950/80 backdrop-blur-xl absolute bottom-0 left-0 w-full lg:w-[400px] z-40">
+        <div className="rk-audio-genbar p-4 border-t border-zinc-900 bg-zinc-950/80 backdrop-blur-xl absolute bottom-0 left-0 w-full lg:w-[400px] max-w-full z-40">
           <button
             type="button"
             onClick={handleGenerate}

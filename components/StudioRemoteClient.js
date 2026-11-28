@@ -101,14 +101,21 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
     }
   }, [endpoint, ckpt]);
 
+  // Page khulte hi pata chal jaana chahiye ki GPU juda hai ya nahi.
   useEffect(() => {
     if (!endpoint) return;
-    const t = setTimeout(() => {
-      if (endpoint.includes('127.0.0.1')) testConnection();
-    }, 600);
+    const t = setTimeout(() => { testConnection(); }, 500);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Tab wapas focus me aaye to dobara check (Kaggle tunnel kabhi kabhi so jata hai)
+  useEffect(() => {
+    const onFocus = () => { if (endpoint) testConnection(); };
+    window.addEventListener('focus', onFocus);
+    return () => window.removeEventListener('focus', onFocus);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endpoint]);
 
   // ---------- render ----------
   const render = async () => {
@@ -253,6 +260,32 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
           🧩 Models
         </button>
       </header>
+
+      {/* GPU connected hai ya nahi — hamesha saaf dikhe */}
+      <div className={`rk-gpu-status ${connected ? 'is-ok' : status.state === 'err' ? 'is-err' : 'is-idle'}`}>
+        <span className="rk-gpu-status-dot" />
+        <div className="rk-gpu-status-text">
+          <b>
+            {connected
+              ? 'GPU juda hua hai'
+              : status.state === 'checking'
+                ? 'GPU check ho raha…'
+                : status.state === 'err'
+                  ? 'GPU juda nahi hai'
+                  : 'GPU abhi tak nahi joda'}
+          </b>
+          <small>
+            {connected
+              ? `${gpuInfo?.devices?.[0] || 'GPU'} · ${gpuInfo?.vram?.totalGB ? gpuInfo.vram.totalGB + ' GB VRAM' : 'VRAM unknown'} — image + video yahin banega`
+              : status.state === 'err'
+                ? 'Endpoint kaam nahi kar raha — Kaggle cell dobara chalao aur naya URL paste karo'
+                : 'Kaggle cell chalao → jo URL mile wo Endpoint me paste karo → Test'}
+          </small>
+        </div>
+        <button className="rk-gpu-status-act" onClick={testConnection} disabled={status.state === 'checking'}>
+          {status.state === 'checking' ? '…' : connected ? 'Recheck' : 'Connect'}
+        </button>
+      </div>
 
       {showSetup && (
         <div className="rk-gpu-setup">
