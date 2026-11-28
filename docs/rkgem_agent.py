@@ -31,11 +31,25 @@ import time
 import urllib.request
 import uuid
 
-import folder_paths
-from aiohttp import web
-from server import PromptServer
+try:
+    import folder_paths
+    from aiohttp import web
+    from server import PromptServer
+    _IMPORT_ERROR = None
+except Exception as _exc:  # noqa: BLE001
+    # ComfyUI ka koi naya version hai jahan ye import paths alag hain.
+    # Poora ComfyUI crash karna galat hoga — sirf agent band rahe.
+    folder_paths = None
+    web = None
+    PromptServer = None
+    _IMPORT_ERROR = _exc
 
-ROUTES = PromptServer.instance.routes
+if _IMPORT_ERROR is not None:
+    print(f"[rkgem] agent OFF — import fail: {_IMPORT_ERROR}", flush=True)
+    PromptServer = None
+
+
+ROUTES = None if PromptServer is None else PromptServer.instance.routes
 JOBS = {}
 JOBS_LOCK = threading.Lock()
 TRASH = os.path.join(folder_paths.models_dir, ".rkgem-trash")
@@ -128,12 +142,22 @@ def _gpu():
         return None
 
 
-@ROUTES.get("/rkgem/status")
+def _route(method, path):
+    """Decorator that silently no-ops when the agent cannot attach (safe mode)."""
+    def _wrap(fn):
+        if ROUTES is None:
+            return fn
+        ROUTES.__getattribute__(method)(path)(fn)
+        return fn
+    return _wrap
+
+
+@_route("get", "/rkgem/status")
 async def rkgem_status(_request):
     return web.json_response({"ok": True, "gpu": _gpu(), "disk": _disk(), "jobs": len(JOBS)})
 
 
-@ROUTES.get("/rkgem/models")
+@_route("get", "/rkgem/models")
 async def rkgem_models(_request):
     return web.json_response({"ok": True, "files": _list_files(), "disk": _disk()})
 
@@ -174,7 +198,7 @@ def _worker(job_id, url, dest, total_hint):
             JOBS[job_id].update(state="error", error=str(exc)[:300], finished=time.time())
 
 
-@ROUTES.post("/rkgem/download")
+@_route("post", "/rkgem/download")
 async def rkgem_download(request):
     try:
         body = await request.json()
@@ -211,7 +235,7 @@ async def rkgem_download(request):
         return web.json_response({"ok": False, "error": str(exc)[:300]}, status=400)
 
 
-@ROUTES.get("/rkgem/download/{job_id}")
+@_route("get", "/rkgem/download/{job_id}")
 async def rkgem_download_status(request):
     job_id = request.match_info["job_id"]
     with JOBS_LOCK:
@@ -222,7 +246,7 @@ async def rkgem_download_status(request):
     return web.json_response({"ok": True, **job})
 
 
-@ROUTES.get("/rkgem/downloads")
+@_route("get", "/rkgem/downloads")
 async def rkgem_downloads(_request):
     with JOBS_LOCK:
         jobs = [dict(j) for j in JOBS.values()]
@@ -230,7 +254,7 @@ async def rkgem_downloads(_request):
     return web.json_response({"ok": True, "jobs": jobs[:40]})
 
 
-@ROUTES.post("/rkgem/delete")
+@_route("post", "/rkgem/delete")
 async def rkgem_delete(request):
     try:
         body = await request.json()
