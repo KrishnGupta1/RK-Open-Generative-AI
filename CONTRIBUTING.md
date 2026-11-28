@@ -1,4 +1,4 @@
-# Contributing to Open Generative AI
+# Contributing to RK GEM AI
 
 Thanks for contributing. This guide covers the setup steps that are easy to
 get wrong in this repo, so a first pull request does not fail on setup alone.

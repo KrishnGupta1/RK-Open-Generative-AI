@@ -1,6 +1,16 @@
 'use client';
 
+// RK GEM AI — real studio ka welcome gate.
+//
+// Studio ka API gate — teen raaste, teeno kaam karte hain:
+//
+//   1. Apna GPU (free)     → Studio → "Apna GPU" tab — SDXL + Wan, ₹0
+//   2. Apna API key        → koi bhi provider (OpenAI-compatible endpoint, ya
+//                            custom base URL) — 200+ hosted models
+//   3. Bina key ke ghoomo  → studio khol lo, key baad me
+
 import { useState } from 'react';
+import Link from 'next/link';
 import { getCommonCopy } from '@/lib/locales';
 import { validateApiKey } from './apiKeyValidation.mjs';
 
@@ -12,76 +22,103 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
   const handleSubmit = (e) => {
     e.preventDefault();
     const result = validateApiKey(key);
-    if (result.error) { setError(result.value === undefined && !key.trim() ? copy.missingKeyError : result.error); return; }
+    if (result.error) {
+      setError(result.value === undefined && !key.trim() ? copy.missingKeyError : result.error);
+      return;
+    }
     onSave(result.value);
   };
 
+  const skip = () => onSave('rkgem-browse-only');
+
   const wrapperClass = overlay
     ? 'fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm flex items-center justify-center px-4 font-inter animate-fade-in-up'
-    : 'min-h-screen bg-[#030303] flex items-center justify-center px-4 font-inter';
+    : 'min-h-screen bg-[#030303] flex items-center justify-center px-4 py-8 font-inter';
 
   return (
     <div className={wrapperClass}>
-      <div className="w-full max-w-sm bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 rounded-xl p-10 shadow-2xl relative">
+      <div className="w-full max-w-md bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 rounded-xl p-7 sm:p-9 shadow-2xl relative">
         {overlay && onClose && (
           <button
             type="button"
             onClick={onClose}
             aria-label={copy.close}
-            className="absolute top-3 right-3 w-8 h-8 rounded-md text-white/40 hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center"
+            className="absolute top-3 right-3 h-8 w-8 rounded-lg text-white/40 hover:text-white hover:bg-white/5"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            ✕
           </button>
         )}
-        <div className="flex flex-col items-center text-center mb-10">
-          <div className="w-14 h-14 bg-[#22d3ee]/5 rounded-2xl flex items-center justify-center border border-[#22d3ee]/10 mb-6 group hover:border-[#22d3ee]/30 transition-colors">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" strokeWidth="1.5" className="group-hover:scale-110 transition-transform">
-              <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L12 17.25l-4.5-4.5L15.5 7.5z" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </div>
-          <h1 className="text-xl font-bold text-white tracking-tight mb-2">
-            {title || copy.title}
-          </h1>
-          <p className="text-white/40 text-[13px] leading-relaxed px-4">
-            {subtitle || (
-              <>{copy.subtitlePrefix} <a href="https://muapi.ai/access-keys" target="_blank" rel="noreferrer" className="text-[#22d3ee] hover:text-[#e5ff33] transition-colors">Muapi.ai</a> {copy.subtitleSuffix}</>
-            )}
-          </p>
+
+        <div className="flex items-center gap-2 mb-1">
+          <span className="h-7 w-7 rounded-lg bg-[#ef2b3d] text-black text-xs font-black flex items-center justify-center">
+            RK
+          </span>
+          <span className="text-xs tracking-[0.18em] text-white/60 font-semibold">GEM AI STUDIO</span>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label className="block text-xs font-bold text-white/30 ml-1">
-              {copy.label}
-            </label>
-            <input
-              type="password"
-              value={key}
-              onChange={(e) => { setKey(e.target.value); setError(''); }}
-              placeholder={copy.placeholder}
-              className="w-full bg-white/5 border border-white/[0.03] rounded-md px-5 py-3 text-sm text-white placeholder:text-white/10 focus:outline-none focus:ring-1 focus:ring-[#22d3ee]/30 focus:bg-white/[0.07] transition-all"
-              suppressHydrationWarning
-            />
-            {error && <p className="mt-2 text-red-500/80 text-[11px] font-medium ml-1">{error}</p>}
-          </div>
+        <h2 className="text-xl font-bold text-white mt-3">{title || 'Studio kholo'}</h2>
+        <p className="text-sm text-white/50 mt-1.5 leading-relaxed">
+          Hosted models ke liye apni API key, ya bilkul free ke liye apna GPU —
+          dono chalte hain. Card ki zarurat nahi.
+        </p>
 
+        {/* ── Option 1: free GPU ─────────────────────────────────────────── */}
+        <Link
+          href="/studio-remote"
+          className="mt-5 flex items-start gap-3 rounded-xl border border-[#ef2b3d]/40 bg-[#ef2b3d]/8 p-3.5 hover:bg-[#ef2b3d]/14 transition-colors group"
+        >
+          <span className="text-lg leading-none mt-0.5">🆓</span>
+          <span className="flex-1">
+            <span className="block text-sm font-semibold text-white">Apna GPU — bilkul free</span>
+            <span className="block text-[11.5px] text-white/50 mt-0.5 leading-snug">
+              SDXL image + Wan 2.1 video. Kaggle ka free GPU, download + gallery sab app me.
+            </span>
+          </span>
+          <span className="text-[#ef2b3d] text-sm mt-0.5 group-hover:translate-x-0.5 transition-transform">→</span>
+        </Link>
+
+        {/* ── Option 2: apni API key ─────────────────────────────────────── */}
+        <form onSubmit={handleSubmit} className="mt-4">
+          <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-white/40 mb-2">
+            <span>Ya apni API key daalo</span>
+            <span className="px-1.5 py-0.5 rounded bg-white/5 normal-case tracking-normal text-white/40">
+              paid · 200+ models
+            </span>
+          </label>
+          <input
+            type="password"
+            value={key}
+            onChange={(e) => { setKey(e.target.value); setError(''); }}
+            placeholder="sk-... / apni key"
+            className="w-full rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#ef2b3d]/60 outline-none px-3.5 py-2.5 text-sm text-white placeholder:text-white/25"
+          />
+          {error && <p className="text-[11.5px] text-red-400 mt-1.5">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-[#22d3ee] text-black font-medium py-2.5 rounded-md hover:bg-[#e5ff33] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-[#22d3ee]/5"
-            suppressHydrationWarning
+            className="w-full mt-3 rounded-lg bg-white text-black font-semibold text-sm py-2.5 hover:bg-white/90 transition-colors"
           >
-            {copy.submit}
+            Key se kholo
           </button>
-
-          <p className="text-center text-[12px] text-white/20 pt-2">
-            {copy.needKey}{' '}
-            <a href="https://muapi.ai/access-keys" target="_blank" rel="noreferrer" className="text-white/40 hover:text-[#22d3ee] transition-colors font-medium">
-              {copy.getOneFree}
+          <p className="text-[10.5px] text-white/30 mt-2 leading-relaxed">
+            Key sirf aapke browser me rehti hai (localStorage + cookie) — humare server par
+            store nahi hoti. Provider yahan badal sakte ho:{' '}
+            <a href="/settings" className="text-[#ef2b3d]/80 hover:text-[#ef2b3d] underline underline-offset-2">
+              Settings
             </a>
+            .
           </p>
         </form>
+
+        {/* ── Option 3: browse ───────────────────────────────────────────── */}
+        <button
+          type="button"
+          onClick={skip}
+          className="w-full mt-3 text-[11.5px] text-white/40 hover:text-white/70 transition-colors"
+        >
+          Bina key ke studio dekho →
+        </button>
+
+        {subtitle && <p className="text-[10.5px] text-white/25 mt-4">{subtitle}</p>}
       </div>
     </div>
   );

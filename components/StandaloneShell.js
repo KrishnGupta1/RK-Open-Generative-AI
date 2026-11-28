@@ -3,7 +3,41 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { ImageStudio, VideoStudio, ClippingStudio, MotionControlStudio, VibeMotionStudio, LipSyncStudio, RecastStudio, CinemaStudio, AudioStudio, MarketingStudio, WorkflowStudio, AgentStudio, AppsStudio, AiInfluencerStudio, LayersStudio, getUserBalance } from 'studio';
+import { getUserBalance } from 'studio';
+
+const StudioRemoteClient = dynamic(() => import('@/components/StudioRemoteClient'), {
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-[#050506] flex items-center justify-center text-[#d4a537]/60 text-sm">Apna GPU load ho raha…</div>
+});
+
+const LAZY_STUDIOS = {
+  image: dynamic(() => import('studio').then((m) => m.ImageStudio), { ssr: false, loading: StudioSkeleton }),
+  layers: dynamic(() => import('studio').then((m) => m.LayersStudio), { ssr: false, loading: StudioSkeleton }),
+  video: dynamic(() => import('studio').then((m) => m.VideoStudio), { ssr: false, loading: StudioSkeleton }),
+  audio: dynamic(() => import('studio').then((m) => m.AudioStudio), { ssr: false, loading: StudioSkeleton }),
+  clipping: dynamic(() => import('studio').then((m) => m.ClippingStudio), { ssr: false, loading: StudioSkeleton }),
+  'motion-control': dynamic(() => import('studio').then((m) => m.MotionControlStudio), { ssr: false, loading: StudioSkeleton }),
+  'vibe-motion': dynamic(() => import('studio').then((m) => m.VibeMotionStudio), { ssr: false, loading: StudioSkeleton }),
+  lipsync: dynamic(() => import('studio').then((m) => m.LipSyncStudio), { ssr: false, loading: StudioSkeleton }),
+  'body-swap': dynamic(() => import('studio').then((m) => m.RecastStudio), { ssr: false, loading: StudioSkeleton }),
+  cinema: dynamic(() => import('studio').then((m) => m.CinemaStudio), { ssr: false, loading: StudioSkeleton }),
+  marketing: dynamic(() => import('studio').then((m) => m.MarketingStudio), { ssr: false, loading: StudioSkeleton }),
+  workflows: dynamic(() => import('studio').then((m) => m.WorkflowStudio), { ssr: false, loading: StudioSkeleton }),
+  agents: dynamic(() => import('studio').then((m) => m.AgentStudio), { ssr: false, loading: StudioSkeleton }),
+  apps: dynamic(() => import('studio').then((m) => m.AppsStudio), { ssr: false, loading: StudioSkeleton }),
+  'ai-influencer': dynamic(() => import('studio').then((m) => m.AiInfluencerStudio), { ssr: false, loading: StudioSkeleton }),
+};
+
+function StudioSkeleton() {
+  return (
+    <div className="h-full w-full flex flex-col items-center justify-center gap-3 bg-[#050506]">
+      <div className="w-40 h-[3px] rounded-full overflow-hidden bg-white/[0.06]">
+        <div className="h-full w-1/2 rounded-full bg-[#ef2b3d] rk-load-slide" />
+      </div>
+      <span className="text-[11px] uppercase tracking-[0.17em] text-white/25">Loading studio</span>
+    </div>
+  );
+}
 
 const DesignAgentStudio = dynamic(() => import('studio').then(mod => mod.DesignAgentStudio), {
   ssr: false,
@@ -28,6 +62,17 @@ const TABS = [
         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
         <circle cx="8.5" cy="8.5" r="1.5"/>
         <polyline points="21 15 16 10 5 21"/>
+      </svg>
+    )
+  },
+  {
+    id: 'apna-gpu',
+    label: 'Apna GPU (Free)',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="4" y="4" width="16" height="16" rx="2"/>
+        <rect x="9" y="9" width="6" height="6"/>
+        <path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/>
       </svg>
     )
   },
@@ -343,6 +388,7 @@ export default function StandaloneShell({ locale = 'en' }) {
   };
   
   const [apiKey, setApiKey] = useState(null);
+  const [showKeyModal, setShowKeyModal] = useState(false);
   const [activeTab, setActiveTab] = useState(getInitialTab());
 
   const [balance, setBalance] = useState(null);
@@ -673,27 +719,72 @@ export default function StandaloneShell({ locale = 'en' }) {
 
   if (!hasMounted) return (
     <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-      <div className="animate-spin text-[#22d3ee] text-3xl">◌</div>
+      <div className="animate-spin text-[#ef2b3d] text-3xl">◌</div>
     </div>
   );
 
-  if (!apiKey) {
-    return <ApiKeyModal onSave={handleKeySave} locale={locale} />;
-  }
+  // Studio kabhi bhi API key ki deewar par nahi rukta.
+  // Key ho to hosted 200+ models, na ho to free GPU — tabs sab khulte rahenge.
+  const keyless = !apiKey;
 
   return (
     <div 
-      className="h-screen bg-[#030303] flex flex-col overflow-hidden text-white relative"
+      className="rk-shell h-[100svh] bg-[#030303] flex flex-col overflow-hidden text-white relative"
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
+      {showKeyModal && (
+        <ApiKeyModal
+          overlay
+          locale={locale}
+          title="Studio ki API key"
+          subtitle="Key sirf aapke browser me rehti hai. Chahiye nahi? Band kar do — free mode chalta rahega."
+          onClose={() => setShowKeyModal(false)}
+          onSave={(k) => { handleKeySave(k); setShowKeyModal(false); }}
+        />
+      )}
+
+      {/* Key optional banner — studio bina key ke bhi khulta hai */}
+      {keyless && (
+        <div className="shrink-0 flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 bg-gradient-to-r from-[#ef2b3d]/12 via-[#d4a537]/10 to-transparent border-b border-[#d4a537]/25 text-[11.5px]">
+          <span className="flex items-center gap-1.5 font-semibold text-[#f0cd7a]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ef2b3d]" />
+            Free mode
+          </span>
+          <span className="text-white/55">
+            Studio khula hai. Hosted models ke liye apni API key — ya{' '}
+            <a href="/studio-remote" className="text-[#f0cd7a] underline underline-offset-2 hover:text-white">
+              Apna GPU (₹0)
+            </a>{' '}
+            se chalao.
+          </span>
+          <span className="ml-auto flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setShowKeyModal(true)}
+              className="rounded-md bg-white text-black font-semibold px-2.5 py-1 hover:bg-white/90 transition-colors"
+            >
+              API key jodo
+            </button>
+            <button
+              type="button"
+              onClick={handleKeyChange}
+              className="text-white/40 hover:text-white/70"
+              title="API key daalne ke liye"
+            >
+              later
+            </button>
+          </span>
+        </div>
+      )}
+
       {/* Drag Overlay */}
       {isDragging && (
-        <div className="fixed inset-0 z-[100] bg-[#22d3ee]/10 backdrop-blur-md border-4 border-dashed border-[#22d3ee]/50 flex items-center justify-center pointer-events-none transition-all duration-300">
+        <div className="fixed inset-0 z-[100] bg-[#ef2b3d]/10 backdrop-blur-md border-4 border-dashed border-[#ef2b3d]/50 flex items-center justify-center pointer-events-none transition-all duration-300">
           <div className="bg-[#0a0a0a] p-8 rounded-3xl border border-white/10 shadow-2xl flex flex-col items-center gap-4 scale-110 animate-pulse">
-            <div className="w-20 h-20 bg-[#22d3ee] rounded-2xl flex items-center justify-center">
+            <div className="w-20 h-20 bg-[#ef2b3d] rounded-2xl flex items-center justify-center">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5">
                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
               </svg>
@@ -732,9 +823,9 @@ export default function StandaloneShell({ locale = 'en' }) {
 
       {/* Header */}
       {isHeaderVisible && (
-        <header className="flex-shrink-0 h-14 border-b border-white/[0.05] flex items-center justify-between px-4 bg-[#0a0a0b]/80 backdrop-blur-md z-50 gap-4">
+        <header className="rk-shell-header flex-shrink-0 h-14 border-b border-white/[0.05] flex items-center justify-between px-2 sm:px-4 bg-[#0a0a0b]/80 backdrop-blur-md z-50 gap-2 sm:gap-4 min-w-0">
           {/* Left: Mobile menu toggle + Logo + Desktop Sidebar Toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
             {/* Mobile drawer toggle */}
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -777,12 +868,11 @@ export default function StandaloneShell({ locale = 'en' }) {
 
             {/* Logo & Title */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 bg-[#22d3ee] rounded-lg flex items-center justify-center shadow-lg shadow-[#22d3ee]/20">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+              <div className="rk-logo-mark w-8 h-8 shrink-0 rounded-lg flex items-center justify-center shadow-lg shadow-[#ef2b3d]/20 text-[10px] font-black tracking-tight text-black"
+                   style={{ background: 'linear-gradient(135deg,#ff4b5c,#ef2b3d 45%,#d4a537)' }}>
+                RK
               </div>
-              <span className="text-sm font-bold tracking-tight hidden sm:block text-white">
+              <span className="text-sm font-bold tracking-tight hidden sm:block text-white truncate max-w-[8rem]">
                 {copy.shell.brand}
               </span>
             </div>
@@ -790,16 +880,30 @@ export default function StandaloneShell({ locale = 'en' }) {
 
           {/* Active Tab Breadcrumb Badge */}
           <div className="hidden lg:flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.05] text-xs text-white/60">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#22d3ee]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ef2b3d]" />
             <span className="font-medium text-white/80">
               {tabLabel(activeTab) || copy.shell.studioFallback}
             </span>
           </div>
 
           {/* Right: Actions */}
-          <div className="flex-shrink-0 flex items-center gap-3">
+          <div className="flex-shrink-0 flex items-center gap-1.5 sm:gap-3 min-w-0">
+            <a
+              href="/chat"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#ef2b3d] hover:border-[#ef2b3d]/40 transition-colors"
+              title="RK GEM AI Chat"
+            >
+              💬 Chat
+            </a>
+            <a
+              href="/local"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#84cc16] hover:border-[#84cc16]/40 transition-colors"
+              title="Local models (Ollama / Wan2GP / ComfyUI)"
+            >
+              💻 Local
+            </a>
             <ThemeToggle />
-            <div className="flex items-center gap-2.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5 transition-colors">
+            <div className="rk-balance-pill flex items-center gap-2.5 bg-white/5 px-2 sm:px-3 py-1.5 rounded-full border border-white/5 transition-colors">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-bold text-white/90">
                 ${balance !== null ? `${balance}` : '---'}
@@ -808,7 +912,7 @@ export default function StandaloneShell({ locale = 'en' }) {
 
             <button
               onClick={() => setShowSettings(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/5 text-[13px] font-bold text-white/80 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors"
+              className="rk-settings-btn flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-md border border-white/10 bg-white/5 text-[13px] font-bold text-white/80 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors shrink-0"
               aria-label={copy.shell.settings}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -862,7 +966,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                           group relative flex items-center rounded-xl transition-all duration-150 font-semibold
                           ${isCollapsed ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3 text-left'}
                           ${isCategoryActive
-                            ? 'bg-gradient-to-r from-[#22d3ee]/15 to-purple-500/10 text-[#22d3ee] border border-[#22d3ee]/20 shadow-[0_0_15px_rgba(34,211,238,0.08)]'
+                            ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-[#d4a537]/10 text-[#ef2b3d] border border-[#ef2b3d]/20 shadow-[0_0_15px_rgba(34,211,238,0.08)]'
                             : isCategoryOpen
                               ? 'bg-white/[0.06] text-white border border-white/[0.08]'
                               : 'text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent'
@@ -870,10 +974,10 @@ export default function StandaloneShell({ locale = 'en' }) {
                         `}
                       >
                         {isCategoryActive && (
-                          <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#22d3ee] to-[#a855f7] rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
+                          <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#d4a537] rounded-r-full shadow-[0_0_8px_rgba(34,211,238,0.6)]" />
                         )}
 
-                        <span className={`flex-shrink-0 transition-colors ${isCategoryActive ? 'text-[#22d3ee]' : 'text-white/55 group-hover:text-white'}`}>
+                        <span className={`flex-shrink-0 transition-colors ${isCategoryActive ? 'text-[#ef2b3d]' : 'text-white/55 group-hover:text-white'}`}>
                           {category.icon}
                         </span>
 
@@ -921,15 +1025,15 @@ export default function StandaloneShell({ locale = 'en' }) {
                                 className={`
                                   group relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[12px] font-medium transition-all duration-150
                                   ${isActive
-                                    ? 'bg-[#22d3ee]/12 text-[#22d3ee] border border-[#22d3ee]/20'
+                                    ? 'bg-[#ef2b3d]/12 text-[#ef2b3d] border border-[#ef2b3d]/20'
                                     : 'text-white/55 hover:text-white hover:bg-white/[0.04] border border-transparent'
                                   }
                                 `}
                               >
                                 {isActive && (
-                                  <span className="absolute -left-[11px] top-2 bottom-2 w-0.5 rounded-full bg-[#22d3ee] shadow-[0_0_7px_rgba(34,211,238,0.7)]" />
+                                  <span className="absolute -left-[11px] top-2 bottom-2 w-0.5 rounded-full bg-[#ef2b3d] shadow-[0_0_7px_rgba(34,211,238,0.7)]" />
                                 )}
-                                <span className={`flex-shrink-0 ${isActive ? 'text-[#22d3ee]' : 'text-white/45 group-hover:text-white/80'}`}>
+                                <span className={`flex-shrink-0 ${isActive ? 'text-[#ef2b3d]' : 'text-white/45 group-hover:text-white/80'}`}>
                                   {tab.icon}
                                 </span>
                                 <span className="truncate">{tabLabel(tab.id)}</span>
@@ -943,8 +1047,24 @@ export default function StandaloneShell({ locale = 'en' }) {
                 })}
               </div>
 
+              {/* Templates — apne GPU par one-tap image/video. Hosted key ki zarurat nahi. */}
+              <div className="mt-3 pt-3 border-t border-white/[0.07]">
+                <a
+                  href="/templates"
+                  aria-label="Templates"
+                  title={isSidebarCollapsed && !isMobileOpen ? 'Templates' : undefined}
+                  className={`
+                    group relative flex items-center rounded-xl transition-all duration-150 text-[13px] font-semibold
+                    ${isSidebarCollapsed && !isMobileOpen ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3'}
+                    text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent
+                  `}
+                >
+                  <span className="flex-shrink-0 text-white/50 group-hover:text-[#d4a537]">🎞️</span>
+                  {(!isSidebarCollapsed || isMobileOpen) && <span className="truncate">Templates</span>}
+                </a>
+
               {EXPLORE_APPS_TAB && (
-                <div className="mt-3 pt-3 border-t border-white/[0.07]">
+                <div className="mt-2">
                   <a
                     href={studioPath(EXPLORE_APPS_TAB.id)}
                     onClick={(event) => handleNavigationItemClick(event, EXPLORE_APPS_TAB.id)}
@@ -955,15 +1075,15 @@ export default function StandaloneShell({ locale = 'en' }) {
                       group relative flex items-center rounded-xl transition-all duration-150 text-[13px] font-semibold
                       ${isSidebarCollapsed && !isMobileOpen ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3'}
                       ${activeTab === EXPLORE_APPS_TAB.id
-                        ? 'bg-gradient-to-r from-[#22d3ee]/15 to-purple-500/10 text-[#22d3ee] border border-[#22d3ee]/20'
+                        ? 'bg-gradient-to-r from-[#ef2b3d]/15 to-[#d4a537]/10 text-[#ef2b3d] border border-[#ef2b3d]/20'
                         : 'text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent'
                       }
                     `}
                   >
                     {activeTab === EXPLORE_APPS_TAB.id && (
-                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#22d3ee] to-[#a855f7] rounded-r-full" />
+                      <span className="absolute left-0 top-2 bottom-2 w-1 bg-gradient-to-b from-[#ef2b3d] to-[#d4a537] rounded-r-full" />
                     )}
-                    <span className={`flex-shrink-0 ${activeTab === EXPLORE_APPS_TAB.id ? 'text-[#22d3ee]' : 'text-white/50 group-hover:text-white'}`}>
+                    <span className={`flex-shrink-0 ${activeTab === EXPLORE_APPS_TAB.id ? 'text-[#ef2b3d]' : 'text-white/50 group-hover:text-white'}`}>
                       {EXPLORE_APPS_TAB.icon}
                     </span>
                     {(!isSidebarCollapsed || isMobileOpen) && (
@@ -972,58 +1092,15 @@ export default function StandaloneShell({ locale = 'en' }) {
                   </a>
                 </div>
               )}
+              </div>
             </nav>
           </aside>
         )}
 
         {/* Studio Content */}
         <div className="flex-1 min-h-0 h-full relative overflow-hidden bg-[#030303]">
-        <div className={activeTab === 'image' ? "h-full w-full" : "hidden"}>
-          <ImageStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('image')} onGenerationEnd={makeGenerationEndCallback('image')} onGenerationComplete={makeSuccessCallback('image')} onGenerationError={makeErrorCallback('image')} />
-        </div>
-        <div className={activeTab === 'layers' ? "h-full w-full" : "hidden"}>
-          <LayersStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('layers')} onGenerationEnd={makeGenerationEndCallback('layers')} onGenerationComplete={makeSuccessCallback('layers')} onGenerationError={makeErrorCallback('layers')} />
-        </div>
-        <div className={activeTab === 'video' ? "h-full w-full" : "hidden"}>
-          <VideoStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('video')} onGenerationEnd={makeGenerationEndCallback('video')} onGenerationComplete={makeSuccessCallback('video')} onGenerationError={makeErrorCallback('video')} />
-        </div>
-        <div className={activeTab === 'clipping' ? "h-full w-full" : "hidden"}>
-          <ClippingStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('clipping')} onGenerationEnd={makeGenerationEndCallback('clipping')} onGenerationComplete={makeSuccessCallback('clipping')} onGenerationError={makeErrorCallback('clipping')} />
-        </div>
-        <div className={activeTab === 'motion-control' ? "h-full w-full" : "hidden"}>
-          <MotionControlStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('motion-control')} onGenerationEnd={makeGenerationEndCallback('motion-control')} onGenerationComplete={makeSuccessCallback('motion-control')} onGenerationError={makeErrorCallback('motion-control')} />
-        </div>
-        <div className={activeTab === 'vibe-motion' ? "h-full w-full" : "hidden"}>
-          <VibeMotionStudio apiKey={apiKey} locale={locale} onGenerationStart={makeGenerationStartCallback('vibe-motion')} onGenerationEnd={makeGenerationEndCallback('vibe-motion')} onGenerationComplete={makeSuccessCallback('vibe-motion')} onGenerationError={makeErrorCallback('vibe-motion')} />
-        </div>
-        <div className={activeTab === 'lipsync' ? "h-full w-full" : "hidden"}>
-          <LipSyncStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('lipsync')} onGenerationEnd={makeGenerationEndCallback('lipsync')} onGenerationComplete={makeSuccessCallback('lipsync')} onGenerationError={makeErrorCallback('lipsync')} />
-        </div>
-        <div className={activeTab === 'body-swap' ? "h-full w-full" : "hidden"}>
-          <RecastStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('body-swap')} onGenerationEnd={makeGenerationEndCallback('body-swap')} onGenerationComplete={makeSuccessCallback('body-swap')} onGenerationError={makeErrorCallback('body-swap')} />
-        </div>
-        <div className={activeTab === 'cinema' ? "h-full w-full" : "hidden"}>
-          <CinemaStudio apiKey={apiKey} locale={locale} onGenerationStart={makeGenerationStartCallback('cinema')} onGenerationEnd={makeGenerationEndCallback('cinema')} onGenerationComplete={makeSuccessCallback('cinema')} onGenerationError={makeErrorCallback('cinema')} />
-        </div>
-        <div className={activeTab === 'audio' ? "h-full w-full" : "hidden"}>
-          <AudioStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('audio')} onGenerationEnd={makeGenerationEndCallback('audio')} onGenerationComplete={makeSuccessCallback('audio')} onGenerationError={makeErrorCallback('audio')} />
-        </div>
-        <div className={activeTab === 'marketing' ? "h-full w-full" : "hidden"}>
-          <MarketingStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('marketing')} onGenerationEnd={makeGenerationEndCallback('marketing')} onGenerationComplete={makeSuccessCallback('marketing')} onGenerationError={makeErrorCallback('marketing')} />
-        </div>
-        <div className={activeTab === 'workflows' ? "h-full w-full" : "hidden"}>
-          <WorkflowStudio
-            apiKey={apiKey}
-            isHeaderVisible={isHeaderVisible}
-            onToggleHeader={setIsHeaderVisible}
-            onGenerationStart={makeGenerationStartCallback('workflows')}
-            onGenerationEnd={makeGenerationEndCallback('workflows')}
-            onGenerationComplete={makeSuccessCallback('workflows')}
-            onGenerationError={makeErrorCallback('workflows')}
-          />
-        </div>
-        <div className={activeTab === 'agents' ? "h-full w-full" : "hidden"}>
-          <AgentStudio apiKey={apiKey} locale={locale} isHeaderVisible={isHeaderVisible} onToggleHeader={setIsHeaderVisible} />
+        <div className={activeTab === 'apna-gpu' ? "h-full w-full overflow-y-auto custom-scrollbar" : "hidden"}>
+          {activeTab === 'apna-gpu' && <StudioRemoteClient embedded />}
         </div>
         <div className={activeTab === 'design-agent' ? "h-full w-full" : "hidden"}>
           {activeTab === 'design-agent' && (
@@ -1038,19 +1115,29 @@ export default function StandaloneShell({ locale = 'en' }) {
             />
           )}
         </div>
-        <div className={activeTab === 'apps' ? "h-full w-full" : "hidden"}>
-          <AppsStudio apiKey={apiKey} locale={locale} />
-        </div>
-        <div className={activeTab === 'ai-influencer' ? "h-full w-full" : "hidden"}>
-          <AiInfluencerStudio
-            apiKey={apiKey}
-            locale={locale}
-            onGenerationStart={makeGenerationStartCallback('ai-influencer')}
-            onGenerationEnd={makeGenerationEndCallback('ai-influencer')}
-            onGenerationComplete={makeSuccessCallback('ai-influencer')}
-            onGenerationError={makeErrorCallback('ai-influencer')}
-          />
-        </div>
+
+        {/* Sirf ACTIVE studio mount hota hai.
+            Pehle 16 studios ek saath mount the — 1GB phone par 600KB+ JS,
+            laggy scroll aur OOM crash. Ab tab badalne par hi naya mount hota
+            hai, aur pehle wala unmount (memory free). */}
+        {['image', 'layers', 'video', 'audio', 'clipping', 'motion-control', 'vibe-motion', 'lipsync', 'body-swap', 'cinema', 'marketing', 'workflows', 'agents', 'apps', 'ai-influencer'].includes(activeTab) && (() => {
+          const ActiveStudio = LAZY_STUDIOS[activeTab];
+          if (!ActiveStudio) return null;
+          return (
+            <div className="h-full w-full rk-studio-mount" key={activeTab}>
+              <ActiveStudio
+                apiKey={apiKey}
+                locale={locale}
+                droppedFiles={droppedFiles}
+                onFilesHandled={handleFilesHandled}
+                onGenerationStart={makeGenerationStartCallback(activeTab)}
+                onGenerationEnd={makeGenerationEndCallback(activeTab)}
+                onGenerationComplete={makeSuccessCallback(activeTab)}
+                onGenerationError={makeErrorCallback(activeTab)}
+              />
+            </div>
+          );
+        })()}
       </div>
     </div>
 
@@ -1059,7 +1146,7 @@ export default function StandaloneShell({ locale = 'en' }) {
         <div
           aria-live="polite"
           aria-label={copy.notifications.ariaLabel}
-          className="fixed top-16 right-5 z-[200] flex max-h-[calc(100vh-80px)] w-[340px] max-w-[calc(100vw-32px)] flex-col gap-2 overflow-x-hidden overflow-y-auto global-notif-stack pointer-events-none"
+          className="rk-notif-stack fixed top-16 right-2 sm:right-5 z-[200] flex max-h-[calc(100dvh-80px)] w-[340px] max-w-[calc(100vw-16px)] flex-col gap-2 overflow-x-hidden overflow-y-auto global-notif-stack pointer-events-none"
           data-testid="global-notification-stack"
         >
           {activeGenerations.map((generation) => (
@@ -1067,12 +1154,12 @@ export default function StandaloneShell({ locale = 'en' }) {
               key={generation.tabId}
               role="status"
               data-generation-tab={generation.tabId}
-              className="pointer-events-auto flex items-center gap-3 rounded-xl border border-cyan-500/40 bg-white px-3.5 py-3 text-[13px] text-zinc-900 shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+              className="pointer-events-auto flex items-center gap-3 rounded-xl border border-[#ef2b3d]/45 bg-[#121214] px-3.5 py-3 text-[13px] text-zinc-100 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
               data-testid="generation-activity"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-50">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#d4a537]/45 bg-[#d4a537]/10">
                 <span
-                  className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-cyan-600/30 border-t-cyan-600"
+                  className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#d4a537]/30 border-t-[#d4a537]"
                   aria-hidden="true"
                 />
               </span>
@@ -1098,7 +1185,7 @@ export default function StandaloneShell({ locale = 'en' }) {
               <span
                 className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${
                   notif.type === 'success'
-                    ? 'border-cyan-400/40 bg-cyan-50 text-cyan-600'
+                    ? 'border-[#d4a537]/40 bg-[#d4a537]/10 text-[#d4a537]'
                     : 'border-red-400/40 bg-red-50 text-red-600'
                 }`}
               >
@@ -1137,7 +1224,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                   <button
                     type="button"
                     onClick={() => handleOpenNotification(notif)}
-                    className="mt-1.5 text-[11px] font-bold text-cyan-600 transition-colors hover:text-cyan-700"
+                    className="mt-1.5 text-[11px] font-bold text-[#d4a537] transition-colors hover:text-[#f0cd7a]"
                     aria-label={copy.notifications.openResult.replace('{label}', notif.label)}
                   >
                     {copy.notifications.open}

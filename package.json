@@ -116,6 +116,7 @@
     }
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
     "ai-agent": "file:./packages/Open-Poe-AI/packages/agents",
     "axios": "^1.7.0",
     "next": "^15.0.0",
