@@ -1,6 +1,6 @@
 {
   "name": "rk-gem-ai",
-  "description": "RK GEM AI — free, open-source AI chat + media studio. Bring your own model: Ollama, OpenRouter, Groq, Gemini.",
+  "description": "RK GEM AI \u2014 free, open-source AI chat + media studio. Bring your own model: Ollama, OpenRouter, Groq, Gemini.",
   "homepage": "https://github.com/KrishnGupta1/RK-Open-Generative-AI",
   "private": true,
   "version": "2.0.0",
@@ -40,7 +40,7 @@
   "build": {
     "appId": "ai.rkgem.app",
     "productName": "RK GEM AI",
-    "copyright": "Copyright © 2025 RK GEM AI — Krishn Gupta & Riya Gupta",
+    "copyright": "Copyright \u00a9 2025 RK GEM AI \u2014 Krishn Gupta & Riya Gupta",
     "directories": {
       "output": "release"
     },
@@ -120,12 +120,13 @@
     "ai-agent": "file:./packages/Open-Poe-AI/packages/agents",
     "axios": "^1.7.0",
     "next": "^15.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "react-hot-toast": "^2.4.1",
     "studio": "*",
     "workflow-builder": "file:./packages/Vibe-Workflow/packages/workflow-builder",
-    "xtend": "^4.0.2"
+    "xtend": "^4.0.2",
+    "react-konva": "19.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -161,5 +162,10 @@
     "groq",
     "gemini",
     "open source ai studio"
-  ]
+  ],
+  "overrides": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-konva": "19.2.0"
+  }
 }
