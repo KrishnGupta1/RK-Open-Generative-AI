@@ -16,7 +16,7 @@ test('viewport locks to device width (mobile bleed fix)', () => {
 test('css contains the mobile guard rails', () => {
   const css = read('app/globals.css');
   assert.match(css, /overflow-x:\s*hidden/, 'no horizontal-scroll guard');
-  assert.match(css, /img, video, canvas, svg, table/, 'media max-width guard missing');
+  assert.match(css, /img, video, canvas, table/, 'media max-width guard missing');
   assert.match(css, /@media \(max-width: 640px\)/, 'phone breakpoint missing');
   assert.match(css, /rk-gpu-body \{ grid-template-columns: 1fr/, 'GPU body must collapse to one column');
 });

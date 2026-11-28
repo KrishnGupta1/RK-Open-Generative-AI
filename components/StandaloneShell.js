@@ -31,8 +31,10 @@ const LAZY_STUDIOS = {
 function StudioSkeleton() {
   return (
     <div className="h-full w-full flex flex-col items-center justify-center gap-3 bg-[#050506]">
-      <div className="h-7 w-7 rounded-full border-2 border-[#ef2b3d]/25 border-t-[#ef2b3d] animate-spin" />
-      <span className="text-[11px] uppercase tracking-[0.17em] text-white/30">Loading studio</span>
+      <div className="w-40 h-[3px] rounded-full overflow-hidden bg-white/[0.06]">
+        <div className="h-full w-1/2 rounded-full bg-[#ef2b3d] rk-load-slide" />
+      </div>
+      <span className="text-[11px] uppercase tracking-[0.17em] text-white/25">Loading studio</span>
     </div>
   );
 }
@@ -1105,7 +1107,7 @@ export default function StandaloneShell({ locale = 'en' }) {
           const ActiveStudio = LAZY_STUDIOS[activeTab];
           if (!ActiveStudio) return null;
           return (
-            <div className="h-full w-full">
+            <div className="h-full w-full rk-studio-mount" key={activeTab}>
               <ActiveStudio
                 apiKey={apiKey}
                 locale={locale}

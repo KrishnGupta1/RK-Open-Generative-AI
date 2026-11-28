@@ -15,9 +15,10 @@ test('viewport-safe height + no 100vh-only shell', () => {
 });
 
 test('no horizontal bleed: global overflow + min-width rails', () => {
-  assert.match(css, /overflow-x:\s*clip/, 'html/body overflow-x clip missing');
-  assert.match(css, /\*\s*\{\s*min-width:\s*0;/, 'global min-width:0 missing');
-  assert.match(css, /img,\s*video,\s*canvas,\s*svg\s*\{\s*max-width:\s*100%/, 'media max-width rail missing');
+  assert.match(css, /html,\s*body[^{]*\{[^}]*overflow-x:\s*hidden/, 'html/body overflow-x rail missing');
+  // global `* { min-width: 0 }` jaan bujh kar nahi hai — wo boxes collapse karta hai
+  assert.ok(!/(^|\})\s*\*\s*\{\s*min-width:\s*0;/.test(css), 'global min-width:0 is back (collapses boxes)');
+  assert.match(css, /img,\s*video,\s*canvas[^{]*\{\s*max-width:\s*100%/, 'media max-width rail missing');
 });
 
 test('studio panels collapse on phones (no 400px sidebar stuck)', () => {
