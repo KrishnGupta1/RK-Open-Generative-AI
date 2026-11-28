@@ -2,16 +2,12 @@
 
 // RK GEM AI — real studio ka welcome gate.
 //
-// Original studio sabse pehle Muapi API key maangta hai (key ke bina kuch bhi
-// generate nahi hota). Hamare paas free options bhi hain, isliye gate par
-// teen raaste dete hain:
+// Studio ka API gate — teen raaste, teeno kaam karte hain:
 //
-//   1. Apna GPU (free)        → /studio-remote — SDXL + Wan 2.1, ₹0
-//   2. Muapi key (paid API)   → original studio ke 200+ models
-//   3. Bina key ke ghoomo     → studio dekh lo, key baad me daalna
-//
-// Ye gate "kuch nahi chalta" wali feeling khatam karta hai: har raaste par
-// kuch kaam karta hai.
+//   1. Apna GPU (free)     → Studio → "Apna GPU" tab — SDXL + Wan, ₹0
+//   2. Apna API key        → koi bhi provider (OpenAI-compatible endpoint, ya
+//                            custom base URL) — 200+ hosted models
+//   3. Bina key ke ghoomo  → studio khol lo, key baad me
 
 import { useState } from 'react';
 import Link from 'next/link';
@@ -62,8 +58,8 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
 
         <h2 className="text-xl font-bold text-white mt-3">{title || 'Studio kholo'}</h2>
         <p className="text-sm text-white/50 mt-1.5 leading-relaxed">
-          Studio ke 200+ models Muapi API se chalte hain. Free chalana hai? Pehla option use karo —
-          uske liye koi card nahi lagta.
+          Hosted models ke liye apni API key, ya bilkul free ke liye apna GPU —
+          dono chalte hain. Card ki zarurat nahi.
         </p>
 
         {/* ── Option 1: free GPU ─────────────────────────────────────────── */}
@@ -81,10 +77,10 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
           <span className="text-[#ef2b3d] text-sm mt-0.5 group-hover:translate-x-0.5 transition-transform">→</span>
         </Link>
 
-        {/* ── Option 2: Muapi key ────────────────────────────────────────── */}
+        {/* ── Option 2: apni API key ─────────────────────────────────────── */}
         <form onSubmit={handleSubmit} className="mt-4">
           <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-white/40 mb-2">
-            <span>Ya Muapi key daalo</span>
+            <span>Ya apni API key daalo</span>
             <span className="px-1.5 py-0.5 rounded bg-white/5 normal-case tracking-normal text-white/40">
               paid · 200+ models
             </span>
@@ -93,7 +89,7 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
             type="password"
             value={key}
             onChange={(e) => { setKey(e.target.value); setError(''); }}
-            placeholder="muapi_xxxxxxxxxxxxxxxx"
+            placeholder="sk-... / apni key"
             className="w-full rounded-lg bg-white/[0.04] border border-white/10 focus:border-[#ef2b3d]/60 outline-none px-3.5 py-2.5 text-sm text-white placeholder:text-white/25"
           />
           {error && <p className="text-[11.5px] text-red-400 mt-1.5">{error}</p>}
@@ -104,16 +100,12 @@ export default function ApiKeyModal({ onSave, onClose, overlay = false, title, s
             Key se kholo
           </button>
           <p className="text-[10.5px] text-white/30 mt-2 leading-relaxed">
-            Key sirf aapke browser me rehti hai (cookie), humare server par nahi jaati.{' '}
-            <a
-              href="https://muapi.ai"
-              target="_blank"
-              rel="noreferrer"
-              className="text-[#ef2b3d]/70 hover:text-[#ef2b3d] underline underline-offset-2"
-            >
-              muapi.ai
-            </a>{' '}
-            se key milti hai.
+            Key sirf aapke browser me rehti hai (localStorage + cookie) — humare server par
+            store nahi hoti. Provider yahan badal sakte ho:{' '}
+            <a href="/settings" className="text-[#ef2b3d]/80 hover:text-[#ef2b3d] underline underline-offset-2">
+              Settings
+            </a>
+            .
           </p>
         </form>
 

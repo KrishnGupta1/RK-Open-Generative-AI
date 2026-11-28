@@ -722,8 +722,7 @@ export default function StandaloneShell({ locale = 'en' }) {
   );
 
   // Studio kabhi bhi API key ki deewar par nahi rukta.
-  // Key ho to Muapi ke 200+ models, na ho to sirf "key chahiye" wale models
-  // par halka notice — tabs, templates sab khulte rahenge.
+  // Key ho to hosted 200+ models, na ho to free GPU — tabs sab khulte rahenge.
   const keyless = !apiKey;
 
   return (
@@ -753,7 +752,7 @@ export default function StandaloneShell({ locale = 'en' }) {
             Free mode
           </span>
           <span className="text-white/55">
-            Studio khula hai. Muapi models ke liye apni key daalo — ya{' '}
+            Studio khula hai. Hosted models ke liye apni API key — ya{' '}
             <a href="/studio-remote" className="text-[#f0cd7a] underline underline-offset-2 hover:text-white">
               Apna GPU (₹0)
             </a>{' '}
@@ -771,7 +770,7 @@ export default function StandaloneShell({ locale = 'en' }) {
               type="button"
               onClick={handleKeyChange}
               className="text-white/40 hover:text-white/70"
-              title="Muapi key daalne ke liye"
+              title="API key daalne ke liye"
             >
               later
             </button>

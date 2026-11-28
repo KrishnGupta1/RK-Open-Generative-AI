@@ -9,6 +9,13 @@ export const metadata = {
   applicationName: 'RK GEM AI',
   authors: [{ name: 'Krishn Gupta' }, { name: 'Riya Gupta' }],
   keywords: ['RK GEM AI', 'free ai chat', 'openrouter free models', 'ollama', 'groq', 'gemini', 'ai studio'],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  },
   openGraph: {
     title: 'RK GEM AI — Free AI Chat & Studio',
     description: 'Free models, your own provider, zero subscription. Built by Krishn Gupta & Riya Gupta.',

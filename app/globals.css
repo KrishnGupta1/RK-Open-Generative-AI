@@ -1357,3 +1357,13 @@ img { content-visibility: auto; }
   .rk-mm-custom-head { grid-template-columns: auto auto; }
   .rk-mm-custom-head small { grid-column: 1 / -1; }
 }
+
+/* ---- "Aapke GPU ke liye best" strip ---- */
+.rk-mm-pick { margin: 14px 0 6px; padding: 13px 14px; border-radius: 12px; border: 1px solid rgba(212,165,55,.42); background: linear-gradient(100deg, rgba(239,43,61,.10), rgba(212,165,55,.10)); }
+.rk-mm-pick b { display: block; font-size: 13px; }
+.rk-mm-pick small { display: block; font-size: 10.5px; color: var(--rk-dim); margin-top: 2px; }
+.rk-mm-pick-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.rk-mm-pick-btn { flex: 1 1 180px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 12px; border-radius: 9px; border: 1px solid rgba(212,165,55,.35); background: rgba(0,0,0,.28); color: var(--rk-text); font-size: 12px; cursor: pointer; }
+.rk-mm-pick-btn:hover { border-color: var(--rk-gold); }
+.rk-mm-pick-btn span { font-size: 10.5px; color: var(--rk-gold-soft); text-transform: uppercase; letter-spacing: .04em; }
+@media (max-width: 640px) { .rk-mm-pick-btn { flex: 1 1 100%; } }
