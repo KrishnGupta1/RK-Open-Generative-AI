@@ -1522,3 +1522,22 @@ pre, code, textarea, input, select { max-width: 100%; }
   .rk-tpl-actions { flex-direction: column; }
   .rk-tpl-actions .rk-primary, .rk-tpl-actions .rk-mm-btn { width: 100%; min-height: 40px; }
 }
+
+/* ---- Templates: connect field + copy buttons ---- */
+.rk-tpl-connect { margin: 0 0 14px; padding: 12px 13px; border-radius: 12px; border: 1px dashed rgba(212,165,55,.4); background: rgba(212,165,55,.05); display: grid; gap: 8px; }
+.rk-tpl-connect label { font-size: 11px; color: var(--rk-dim); font-weight: 600; }
+.rk-tpl-connect-row { display: flex; gap: 8px; }
+.rk-tpl-connect-row input { flex: 1; min-width: 0; padding: 9px 11px; border-radius: 8px; border: 1px solid var(--rk-line-strong); background: rgba(0,0,0,.4); color: var(--rk-text); font-size: 13px; }
+.rk-tpl-connect-row .rk-primary { flex: 0 0 auto; padding: 9px 16px; border-radius: 8px; }
+.rk-tpl-connect small { font-size: 10.5px; color: var(--rk-dim); }
+.rk-tpl-connect small a { color: var(--rk-gold-soft); }
+
+.rk-tpl-editor-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.rk-tpl-editor-actions .rk-mm-btn { flex: 1 1 auto; font-size: 10.5px; }
+.rk-tpl-result-bar { display: grid; grid-template-columns: 1fr 1fr; }
+.rk-tpl-result-bar a, .rk-tpl-result-bar button { font-size: 11px; padding: 8px; text-align: center; border: 0; cursor: pointer; background: rgba(212,165,55,.08); color: var(--rk-gold-soft); text-decoration: none; }
+.rk-tpl-result-bar button { background: rgba(255,255,255,.05); color: var(--rk-text); }
+@media (max-width: 480px) {
+  .rk-tpl-connect-row { flex-direction: column; }
+  .rk-tpl-connect-row input, .rk-tpl-connect-row .rk-primary { width: 100%; min-height: 40px; }
+}

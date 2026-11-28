@@ -26,6 +26,26 @@ export default function TemplatesClient() {
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState({});
   const [error, setError] = useState('');
+  const [copied, setCopied] = useState('');
+  const [endpointDraft, setEndpointDraft] = useState('');
+
+  const copyText = useCallback(async (text, key) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // purane browsers / non-https fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setCopied(key);
+    setTimeout(() => setCopied(''), 1600);
+  }, []);
 
   useEffect(() => {
     const ep = readEndpoint();
@@ -133,6 +153,48 @@ export default function TemplatesClient() {
         <Link href="/studio/apna-gpu" className="rk-gpu-status-act">{online ? 'Manage' : 'Connect'}</Link>
       </div>
 
+      {!online && (
+        <div className="rk-tpl-connect">
+          <label>GPU ka URL (Kaggle cell ke aakhir me milta hai)</label>
+          <div className="rk-tpl-connect-row">
+            <input
+              value={endpointDraft}
+              onChange={(e) => setEndpointDraft(e.target.value)}
+              placeholder="https://xxxx.trycloudflare.com"
+              inputMode="url"
+              autoCapitalize="off"
+              autoCorrect="off"
+            />
+            <button
+              className="rk-primary"
+              onClick={() => {
+                const url = endpointDraft.trim().replace(/\/+$/, '');
+                if (!url) return;
+                setEndpoint(url);
+                try {
+                  const raw = JSON.parse(localStorage.getItem(STORE) || '{}');
+                  localStorage.setItem(STORE, JSON.stringify({ ...raw, endpoint: url }));
+                } catch { /* ignore */ }
+                setGpu({ state: 'idle', text: 'check ho raha…', devices: [] });
+                fetch('/api/rk/comfy/ping?endpoint=' + encodeURIComponent(url))
+                  .then((r) => r.json())
+                  .then((j) => {
+                    if (j.ok) setGpu({ state: 'ok', text: `${(j.devices || []).join(', ') || 'GPU'} · ${j.vram?.totalGB || '?'} GB`, devices: [] });
+                    else setGpu({ state: 'err', text: j.error || 'connect nahi hua', devices: [] });
+                  })
+                  .catch(() => setGpu({ state: 'err', text: 'connect nahi hua', devices: [] }));
+              }}
+            >
+              Jodo
+            </button>
+          </div>
+          <small>
+            Kaggle cell kahan se milega?{' '}
+            <a href="/local">Local page</a> par poora code hai — copy karke Kaggle me chalao.
+          </small>
+        </div>
+      )}
+
       <div className="rk-tpl-tabs">
         {[['all', 'Sab'], ['image', '🖼️ Image'], ['video', '🎬 Video']].map(([id, label]) => (
           <button key={id} className={kind === id ? 'is-active' : ''} onClick={() => setKind(id)}>{label}</button>
@@ -161,7 +223,12 @@ export default function TemplatesClient() {
                   ) : (
                     <img src={result.url} alt={tpl.title} />
                   )}
-                  <a href={result.url} download={`rk-${tpl.id}`}>⬇ Download</a>
+                  <div className="rk-tpl-result-bar">
+                    <a href={result.url} download={`rk-${tpl.id}`}>⬇ Download</a>
+                    <button onClick={() => copyText(window.location.origin + result.url, tpl.id + '-url')}>
+                      {copied === tpl.id + '-url' ? '✓ Copied' : '⧉ Copy link'}
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -173,7 +240,14 @@ export default function TemplatesClient() {
               )}
 
               <div className="rk-tpl-actions">
-                <button className="rk-mm-btn" onClick={() => openTemplate(tpl)}>Edit prompt</button>
+                <button
+                  className="rk-mm-btn"
+                  onClick={() => copyText(prompt && openId === tpl.id ? prompt : tpl.params.prompt, tpl.id)}
+                  title="Prompt copy karo"
+                >
+                  {copied === tpl.id ? '✓ Copied' : '⧉ Copy'}
+                </button>
+                <button className="rk-mm-btn" onClick={() => openTemplate(tpl)}>Edit</button>
                 <button className="rk-primary" onClick={() => run(tpl)} disabled={isBusy || !online}>
                   {isBusy ? 'Ban raha…' : result ? 'Phir banao' : '▶ Banao'}
                 </button>
@@ -193,7 +267,13 @@ export default function TemplatesClient() {
                     <span>{tpl.params.steps} steps</span>
                     {tpl.params.frames && <span>{tpl.params.frames} frames</span>}
                   </div>
-                  <button className="rk-btn-ghost" onClick={() => setOpenId(null)}>Band karo</button>
+                  <div className="rk-tpl-editor-actions">
+                    <button className="rk-mm-btn" onClick={() => copyText(prompt, tpl.id + '-ed')}>
+                      {copied === tpl.id + '-ed' ? '✓ Copied' : '⧉ Copy prompt'}
+                    </button>
+                    <button className="rk-mm-btn" onClick={() => setPrompt(tpl.params.prompt)}>↺ Reset</button>
+                    <button className="rk-btn-ghost" onClick={() => setOpenId(null)}>Band</button>
+                  </div>
                 </div>
               )}
             </article>
