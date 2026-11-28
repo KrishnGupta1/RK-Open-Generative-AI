@@ -28,10 +28,14 @@ export async function GET(req) {
       }
     } catch {}
 
+    const devs = stats?.devices || [];
+    const vramGB = devs.reduce((sum, d) => sum + (Number(d.vram_total) || 0), 0) / 1024 ** 3;
+
     return NextResponse.json({
       ok: true,
       version: stats?.system?.comfyui_version || stats?.system?.python_version || 'online',
-      devices: (stats?.devices || []).map((d) => d.name),
+      devices: devs.map((d) => d.name),
+      vram: { totalGB: Math.round(vramGB * 10) / 10 },
       checkpoints,
     });
   } catch (err) {

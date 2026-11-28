@@ -727,7 +727,7 @@ export default function StandaloneShell({ locale = 'en' }) {
 
   return (
     <div 
-      className="h-screen bg-[#030303] flex flex-col overflow-hidden text-white relative"
+      className="rk-shell h-[100svh] bg-[#030303] flex flex-col overflow-hidden text-white relative"
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
@@ -821,9 +821,9 @@ export default function StandaloneShell({ locale = 'en' }) {
 
       {/* Header */}
       {isHeaderVisible && (
-        <header className="flex-shrink-0 h-14 border-b border-white/[0.05] flex items-center justify-between px-4 bg-[#0a0a0b]/80 backdrop-blur-md z-50 gap-4">
+        <header className="rk-shell-header flex-shrink-0 h-14 border-b border-white/[0.05] flex items-center justify-between px-2 sm:px-4 bg-[#0a0a0b]/80 backdrop-blur-md z-50 gap-2 sm:gap-4 min-w-0">
           {/* Left: Mobile menu toggle + Logo + Desktop Sidebar Toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
             {/* Mobile drawer toggle */}
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
@@ -866,11 +866,11 @@ export default function StandaloneShell({ locale = 'en' }) {
 
             {/* Logo & Title */}
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-[#ef2b3d]/20 text-[10px] font-black tracking-tight text-black"
-                   style={{ background: 'linear-gradient(135deg,#ef2b3d,#818cf8 55%,#c084fc)' }}>
+              <div className="rk-logo-mark w-8 h-8 shrink-0 rounded-lg flex items-center justify-center shadow-lg shadow-[#ef2b3d]/20 text-[10px] font-black tracking-tight text-black"
+                   style={{ background: 'linear-gradient(135deg,#ff4b5c,#ef2b3d 45%,#d4a537)' }}>
                 RK
               </div>
-              <span className="text-sm font-bold tracking-tight hidden sm:block text-white">
+              <span className="text-sm font-bold tracking-tight hidden sm:block text-white truncate max-w-[8rem]">
                 {copy.shell.brand}
               </span>
             </div>
@@ -885,7 +885,7 @@ export default function StandaloneShell({ locale = 'en' }) {
           </div>
 
           {/* Right: Actions */}
-          <div className="flex-shrink-0 flex items-center gap-3">
+          <div className="flex-shrink-0 flex items-center gap-1.5 sm:gap-3 min-w-0">
             <a
               href="/chat"
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-[12px] font-medium text-white/70 hover:text-[#ef2b3d] hover:border-[#ef2b3d]/40 transition-colors"
@@ -901,7 +901,7 @@ export default function StandaloneShell({ locale = 'en' }) {
               💻 Local
             </a>
             <ThemeToggle />
-            <div className="flex items-center gap-2.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/5 transition-colors">
+            <div className="rk-balance-pill flex items-center gap-2.5 bg-white/5 px-2 sm:px-3 py-1.5 rounded-full border border-white/5 transition-colors">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span className="text-xs font-bold text-white/90">
                 ${balance !== null ? `${balance}` : '---'}
@@ -910,7 +910,7 @@ export default function StandaloneShell({ locale = 'en' }) {
 
             <button
               onClick={() => setShowSettings(true)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/10 bg-white/5 text-[13px] font-bold text-white/80 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors"
+              className="rk-settings-btn flex items-center gap-2 px-2 sm:px-3 py-1.5 rounded-md border border-white/10 bg-white/5 text-[13px] font-bold text-white/80 hover:text-white hover:bg-white/10 hover:border-white/20 transition-colors shrink-0"
               aria-label={copy.shell.settings}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -1127,7 +1127,7 @@ export default function StandaloneShell({ locale = 'en' }) {
         <div
           aria-live="polite"
           aria-label={copy.notifications.ariaLabel}
-          className="fixed top-16 right-5 z-[200] flex max-h-[calc(100vh-80px)] w-[340px] max-w-[calc(100vw-32px)] flex-col gap-2 overflow-x-hidden overflow-y-auto global-notif-stack pointer-events-none"
+          className="rk-notif-stack fixed top-16 right-2 sm:right-5 z-[200] flex max-h-[calc(100dvh-80px)] w-[340px] max-w-[calc(100vw-16px)] flex-col gap-2 overflow-x-hidden overflow-y-auto global-notif-stack pointer-events-none"
           data-testid="global-notification-stack"
         >
           {activeGenerations.map((generation) => (
@@ -1135,12 +1135,12 @@ export default function StandaloneShell({ locale = 'en' }) {
               key={generation.tabId}
               role="status"
               data-generation-tab={generation.tabId}
-              className="pointer-events-auto flex items-center gap-3 rounded-xl border border-cyan-500/40 bg-white px-3.5 py-3 text-[13px] text-zinc-900 shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+              className="pointer-events-auto flex items-center gap-3 rounded-xl border border-[#ef2b3d]/45 bg-[#121214] px-3.5 py-3 text-[13px] text-zinc-100 shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
               data-testid="generation-activity"
             >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-cyan-400/40 bg-cyan-50">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[#d4a537]/45 bg-[#d4a537]/10">
                 <span
-                  className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-cyan-600/30 border-t-cyan-600"
+                  className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-[#d4a537]/30 border-t-[#d4a537]"
                   aria-hidden="true"
                 />
               </span>
@@ -1166,7 +1166,7 @@ export default function StandaloneShell({ locale = 'en' }) {
               <span
                 className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${
                   notif.type === 'success'
-                    ? 'border-cyan-400/40 bg-cyan-50 text-cyan-600'
+                    ? 'border-[#d4a537]/40 bg-[#d4a537]/10 text-[#d4a537]'
                     : 'border-red-400/40 bg-red-50 text-red-600'
                 }`}
               >
@@ -1205,7 +1205,7 @@ export default function StandaloneShell({ locale = 'en' }) {
                   <button
                     type="button"
                     onClick={() => handleOpenNotification(notif)}
-                    className="mt-1.5 text-[11px] font-bold text-cyan-600 transition-colors hover:text-cyan-700"
+                    className="mt-1.5 text-[11px] font-bold text-[#d4a537] transition-colors hover:text-[#f0cd7a]"
                     aria-label={copy.notifications.openResult.replace('{label}', notif.label)}
                   >
                     {copy.notifications.open}
