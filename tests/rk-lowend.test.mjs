@@ -22,9 +22,11 @@ test('only the active studio is mounted (16-at-once was the OOM cause)', () => {
 
 test('phone css drops expensive paint work', () => {
   const css = read('app/globals.css');
-  assert.match(css, /backdrop-filter: none !important/, 'blur must be disabled on phones');
   assert.match(css, /prefers-reduced-motion/, 'reduced-motion support missing');
-  assert.match(css, /grid-cols-2[\s\S]{0,80}1fr !important/, 'multi-column grids should collapse');
+  // Glass panels par blur band, par chhoti blur chalti rahe (blank look na aaye)
+  assert.match(css, /\.glass-panel \{ backdrop-filter: none !important/, 'glass blur must be off on phones');
+  // Grids ko forcibly 1-column karna layout todta tha — ab nahi
+  assert.ok(!/grid-cols-2[\s\S]{0,80}1fr !important/.test(css), 'forced 1-column grids are back (breaks layout)');
 });
 
 test('catalog is bigger and every URL is https huggingface', async () => {
