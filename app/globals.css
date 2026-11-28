@@ -1304,3 +1304,56 @@ pre, code { white-space: pre-wrap; overflow-wrap: break-word; }
   .rk-gpu-log pre { font-size: 10px; }
   .rk-input, .rk-textarea { font-size: 16px; } /* iOS zoom-on-focus se bachne ke liye */
 }
+
+/* ============================================================================
+   Low-end phone pass (1 GB RAM / 2-3G) — motion aur paint cost kam karo.
+   16 studios ek saath mount hone ki samasya StandaloneShell me fix ho chuki
+   hai (sirf active studio mount hota hai). Ye CSS uska support karta hai.
+   ============================================================================ */
+@media (max-width: 640px) {
+  /* 1. Backdrop blur sabse mehnga paint hai — phone par band */
+  .glass-panel,
+  [class*="backdrop-blur"] { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+
+  /* 2. Badi shadows phone GPU par slow — halki karo */
+  [class*="shadow-2xl"], [class*="shadow-\\[0_0"] { box-shadow: 0 4px 16px rgba(0,0,0,.35) !important; }
+
+  /* 3. Non-essential animation off, spinner chalu rahe */
+  .animate-fade-in-up, .animate-pulse, [class*="animate-bounce"] { animation: none !important; }
+  .rk-spinner, .animate-spin { animation-duration: 1.1s !important; }
+
+  /* 4. Smooth scroll rum: auto karo (momentum scroll jank kam) */
+  [class*="overflow-y-auto"], [class*="overflow-x-auto"] { -webkit-overflow-scrolling: touch; }
+
+  /* 5. Touch targets >= 40px, aur text select na ho (tap misfire kam) */
+  button, a[role="button"] { min-height: 36px; }
+  .rk-gpu-tabs button { min-height: 34px; }
+
+  /* 6. Grid/list virtual comfort: bahut lambi lists 1 column */
+  [class*="grid-cols-2"], [class*="grid-cols-3"], [class*="grid-cols-4"] { grid-template-columns: 1fr !important; }
+}
+
+/* 7. Reduced motion preference ka samman (accessibility + battery) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* 8. Slow network: cheezein turant dikhein, image lazy */
+img { content-visibility: auto; }
+
+/* ---- Model manager: apna link se download ---- */
+.rk-mm-custom { margin: 14px 0 4px; border: 1px solid var(--rk-line-strong); border-radius: 12px; background: rgba(212,165,55,.05); overflow: hidden; }
+.rk-mm-custom-head { width: 100%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; padding: 11px 14px; background: none; border: 0; cursor: pointer; text-align: left; color: var(--rk-text); }
+.rk-mm-custom-head > span:first-child { font-size: 12.5px; font-weight: 600; }
+.rk-mm-custom-head small { font-size: 10.5px; color: var(--rk-dim); line-height: 1.4; }
+.rk-mm-caret { color: var(--rk-gold); font-size: 15px; }
+.rk-mm-custom-body { padding: 0 14px 14px; display: grid; gap: 9px; }
+.rk-mm-custom-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.rk-mm-custom-row select { max-width: 100%; }
+.rk-mm-custom-hint { font-size: 10.5px; color: var(--rk-dim); line-height: 1.6; margin: 0; }
+.rk-mm-custom-hint code { background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 4px; }
+@media (max-width: 640px) {
+  .rk-mm-custom-row { grid-template-columns: 1fr; }
+  .rk-mm-custom-head { grid-template-columns: auto auto; }
+  .rk-mm-custom-head small { grid-column: 1 / -1; }
+}

@@ -3,12 +3,39 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { ImageStudio, VideoStudio, ClippingStudio, MotionControlStudio, VibeMotionStudio, LipSyncStudio, RecastStudio, CinemaStudio, AudioStudio, MarketingStudio, WorkflowStudio, AgentStudio, AppsStudio, AiInfluencerStudio, LayersStudio, getUserBalance } from 'studio';
+import { getUserBalance } from 'studio';
 
 const StudioRemoteClient = dynamic(() => import('@/components/StudioRemoteClient'), {
   ssr: false,
   loading: () => <div className="h-full w-full bg-[#050506] flex items-center justify-center text-[#d4a537]/60 text-sm">Apna GPU load ho raha…</div>
 });
+
+const LAZY_STUDIOS = {
+  image: dynamic(() => import('studio').then((m) => m.ImageStudio), { ssr: false, loading: StudioSkeleton }),
+  layers: dynamic(() => import('studio').then((m) => m.LayersStudio), { ssr: false, loading: StudioSkeleton }),
+  video: dynamic(() => import('studio').then((m) => m.VideoStudio), { ssr: false, loading: StudioSkeleton }),
+  audio: dynamic(() => import('studio').then((m) => m.AudioStudio), { ssr: false, loading: StudioSkeleton }),
+  clipping: dynamic(() => import('studio').then((m) => m.ClippingStudio), { ssr: false, loading: StudioSkeleton }),
+  'motion-control': dynamic(() => import('studio').then((m) => m.MotionControlStudio), { ssr: false, loading: StudioSkeleton }),
+  'vibe-motion': dynamic(() => import('studio').then((m) => m.VibeMotionStudio), { ssr: false, loading: StudioSkeleton }),
+  lipsync: dynamic(() => import('studio').then((m) => m.LipSyncStudio), { ssr: false, loading: StudioSkeleton }),
+  'body-swap': dynamic(() => import('studio').then((m) => m.RecastStudio), { ssr: false, loading: StudioSkeleton }),
+  cinema: dynamic(() => import('studio').then((m) => m.CinemaStudio), { ssr: false, loading: StudioSkeleton }),
+  marketing: dynamic(() => import('studio').then((m) => m.MarketingStudio), { ssr: false, loading: StudioSkeleton }),
+  workflows: dynamic(() => import('studio').then((m) => m.WorkflowStudio), { ssr: false, loading: StudioSkeleton }),
+  agents: dynamic(() => import('studio').then((m) => m.AgentStudio), { ssr: false, loading: StudioSkeleton }),
+  apps: dynamic(() => import('studio').then((m) => m.AppsStudio), { ssr: false, loading: StudioSkeleton }),
+  'ai-influencer': dynamic(() => import('studio').then((m) => m.AiInfluencerStudio), { ssr: false, loading: StudioSkeleton }),
+};
+
+function StudioSkeleton() {
+  return (
+    <div className="h-full w-full flex flex-col items-center justify-center gap-3 bg-[#050506]">
+      <div className="h-7 w-7 rounded-full border-2 border-[#ef2b3d]/25 border-t-[#ef2b3d] animate-spin" />
+      <span className="text-[11px] uppercase tracking-[0.17em] text-white/30">Loading studio</span>
+    </div>
+  );
+}
 
 const DesignAgentStudio = dynamic(() => import('studio').then(mod => mod.DesignAgentStudio), {
   ssr: false,
@@ -1055,54 +1082,7 @@ export default function StandaloneShell({ locale = 'en' }) {
         {/* Studio Content */}
         <div className="flex-1 min-h-0 h-full relative overflow-hidden bg-[#030303]">
         <div className={activeTab === 'apna-gpu' ? "h-full w-full overflow-y-auto custom-scrollbar" : "hidden"}>
-          <StudioRemoteClient embedded />
-        </div>
-        <div className={activeTab === 'image' ? "h-full w-full" : "hidden"}>
-          <ImageStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('image')} onGenerationEnd={makeGenerationEndCallback('image')} onGenerationComplete={makeSuccessCallback('image')} onGenerationError={makeErrorCallback('image')} />
-        </div>
-        <div className={activeTab === 'layers' ? "h-full w-full" : "hidden"}>
-          <LayersStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('layers')} onGenerationEnd={makeGenerationEndCallback('layers')} onGenerationComplete={makeSuccessCallback('layers')} onGenerationError={makeErrorCallback('layers')} />
-        </div>
-        <div className={activeTab === 'video' ? "h-full w-full" : "hidden"}>
-          <VideoStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('video')} onGenerationEnd={makeGenerationEndCallback('video')} onGenerationComplete={makeSuccessCallback('video')} onGenerationError={makeErrorCallback('video')} />
-        </div>
-        <div className={activeTab === 'clipping' ? "h-full w-full" : "hidden"}>
-          <ClippingStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('clipping')} onGenerationEnd={makeGenerationEndCallback('clipping')} onGenerationComplete={makeSuccessCallback('clipping')} onGenerationError={makeErrorCallback('clipping')} />
-        </div>
-        <div className={activeTab === 'motion-control' ? "h-full w-full" : "hidden"}>
-          <MotionControlStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('motion-control')} onGenerationEnd={makeGenerationEndCallback('motion-control')} onGenerationComplete={makeSuccessCallback('motion-control')} onGenerationError={makeErrorCallback('motion-control')} />
-        </div>
-        <div className={activeTab === 'vibe-motion' ? "h-full w-full" : "hidden"}>
-          <VibeMotionStudio apiKey={apiKey} locale={locale} onGenerationStart={makeGenerationStartCallback('vibe-motion')} onGenerationEnd={makeGenerationEndCallback('vibe-motion')} onGenerationComplete={makeSuccessCallback('vibe-motion')} onGenerationError={makeErrorCallback('vibe-motion')} />
-        </div>
-        <div className={activeTab === 'lipsync' ? "h-full w-full" : "hidden"}>
-          <LipSyncStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('lipsync')} onGenerationEnd={makeGenerationEndCallback('lipsync')} onGenerationComplete={makeSuccessCallback('lipsync')} onGenerationError={makeErrorCallback('lipsync')} />
-        </div>
-        <div className={activeTab === 'body-swap' ? "h-full w-full" : "hidden"}>
-          <RecastStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('body-swap')} onGenerationEnd={makeGenerationEndCallback('body-swap')} onGenerationComplete={makeSuccessCallback('body-swap')} onGenerationError={makeErrorCallback('body-swap')} />
-        </div>
-        <div className={activeTab === 'cinema' ? "h-full w-full" : "hidden"}>
-          <CinemaStudio apiKey={apiKey} locale={locale} onGenerationStart={makeGenerationStartCallback('cinema')} onGenerationEnd={makeGenerationEndCallback('cinema')} onGenerationComplete={makeSuccessCallback('cinema')} onGenerationError={makeErrorCallback('cinema')} />
-        </div>
-        <div className={activeTab === 'audio' ? "h-full w-full" : "hidden"}>
-          <AudioStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('audio')} onGenerationEnd={makeGenerationEndCallback('audio')} onGenerationComplete={makeSuccessCallback('audio')} onGenerationError={makeErrorCallback('audio')} />
-        </div>
-        <div className={activeTab === 'marketing' ? "h-full w-full" : "hidden"}>
-          <MarketingStudio apiKey={apiKey} locale={locale} droppedFiles={droppedFiles} onFilesHandled={handleFilesHandled} onGenerationStart={makeGenerationStartCallback('marketing')} onGenerationEnd={makeGenerationEndCallback('marketing')} onGenerationComplete={makeSuccessCallback('marketing')} onGenerationError={makeErrorCallback('marketing')} />
-        </div>
-        <div className={activeTab === 'workflows' ? "h-full w-full" : "hidden"}>
-          <WorkflowStudio
-            apiKey={apiKey}
-            isHeaderVisible={isHeaderVisible}
-            onToggleHeader={setIsHeaderVisible}
-            onGenerationStart={makeGenerationStartCallback('workflows')}
-            onGenerationEnd={makeGenerationEndCallback('workflows')}
-            onGenerationComplete={makeSuccessCallback('workflows')}
-            onGenerationError={makeErrorCallback('workflows')}
-          />
-        </div>
-        <div className={activeTab === 'agents' ? "h-full w-full" : "hidden"}>
-          <AgentStudio apiKey={apiKey} locale={locale} isHeaderVisible={isHeaderVisible} onToggleHeader={setIsHeaderVisible} />
+          {activeTab === 'apna-gpu' && <StudioRemoteClient embedded />}
         </div>
         <div className={activeTab === 'design-agent' ? "h-full w-full" : "hidden"}>
           {activeTab === 'design-agent' && (
@@ -1117,19 +1097,29 @@ export default function StandaloneShell({ locale = 'en' }) {
             />
           )}
         </div>
-        <div className={activeTab === 'apps' ? "h-full w-full" : "hidden"}>
-          <AppsStudio apiKey={apiKey} locale={locale} />
-        </div>
-        <div className={activeTab === 'ai-influencer' ? "h-full w-full" : "hidden"}>
-          <AiInfluencerStudio
-            apiKey={apiKey}
-            locale={locale}
-            onGenerationStart={makeGenerationStartCallback('ai-influencer')}
-            onGenerationEnd={makeGenerationEndCallback('ai-influencer')}
-            onGenerationComplete={makeSuccessCallback('ai-influencer')}
-            onGenerationError={makeErrorCallback('ai-influencer')}
-          />
-        </div>
+
+        {/* Sirf ACTIVE studio mount hota hai.
+            Pehle 16 studios ek saath mount the — 1GB phone par 600KB+ JS,
+            laggy scroll aur OOM crash. Ab tab badalne par hi naya mount hota
+            hai, aur pehle wala unmount (memory free). */}
+        {['image', 'layers', 'video', 'audio', 'clipping', 'motion-control', 'vibe-motion', 'lipsync', 'body-swap', 'cinema', 'marketing', 'workflows', 'agents', 'apps', 'ai-influencer'].includes(activeTab) && (() => {
+          const ActiveStudio = LAZY_STUDIOS[activeTab];
+          if (!ActiveStudio) return null;
+          return (
+            <div className="h-full w-full">
+              <ActiveStudio
+                apiKey={apiKey}
+                locale={locale}
+                droppedFiles={droppedFiles}
+                onFilesHandled={handleFilesHandled}
+                onGenerationStart={makeGenerationStartCallback(activeTab)}
+                onGenerationEnd={makeGenerationEndCallback(activeTab)}
+                onGenerationComplete={makeSuccessCallback(activeTab)}
+                onGenerationError={makeErrorCallback(activeTab)}
+              />
+            </div>
+          );
+        })()}
       </div>
     </div>
 

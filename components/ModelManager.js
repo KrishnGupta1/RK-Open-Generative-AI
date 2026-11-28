@@ -23,6 +23,9 @@ export default function ModelManager({ endpoint, onUse }) {
   const [jobs, setJobs] = useState({}); // id → {percent, state, speedMBs, error}
   const [confirmId, setConfirmId] = useState(null);
   const [error, setError] = useState(null);
+  const [customUrl, setCustomUrl] = useState('');
+  const [customFolder, setCustomFolder] = useState('checkpoints');
+  const [showCustom, setShowCustom] = useState(false);
   const timers = useRef({});
 
   const load = useCallback(async () => {
@@ -101,6 +104,27 @@ export default function ModelManager({ endpoint, onUse }) {
     }
   };
 
+  const downloadCustom = async () => {
+    setError(null);
+    const id = 'custom:' + (customUrl.split('/').pop() || 'file');
+    setJobs((j) => ({ ...j, [id]: { state: 'starting', percent: 0 } }));
+    try {
+      const res = await fetch('/api/rk/comfy/models/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ endpoint, custom: { url: customUrl.trim(), folder: customFolder } }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'download fail');
+      setJobs((j) => ({ ...j, [id]: { state: 'downloading', percent: 0 } }));
+      pollJob(id, json.jobId);
+      setCustomUrl('');
+    } catch (err) {
+      setJobs((j) => ({ ...j, [id]: { state: 'error', error: err.message } }));
+      setError(err.message);
+    }
+  };
+
   const remove = async (model) => {
     setConfirmId(null);
     setError(null);
@@ -146,6 +170,46 @@ export default function ModelManager({ endpoint, onUse }) {
       )}
 
       {!agent && warning && <p className="rk-mm-warn">⚠️ {warning}</p>}
+
+      {/* Apna link — jahan se bhi, jo bhi model */}
+      <div className="rk-mm-custom">
+        <button className="rk-mm-custom-head" onClick={() => setShowCustom((v) => !v)} type="button">
+          <span>🔗 Apna link se download karo</span>
+          <small>HuggingFace / Civitai / koi bhi https .safetensors · .gguf · .ckpt</small>
+          <span className="rk-mm-caret">{showCustom ? '−' : '+'}</span>
+        </button>
+        {showCustom && (
+          <div className="rk-mm-custom-body">
+            <input
+              className="rk-input"
+              value={customUrl}
+              onChange={(e) => setCustomUrl(e.target.value)}
+              placeholder="https://huggingface.co/…/model.safetensors"
+              inputMode="url"
+              autoCapitalize="off"
+              autoCorrect="off"
+              spellCheck={false}
+            />
+            <div className="rk-mm-custom-row">
+              <select className="rk-input" value={customFolder} onChange={(e) => setCustomFolder(e.target.value)}>
+                <option value="checkpoints">checkpoints (SDXL / SD1.5)</option>
+                <option value="diffusion_models">diffusion_models (FLUX / Wan)</option>
+                <option value="vae">vae</option>
+                <option value="text_encoders">text_encoders</option>
+                <option value="loras">loras</option>
+                <option value="clip_vision">clip_vision</option>
+              </select>
+              <button className="rk-primary rk-mm-btn" onClick={downloadCustom} disabled={!customUrl.trim()}>
+                ⬇ Download
+              </button>
+            </div>
+            <p className="rk-mm-custom-hint">
+              File seedha GPU ke <code>models/{customFolder}/</code> me jaati hai. Gated/private models
+              (login wale) is se nahi utrenge — unke liye HF token chahiye.
+            </p>
+          </div>
+        )}
+      </div>
       {error && <p className="rk-mm-warn">✗ {error}</p>}
 
       {grouped.map(

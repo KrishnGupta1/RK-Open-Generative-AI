@@ -28,13 +28,16 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
   }
   const endpoint = normaliseEndpoint(body && body.endpoint);
-  const model = validateModelId(body && body.id);
   if (!endpoint) return NextResponse.json({ error: 'Endpoint invalid' }, { status: 400 });
-  if (!model) return NextResponse.json({ error: 'Unknown model' }, { status: 400 });
+
+  // Do raaste: catalog se id, ya user ka apna link (custom)
+  const custom = body && body.custom;
+  const model = body && body.id ? validateModelId(body.id) : null;
+  if (!custom && !model) return NextResponse.json({ error: 'Unknown model' }, { status: 400 });
 
   try {
-    const out = await startDownload(endpoint, model.id, timeout);
-    return NextResponse.json({ ...out, model: { id: model.id, label: model.label } });
+    const out = await startDownload(endpoint, model?.id, timeout, custom);
+    return NextResponse.json({ ...out, model: { id: model?.id || 'custom', label: model?.label || custom?.filename || 'Custom' } });
   } catch (err) {
     const hint =
       err.status === 404
