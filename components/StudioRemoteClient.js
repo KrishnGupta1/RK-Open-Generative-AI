@@ -35,6 +35,36 @@ const VIDEO_SCENES = [
   'a dog running on a beach, slow motion',
 ];
 
+
+/**
+ * Kisi bhi paste se ComfyUI URL nikalo.
+ * Log me se: "✅ STUDIO URL: https://xxx.trycloudflare.com"
+ * Seedha URL, ya bina https wala domain — sab chalta hai.
+ * localhost / 127.0.0.1 ko saaf reject karo (phone se kabhi nahi chalega).
+ */
+export function extractEndpoint(text) {
+  const raw = String(text || '');
+  const patterns = [
+    /https?:\/\/[a-z0-9][a-z0-9.-]*(?:trycloudflare\.com|lhr\.life|localhost\.run|pinggy\.link|pinggy\.io|ngrok-free\.app|ngrok\.io|ngrok\.app|serveo\.net|vercel\.app|onrender\.com|hf\.space|gradio\.live)/gi,
+    /https?:\/\/[a-z0-9][a-z0-9.-]*\.[a-z]{2,}(?::\d{2,5})?/gi,
+  ];
+  for (const re of patterns) {
+    const found = raw.match(re);
+    if (found) {
+      for (const url of found) {
+        if (/^https?:\/\/(127\.0\.0\.1|localhost|0\.0\.0\.0)/i.test(url)) continue;
+        return url.replace(/[),.'"]+$/, '').replace(/\/+$/, '');
+      }
+    }
+  }
+  const bare = raw.match(/[a-z0-9][a-z0-9.-]*\.(?:trycloudflare\.com|lhr\.life|localhost\.run|pinggy\.link)[^\s]*/i);
+  if (bare) return 'https://' + bare[0].replace(/\/+$/, '');
+  // Bina protocol / localhost bhi handle — par localhost ko kabhi mat lo
+  if (/^(https?:\/\/)?(127\.0\.0\.1|localhost|0\.0\.0\.0)([:/]|$)/i.test(raw.trim())) return null;
+  if (/^https?:\/\//i.test(raw.trim())) return raw.trim().replace(/\/+$/, '');
+  return null;
+}
+
 export default function StudioRemoteClient({ embedded = false } = {}) {
   // Default par kuch nahi — jhootha "127.0.0.1" rakhne se error message
   // confusing ho jata tha ("Endpoint invalid" jab kuch daala hi nahi).
@@ -60,7 +90,18 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
   useEffect(() => {
     try {
       const raw = JSON.parse(localStorage.getItem(STORE) || '{}');
-      if (raw.endpoint) { setEndpoint(raw.endpoint); setEndpointDraft(raw.endpoint); }
+      // Purana localhost endpoint (browser cache) phone/laptop se kabhi connect
+      // nahi hoga — usse saaf ignore + clear karo, warna "Endpoint invalid" ka
+      // confusing error aata rehta hai.
+      const ep = String(raw.endpoint || '').trim();
+      const isLocal = /^(https?:\/\/)?(127\.0\.0\.1|localhost|0\.0\.0\.0)(:|\/|$)/i.test(ep);
+      if (ep && !isLocal) {
+        setEndpoint(ep);
+        setEndpointDraft(ep);
+      } else if (ep && isLocal) {
+        setStatus({ state: 'none', msg: 'localhost nahi chalega — Kaggle ka https URL daalo' });
+        try { localStorage.setItem(STORE, JSON.stringify({ ...raw, endpoint: '' })); } catch {}
+      }
       if (raw.ckpt) setCkpt(raw.ckpt);
       if (raw.negative) setNegative(raw.negative);
       if (raw.steps) setSteps(raw.steps);
@@ -69,7 +110,10 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORE, JSON.stringify({ endpoint, ckpt, negative, steps }));
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORE) || '{}');
+      localStorage.setItem(STORE, JSON.stringify({ ...raw, endpoint, ckpt, negative, steps }));
+    } catch {}
   }, [endpoint, ckpt, negative, steps]);
 
   useEffect(() => {
@@ -313,20 +357,25 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
           </div>
           <p className="rk-gpu-connect-note">
             Kaggle → New Notebook → GPU T4 x2 + Internet ON → ek cell me paste → Run.
-            3-4 min me <code>✅ STUDIO URL</code> milega.
+            3-4 min me <code>✅ STUDIO URL</code> milega.{' '}
+            <Link href="/gpu" className="rk-gpu-connect-guide">Poora guide (screenshots + troubleshooting) →</Link>
           </p>
 
           <div className="rk-gpu-connect-head" style={{ marginTop: 10 }}>
             <b>2. Woh URL yahan paste karo</b>
+            <span className="rk-gpu-connect-smart">poora log bhi chalega — khud nikal lunga</span>
             <button
               type="button"
               className="rk-gpu-connect-link"
               onClick={async () => {
                 try {
                   const t = await navigator.clipboard.readText();
-                  if (t) {
-                    setEndpointDraft(t.trim());
-                    setPasteHint('clipboard se mil gaya — Jodo dabao');
+                  const found = extractEndpoint(t);
+                  if (found) {
+                    setEndpointDraft(found);
+                    setPasteHint('✓ clipboard se URL mil gaya — Jodo dabao');
+                  } else {
+                    setPasteHint('clipboard me URL nahi mila — Kaggle ka output copy karo');
                   }
                 } catch {
                   setPasteHint('browser ne clipboard nahi diya — haath se paste karo');
@@ -340,7 +389,20 @@ export default function StudioRemoteClient({ embedded = false } = {}) {
             <input
               className="rk-input"
               value={endpointDraft}
-              onChange={(e) => { setEndpointDraft(e.target.value); setPasteHint(''); }}
+              onChange={(e) => {
+                const v = e.target.value;
+                // Log paste kiya ho to seedha URL nikaal ke rakho
+                if (v.length > 60) {
+                  const found = extractEndpoint(v);
+                  if (found) {
+                    setEndpointDraft(found);
+                    setPasteHint('✓ log se URL mil gaya — Jodo dabao');
+                    return;
+                  }
+                }
+                setEndpointDraft(v);
+                setPasteHint('');
+              }}
               onKeyDown={(e) => { if (e.key === 'Enter') testConnection(endpointDraft); }}
               placeholder="https://xxxx.trycloudflare.com"
               inputMode="url"

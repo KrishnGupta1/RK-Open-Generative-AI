@@ -1541,3 +1541,34 @@ pre, code, textarea, input, select { max-width: 100%; }
   .rk-tpl-connect-row { flex-direction: column; }
   .rk-tpl-connect-row input, .rk-tpl-connect-row .rk-primary { width: 100%; min-height: 40px; }
 }
+
+/* ---- /gpu setup page ---- */
+.rk-step { display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 16px 15px; margin-bottom: 12px; border-radius: 14px; border: 1px solid var(--rk-line-strong); background: rgba(255,255,255,.022); }
+.rk-step-num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; font-size: 13px; font-weight: 800; color: #0a0a0a; background: var(--rk-grad); }
+.rk-step h2 { font-size: 14px; font-weight: 700; margin: 3px 0 6px; }
+.rk-step p { font-size: 12.5px; line-height: 1.6; color: var(--rk-dim); margin: 0 0 7px; }
+.rk-step p b, .rk-step li b { color: var(--rk-text); }
+.rk-step a { color: var(--rk-gold-soft); }
+.rk-step-list { margin: 6px 0 8px; padding-left: 17px; font-size: 12.5px; line-height: 1.75; color: var(--rk-dim); }
+.rk-step code { font-size: 11.5px; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,.35); color: var(--rk-gold-soft); }
+.rk-note { font-size: 11.5px; line-height: 1.6; padding: 8px 10px; border-radius: 8px; background: rgba(255,255,255,.04); border-left: 2px solid var(--rk-line-strong); margin: 8px 0 0; color: var(--rk-dim); }
+.rk-note.is-ok { border-left-color: #34c759; color: #9feab5; background: rgba(52,199,89,.07); }
+.rk-note.is-warn { border-left-color: var(--rk-gold); color: #f0cd7a; background: rgba(212,165,55,.07); }
+.rk-code-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 8px 0; }
+.rk-code-size { font-size: 10.5px; color: var(--rk-dim); }
+.rk-code-block { max-height: 260px; overflow: auto; margin: 8px 0 0; padding: 11px 12px; border-radius: 10px; background: #070708; border: 1px solid rgba(255,255,255,.07); font-size: 10.5px; line-height: 1.55; color: #b9b9c0; white-space: pre; }
+.rk-table-wrap { overflow-x: auto; margin-top: 8px; }
+.rk-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+.rk-table th, .rk-table td { text-align: left; padding: 8px 9px; border-bottom: 1px solid rgba(255,255,255,.07); vertical-align: top; }
+.rk-table th { color: var(--rk-gold-soft); font-size: 10.5px; text-transform: uppercase; letter-spacing: .05em; }
+.rk-table td { color: var(--rk-dim); }
+.rk-table code { font-size: 10.5px; padding: 1px 4px; border-radius: 4px; background: rgba(0,0,0,.35); color: var(--rk-gold-soft); }
+@media (max-width: 520px) {
+  .rk-step { grid-template-columns: 1fr; gap: 8px; }
+  .rk-step-num { width: 26px; height: 26px; font-size: 12px; }
+  .rk-code-block { max-height: 180px; font-size: 9.5px; }
+  .rk-table { font-size: 10.5px; }
+  .rk-table th, .rk-table td { padding: 6px; }
+}
+.rk-gpu-connect-guide { display: inline-block; margin-top: 4px; color: var(--rk-gold-soft); font-weight: 600; }
+.rk-gpu-connect-smart { font-size: 9.5px; color: var(--rk-gold); opacity: .8; font-weight: 500; }
