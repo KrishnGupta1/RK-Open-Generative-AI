@@ -1077,6 +1077,20 @@ export default function StandaloneShell({ locale = 'en' }) {
                   {(!isSidebarCollapsed || isMobileOpen) && <span className="truncate">GPU jodo</span>}
                 </a>
 
+                <a
+                  href="/library"
+                  aria-label="Meri Library"
+                  title={isSidebarCollapsed && !isMobileOpen ? 'Meri Library' : undefined}
+                  className={`
+                    group relative flex items-center rounded-xl transition-all duration-150 text-[13px] font-semibold
+                    ${isSidebarCollapsed && !isMobileOpen ? 'h-11 w-11 justify-center mx-auto' : 'px-3 py-2.5 w-full gap-3'}
+                    text-white/60 hover:text-white hover:bg-white/[0.04] border border-transparent
+                  `}
+                >
+                  <span className="flex-shrink-0 text-white/50 group-hover:text-[#d4a537]">🗂️</span>
+                  {(!isSidebarCollapsed || isMobileOpen) && <span className="truncate">Meri Library</span>}
+                </a>
+
               {EXPLORE_APPS_TAB && (
                 <div className="mt-2">
                   <a
