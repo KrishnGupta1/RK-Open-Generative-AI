@@ -17,6 +17,7 @@ export default function ModelManager({ endpoint, onUse }) {
   const [rows, setRows] = useState([]);
   const [disk, setDisk] = useState(null);
   const [gpu, setGpu] = useState(null);
+  const [pick, setPick] = useState(null);
   const [agent, setAgent] = useState(true);
   const [warning, setWarning] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -39,6 +40,7 @@ export default function ModelManager({ endpoint, onUse }) {
       setRows(json.models || []);
       setDisk(json.disk || null);
       setGpu(json.gpu || null);
+      setPick(json.pick || null);
       setAgent(Boolean(json.agent));
       setWarning(json.warning || null);
     } catch (err) {
@@ -166,6 +168,37 @@ export default function ModelManager({ endpoint, onUse }) {
       {disk && (
         <div className="rk-mm-disk" title={`${disk.usedGB} GB used`}>
           <span style={{ width: `${Math.min(100, (disk.usedGB / disk.totalGB) * 100)}%` }} />
+        </div>
+      )}
+
+      {pick && (pick.image || pick.video) && (
+        <div className="rk-mm-pick">
+          <b>🎯 Aapke GPU ke liye best</b>
+          <small>
+            {gpu ? `${gpu.name} · ${gpu.totalGB} GB VRAM` : 'GPU detected'}
+          </small>
+          <div className="rk-mm-pick-row">
+            {pick.image && (
+              <button className="rk-mm-pick-btn" onClick={() => {
+                const m = rows.find((r) => r.id === pick.image.id);
+                if (m && !m.installed) download(m);
+                else if (m) onUse?.(m);
+              }}>
+                🖼️ {pick.image.label}
+                <span>{rows.find((r) => r.id === pick.image.id)?.installed ? '✓ use karo' : '⬇ download'}</span>
+              </button>
+            )}
+            {pick.video && (
+              <button className="rk-mm-pick-btn" onClick={() => {
+                const m = rows.find((r) => r.id === pick.video.id);
+                if (m && !m.installed) download(m);
+                else if (m) onUse?.(m);
+              }}>
+                🎬 {pick.video.label}
+                <span>{rows.find((r) => r.id === pick.video.id)?.installed ? '✓ use karo' : '⬇ download'}</span>
+              </button>
+            )}
+          </div>
         </div>
       )}
 

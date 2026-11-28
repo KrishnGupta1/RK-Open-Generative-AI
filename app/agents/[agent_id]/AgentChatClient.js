@@ -8,7 +8,7 @@ import axios from "axios";
 const STORAGE_KEY = "muapi_key";
 
 /**
- * AgentChatClient — mirrors muapiapp's AgentClient.js.
+ * AgentChatClient — mirrors the upstream AgentClient.js.
  * Renders the AiAgent library component with server-fetched agent details
  * and optional initial history.
  *
@@ -76,7 +76,7 @@ export default function AgentChatClient({ agentDetails, initialHistory, userData
         initialAgentDetails={agentDetails}
         initialHistory={initialHistory}
         useUser={useUser}
-        usedIn="muapiapp"
+        usedIn="rk-gem-ai"
       />
     </div>
   );
