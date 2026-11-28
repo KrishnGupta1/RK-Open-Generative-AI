@@ -231,6 +231,7 @@ export default function ModelManager({ endpoint, onUse }) {
                 <option value="text_encoders">text_encoders</option>
                 <option value="loras">loras</option>
                 <option value="clip_vision">clip_vision</option>
+                <option value="llm">llm (Bonsai / coding GGUF)</option>
               </select>
               <button className="rk-primary rk-mm-btn" onClick={downloadCustom} disabled={!customUrl.trim()}>
                 ⬇ Download

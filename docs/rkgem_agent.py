@@ -41,6 +41,10 @@ JOBS_LOCK = threading.Lock()
 TRASH = os.path.join(folder_paths.models_dir, ".rkgem-trash")
 
 # object_info key → models subfolder
+# Allowed model subfolders (models/<folder>). `llm` = coding models (GGUF).
+ALLOWED_FOLDERS = {"checkpoints", "diffusion_models", "text_encoders",
+                   "clip_vision", "vae", "loras", "llm", "unet", "clip"}
+
 FOLDER_BY_FIELD = {
     "ckpt_name": "checkpoints",
     "unet_name": "diffusion_models",
@@ -64,6 +68,8 @@ def _safe_dir(folder):
     folder = str(folder or "").strip().lower()
     if not SAFE_DIR.match(folder):
         raise ValueError("bad folder")
+    if folder not in ALLOWED_FOLDERS:
+        raise ValueError("folder not allowed")
     return folder
 
 
