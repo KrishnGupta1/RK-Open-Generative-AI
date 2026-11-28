@@ -15,7 +15,7 @@ export function AuthModal(onSuccess) {
         </button>
         <div class="flex flex-col items-center text-center mb-8">
             <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center border border-primary/20 shadow-glow mb-6">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef2b3d" stroke-width="2">
                     <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3m-3-3l-2.25-2.25"/>
                 </svg>
             </div>
@@ -28,7 +28,7 @@ export function AuthModal(onSuccess) {
                 <label class="text-[10px] font-bold text-muted uppercase tracking-widest ml-1">${t('auth.keyLabel')}</label>
                 <input
                     type="password"
-                    id="muapi-key-input"
+                    id="studio-api-key-input"
                     placeholder="${t('auth.keyPlaceholder')}"
                     class="w-full bg-black/40 border border-white/5 rounded-2xl px-5 py-4 text-white placeholder:text-muted focus:outline-none focus:border-primary/50 transition-colors shadow-inner"
                 >
@@ -39,7 +39,7 @@ export function AuthModal(onSuccess) {
                 <button id="save-key-btn" class="w-full bg-primary text-black font-black py-4 rounded-2xl hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] transition-all">
                     ${t('auth.initBtn')}
                 </button>
-                <a href="https://muapi.ai/access-keys" target="_blank" rel="noreferrer" class="text-center text-[11px] font-bold text-muted hover:text-white transition-colors py-2 uppercase tracking-tighter">
+                <a href="/settings" class="text-center text-[11px] font-bold text-muted hover:text-white transition-colors py-2 uppercase tracking-tighter">
                     ${t('auth.createKey')}
                 </a>
             </div>
@@ -49,7 +49,7 @@ export function AuthModal(onSuccess) {
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
 
-    const input = modal.querySelector('#muapi-key-input');
+    const input = modal.querySelector('#studio-api-key-input');
     const btn = modal.querySelector('#save-key-btn');
     const closeBtn = modal.querySelector('#auth-modal-close-btn');
 

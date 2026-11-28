@@ -1,7 +1,7 @@
 {
-  "name": "open-generative-ai",
-  "description": "Open-source alternative to HF AI — AI image, video, cinema and lip sync studio",
-  "homepage": "https://github.com/Anil-matcha/Open-Generative-AI",
+  "name": "rk-gem-ai",
+  "description": "RK GEM AI \u2014 free, open-source AI chat + media studio. Bring your own model: Ollama, OpenRouter, Groq, Gemini.",
+  "homepage": "https://github.com/KrishnGupta1/RK-Open-Generative-AI",
   "private": true,
   "version": "2.0.0",
   "license": "MIT",
@@ -38,9 +38,9 @@
     "electron:build:all": "vite build && electron-builder --mac --win --linux"
   },
   "build": {
-    "appId": "ai.generative.open",
-    "productName": "Open Generative AI",
-    "copyright": "Copyright © 2025",
+    "appId": "ai.rkgem.app",
+    "productName": "RK GEM AI",
+    "copyright": "Copyright \u00a9 2025 RK GEM AI \u2014 Krishn Gupta & Riya Gupta",
     "directories": {
       "output": "release"
     },
@@ -59,7 +59,7 @@
       }
     ],
     "mac": {
-      "category": "public.app-category.graphics-design",
+      "category": "public.app-category.productivity",
       "icon": "public/banner.png",
       "gatekeeperAssess": false,
       "target": [
@@ -92,7 +92,7 @@
     "linux": {
       "icon": "public/banner.png",
       "category": "Utility",
-      "maintainer": "Open Generative AI Team",
+      "maintainer": "Krishn Gupta <hello@rkgem.ai>",
       "extraFiles": [
         {
           "from": "build/linux/apparmor.profile",
@@ -116,15 +116,17 @@
     }
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
     "ai-agent": "file:./packages/Open-Poe-AI/packages/agents",
     "axios": "^1.7.0",
     "next": "^15.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "react-hot-toast": "^2.4.1",
     "studio": "*",
     "workflow-builder": "file:./packages/Vibe-Workflow/packages/workflow-builder",
-    "xtend": "^4.0.2"
+    "xtend": "^4.0.2",
+    "react-konva": "19.2.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -138,5 +140,32 @@
     "tailwindcss": "^3.4.0",
     "vite": "^5.4.0"
   },
-  "main": "electron/main.js"
+  "main": "electron/main.js",
+  "author": {
+    "name": "Krishn Gupta"
+  },
+  "contributors": [
+    {
+      "name": "Krishn Gupta",
+      "role": "Founder & CEO"
+    },
+    {
+      "name": "Riya Gupta",
+      "role": "Co-Founder"
+    }
+  ],
+  "keywords": [
+    "rk gem ai",
+    "free ai chat",
+    "openrouter",
+    "ollama",
+    "groq",
+    "gemini",
+    "open source ai studio"
+  ],
+  "overrides": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-konva": "19.2.0"
+  }
 }

@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { CreativeCanvas } from 'design-agent';
+import dynamic from 'next/dynamic';
+
+// Server bundle me react-konva/konva load na ho — canvas sirf browser me chahiye.
+const CreativeCanvas = dynamic(
+  () => import('design-agent').then((m) => m.CreativeCanvas),
+  {
+    ssr: false,
+    loading: () => <div style={{ padding: 24, fontSize: 12, opacity: 0.5 }}>Canvas load ho raha…</div>,
+  },
+);
 
 import { getUserBalance } from '../muapi';
 

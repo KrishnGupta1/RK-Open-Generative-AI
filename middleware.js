@@ -5,7 +5,7 @@ function addSecurityHeaders(response) {
     // Prevent MIME type sniffing (CWE-693)
     response.headers.set('X-Content-Type-Options', 'nosniff');
     // Prevent clickjacking (CWE-1021)
-    response.headers.set('X-Frame-Options', 'DENY');
+    response.headers.set('X-Frame-Options', 'SAMEORIGIN');
     // Enable XSS filter in legacy browsers
     response.headers.set('X-XSS-Protection', '1; mode=block');
     // Referrer policy
@@ -16,7 +16,7 @@ function addSecurityHeaders(response) {
     // and other muapi subdomains that the renderer fetches directly.
     response.headers.set(
         'Content-Security-Policy',
-        "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https://muapi.ai https://*.muapi.ai; font-src 'self' data:;"
+        "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https://muapi.ai https://*.muapi.ai https://openrouter.ai https://api.groq.com https://generativelanguage.googleapis.com http://127.0.0.1:11434 http://localhost:11434; font-src 'self' data: https://fonts.gstatic.com;"
     );
     return response;
 }

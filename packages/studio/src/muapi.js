@@ -366,7 +366,28 @@ export async function generateAudio(apiKey, params) {
     return submitAndPoll(endpoint, payload, apiKey, params.onRequestId, 900);
 }
 
+/**
+ * File upload.
+ *
+ * API key ho to hosted endpoint par jaata hai.
+ * Key NA ho (free mode) to file browser me hi rehti hai — `URL.createObjectURL`
+ * se local URL milta hai jo `<img src>` / `<video src>` me kaam karta hai.
+ * Isse "403 Not authorized" wali deewar khatam ho jati hai: bina key bhi
+ * apni photo/video daal kar kaam kar sakte ho.
+ */
 export function uploadFile(apiKey, file, onProgress) {
+    const canHost = typeof apiKey === 'string' && apiKey.trim().length > 0;
+    if (!canHost) {
+        if (!file) return Promise.reject(new Error('Koi file nahi mili'));
+        // Local preview URL — kabhi expire nahi hota is session me
+        const localUrl = typeof URL !== 'undefined' && URL.createObjectURL
+            ? URL.createObjectURL(file)
+            : '';
+        if (!localUrl) return Promise.reject(new Error('Is browser me local preview nahi ban sakta'));
+        onProgress?.(100);
+        return Promise.resolve(localUrl);
+    }
+
     return new Promise((resolve, reject) => {
         const url = `${BASE_URL}/api/v1/upload_file`;
         const formData = new FormData();

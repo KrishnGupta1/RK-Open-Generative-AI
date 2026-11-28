@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "git submodule update --init --recursive && npm install --no-audit --no-fund && npm run build:packages",
+  "buildCommand": "npm run build",
+  "functions": {
+    "app/api/rk/comfy/**/route.js": {
+      "maxDuration": 60
+    }
+  }
+}

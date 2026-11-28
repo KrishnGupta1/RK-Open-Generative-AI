@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="rkBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#140a0c"/>
+      <stop offset="0.55" stop-color="#0a0a0c"/>
+      <stop offset="1" stop-color="#120c04"/>
+    </linearGradient>
+    <linearGradient id="rkInk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff4b5c"/>
+      <stop offset="0.5" stop-color="#ef2b3d"/>
+      <stop offset="1" stop-color="#d4a537"/>
+    </linearGradient>
+    <linearGradient id="rkGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6dfa4"/>
+      <stop offset="0.5" stop-color="#d4a537"/>
+      <stop offset="1" stop-color="#a97d1f"/>
+    </linearGradient>
+    <radialGradient id="rkGlow" cx="0.5" cy="0.18" r="0.85">
+      <stop offset="0" stop-color="#ef2b3d" stop-opacity="0.34"/>
+      <stop offset="0.6" stop-color="#d4a537" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- squircle plate -->
+  <rect width="64" height="64" rx="15" fill="url(#rkBg)"/>
+  <rect width="64" height="64" rx="15" fill="url(#rkGlow)"/>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="14.25" fill="none" stroke="url(#rkGold)" stroke-opacity="0.55" stroke-width="1.1"/>
+
+  <!-- gem / facet mark -->
+  <g fill="none" stroke="url(#rkGold)" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M32 7.5 41.6 13.4 41.6 25.2 32 31.1 22.4 25.2 22.4 13.4Z" fill="#d4a537" fill-opacity="0.10"/>
+    <path d="M22.4 13.4 32 19.3 41.6 13.4"/>
+    <path d="M32 19.3V31.1"/>
+    <path d="M22.4 25.2 32 19.3 41.6 25.2"/>
+  </g>
+
+  <!-- RK monogram -->
+  <text x="32" y="53.6" text-anchor="middle" font-family="Inter, 'Segoe UI', Arial, Helvetica, sans-serif"
+        font-size="23" font-weight="800" letter-spacing="0.6" fill="url(#rkInk)">RK</text>
+</svg>
